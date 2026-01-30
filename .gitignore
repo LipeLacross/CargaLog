@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 /.idea/
 
 /generated/prisma
+/directory_listing.txt
+/directory_tree.txt
+/tk_super_v9.py
