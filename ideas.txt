@@ -1,0 +1,55 @@
+1. Visão Geral (Para o Bot)
+Nome do Projeto: CargaLog
+
+Stack: NestJS (Fastify) + Prisma + Supabase (PostgreSQL) + React Native (CLI) + React Web.
+
+Objetivo: Registro e análise de progressão de carga em exercícios de musculação.
+
+2. Funcionalidades do Usuário (User Stories)
+No Mobile (O Usuário na Academia):
+
+Registrar Exercício: O usuário deve selecionar um exercício (ex: Supino), digitar a carga (kg), o número de repetições e salvar.
+
+Ver Últimos Registros: O usuário deve ver uma lista simplificada dos últimos 5 ou 10 registros para conferir o treino do dia.
+
+Sugestão de Carga: Ao selecionar um exercício, o app deve exibir qual foi a carga usada no último treino daquele exercício.
+
+No Web (O Usuário em Casa/Dashboard):
+
+Visualizar Progresso: O usuário deve ver um gráfico de linha mostrando a evolução da carga de um exercício específico ao longo do tempo.
+
+Histórico Completo: Uma tabela com todos os registros, permitindo busca por nome do exercício e filtro por data.
+
+Gestão de Dados: O usuário pode excluir ou editar um registro feito erroneamente pelo celular.
+
+3. Requisitos Técnicos (Para o Bot)
+A. Banco de Dados (Supabase/PostgreSQL)
+Tabela necessária: Treino
+
+id: UUID (Primary Key)
+
+usuario_id: UUID (Relacionado ao Auth do Supabase)
+
+exercicio_nome: String (ex: "Agachamento Livre")
+
+carga: Float (kg)
+
+repeticoes: Int
+
+data: DateTime (Default: now())
+
+B. API (NestJS + Fastify)
+Endpoints que precisam ser criados:
+
+POST /treinos: Cria um novo registro de treino.
+
+GET /treinos: Retorna todos os registros (com paginação).
+
+GET /treinos/stats: Retorna o recorde pessoal (PR) e a evolução por exercício para os gráficos.
+
+DELETE /treinos/:id: Remove um registro.
+
+C. Integração Prisma (Configuração)
+Provider: postgresql
+
+URL: Puxada do .env (Connection String do Supabase).

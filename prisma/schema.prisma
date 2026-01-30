@@ -1,0 +1,21 @@
+// ARQUIVO: prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Treino {
+  id            String   @id @default(uuid())
+  exercicioNome String
+  carga         Float
+  repeticoes    Int
+  data          DateTime @default(now())
+
+  // Campo opcional para evoluções futuras
+  observacao    String?
+}
