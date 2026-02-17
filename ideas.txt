@@ -1,4 +1,4 @@
-A estrutura do projeto **CargaLog** foi organizada com uma abordagem de **Clean Architecture** e incorporando conceitos de **Domain-Driven Design (DDD)**, permitindo um sistema escalável, modular e de fácil manutenção. Abaixo estão os detalhes completos de como cada parte do sistema foi estruturada:
+A estrutura do projeto **CargaLog** foi organizada com uma abordagem de **Clean Architecture** e incorporando conceitos de **Domain-Driven Design (DDD)**, permitindo um sistema escalável, modular e de fácil manutenção. A aplicação dos princípios **SOLID** foi aplicada ao longo de toda a arquitetura, com ênfase especial na área de **domínio**, onde a aplicação de DDD justifica a estruturação e definição de cada componente. Abaixo estão os detalhes completos de como cada parte do sistema foi estruturada:
 
 ---
 
@@ -12,201 +12,37 @@ A estrutura do projeto **CargaLog** foi organizada com uma abordagem de **Clean 
 
 ### **Clean Architecture no CargaLog**
 
-A **Clean Architecture** organiza o sistema em camadas de maneira que a lógica de negócios (entidades) é desacoplada de implementações externas (como bancos de dados, frameworks, etc.). Isso facilita a manutenção, a escalabilidade e a testabilidade do sistema.
+A **Clean Architecture** organiza o sistema em camadas de maneira que a lógica de negócios (entidades) é desacoplada de implementações externas (como bancos de dados, frameworks, etc.). Isso facilita a manutenção, a escalabilidade e a testabilidade do sistema. Além disso, a aplicação dos **princípios SOLID** dentro da arquitetura ajuda a garantir que o código seja coeso, flexível e fácil de modificar, promovendo um código robusto e de fácil manutenção.
 
 #### **Camadas da Arquitetura**:
 
 1. **Camada de Entidades (Entities Layer)**:
 
-   * Contém as regras de negócio fundamentais do sistema.
+   * Contém as regras de negócio fundamentais do sistema. Aqui, aplicamos os conceitos de **DDD** para modelar as **entidades** de acordo com a lógica de negócio real, e **SOLID** é aplicado através do princípio da **Responsabilidade Única (SRP)**.
    * **Exemplo**: **Usuário**, **Treino**, **Análise de Progresso**.
+   * A lógica de negócios dentro das entidades é orientada pelo domínio, garantindo que cada entidade tenha responsabilidade bem definida, sem depender de detalhes de persistência ou de interface com o usuário.
 
 2. **Camada de Casos de Uso (Use Cases Layer)**:
 
-   * Contém a lógica de aplicação e os fluxos de trabalho que atendem aos requisitos do sistema.
+   * Contém a lógica de aplicação e os fluxos de trabalho que atendem aos requisitos do sistema. Esta camada organiza os **casos de uso** do sistema, que são os pontos de entrada para a interação com o modelo de domínio.
    * **Exemplo**: **Registrar Treino**, **Gerar Relatório de Progresso**, **Autenticar Usuário**.
-
-3. **Camada de Interface (Interface Adapters Layer)**:
-
-   * Adaptadores responsáveis por transformar dados entre o formato que o sistema usa e o formato exigido pelas interfaces externas (API, banco de dados, etc.).
-   * **Exemplo**: **Controllers de API**, **Repositórios de Dados**.
-
-4. **Camada de Frameworks e Drivers (Frameworks and Drivers Layer)**:
-
-   * Contém as tecnologias de implementação, como frameworks, bancos de dados e interfaces externas.
-   * **Exemplo**: **NestJS**, **TypeORM**, **React Native**, **React**, **PostgreSQL**.
-
----
-
-### **Estrutura de Diretórios** (Organizada para Clean Architecture)
-
-```plaintext
-src/
-├── entities/                        # Entidades principais
-│   ├── treino.entity.ts             # Entidade Treino
-│   ├── usuario.entity.ts            # Entidade Usuário
-│   └── analise.entity.ts            # Entidade de Análise de Progresso
-├── use-cases/                       # Casos de uso
-│   ├── registrar-treino.use-case.ts # Caso de uso para registrar treino
-│   ├── gerar-relatorio.progresso.use-case.ts # Caso de uso para gerar relatório
-│   └── autenticar-usuario.use-case.ts # Caso de uso para autenticação
-├── interface-adapters/              # Adaptadores de interface
-│   ├── controllers/                 # Controllers de API
-│   │   ├── auth.controller.ts       # Controller de autenticação
-│   │   ├── treino.controller.ts     # Controller de treinos
-│   │   └── analise.controller.ts    # Controller de análises
-│   ├── repositories/                # Repositórios
-│   │   ├── treino.repository.ts     # Repositório de Treino
-│   │   ├── usuario.repository.ts    # Repositório de Usuário
-│   │   └── analise.repository.ts    # Repositório de Análise
-├── frameworks/                      # Frameworks e Drivers
-│   ├── nestjs/                      # Framework de API (NestJS)
-│   ├── typeorm/                     # ORM (TypeORM)
-│   ├── react-native/                # Front-end mobile (React Native)
-│   └── react/                        # Front-end web (React)
-└── shared/                          # Utilitários compartilhados
-    ├── jwt.service.ts               # Serviço para JWT
-    ├── encryption.service.ts        # Serviço de criptografia
-    └── logger.service.ts            # Serviço de log
-```
-
----
-
-### **Principais Mudanças com Clean Architecture:**
-
-1. **Separação de Responsabilidades**:
-
-   * **Entidades**: Contêm a lógica de negócios. Exemplo: a entidade `Treino` contém propriedades como carga, repetições e data.
-   * **Casos de Uso**: Representam as tarefas que o sistema realiza, como **Registrar Treino** e **Gerar Relatório de Progresso**.
-   * **Adaptadores**: **Controllers** que lidam com requisições HTTP e chamam os casos de uso apropriados.
-   * **Frameworks/Drivers**: Implementações externas, como o banco de dados (**TypeORM**), frameworks de API (**NestJS**), etc.
-
-2. **Isolamento das Regras de Negócio**:
-
-   * A lógica de negócios é centralizada nas **entidades** e **casos de uso**, sem depender de frameworks ou bancos de dados específicos.
-   * Isso facilita mudanças nas tecnologias sem afetar a lógica de negócios.
-
-3. **Comunicação entre Camadas**:
-
-   * A camada de interface (API, UI) se comunica com a camada de casos de uso, que interage com as entidades e repositórios.
-   * Exemplos de endpoints:
-
-     * **POST /auth/login**: Chama o caso de uso `AutenticarUsuario`.
-     * **POST /treino**: Chama o caso de uso `RegistrarTreino`.
-
----
-
-### **Benefícios da Clean Architecture:**
-
-* **Flexibilidade e Escalabilidade**: Mudanças na interface ou tecnologias de banco de dados não afetam a lógica de negócios.
-* **Testabilidade**: Facilita os testes unitários, pois a lógica de negócio está desacoplada das implementações de frameworks.
-* **Manutenção**: As mudanças em uma camada não afetam as outras, facilitando a manutenção e evolução do sistema.
-
----
-
-### **Stack Tecnológica Organizada**
-
-**Back-End**:
-
-* **NestJS**: Framework para construção da API, com foco em escalabilidade e performance.
-* **TypeORM**: ORM para interação com o banco de dados **PostgreSQL**.
-* **PostgreSQL**: Banco de dados relacional.
-* **JWT (JSON Web Tokens)**: Para autenticação e autorização.
-* **Criptografia**: Uso de **bcrypt** ou **argon2** para criptografia de senhas.
-
-**Front-End**:
-
-* **React Native (CLI)**: Para o aplicativo móvel (iOS/Android).
-* **React**: Para o dashboard web.
-* **Redux**: Para gerenciamento de estado nos apps **React** e **React Native**.
-
-**Infraestrutura**:
-
-* **Docker**: Containerização dos serviços para facilitar o deploy e escalabilidade.
-* **CI/CD**: Pipeline de integração e entrega contínua utilizando ferramentas como **GitHub Actions**, **Jenkins**, ou **GitLab CI**.
-
----
-
-### **Arquitetura Clean Architecture no CargaLog**
-
-A arquitetura do **CargaLog** é baseada em **Clean Architecture**, onde cada parte do sistema é organizada em camadas com responsabilidades bem definidas. Aqui não utilizamos microserviços, mas seguimos os mesmos princípios de modularidade e separação de responsabilidades.
-
----
-
-### **Camada de Entidades (Entities Layer)**
-
-As entidades representam os principais modelos de dados e as regras de negócio do sistema.
-
-* **Usuário**: Representa o modelo de dados do usuário.
-* **Treino**: Contém as propriedades e comportamentos do treino (exercício, carga, repetições, data).
-* **Análise**: Responsável pela lógica de cálculo de progresso e evolução de carga.
-
-### **Camada de Casos de Uso (Use Cases Layer)**
-
-Cada caso de uso representa uma tarefa ou fluxo de trabalho que o sistema realiza.
-
-* **Registrar Treino**: Caso de uso que registra novos treinos no sistema.
-* **Gerar Relatório de Progresso**: Gera relatórios de evolução de desempenho.
-* **Autenticar Usuário**: Realiza o login e validação do usuário.
-
-### **Camada de Interface (Interface Adapters Layer)**
-
-Essa camada contém os adaptadores que fazem a interface entre o sistema e as fontes externas.
-
-* **Controllers**: Adaptadores que lidam com as requisições HTTP e chamam os casos de uso.
-
-  * **auth.controller.ts**: Responsável por autenticar o usuário.
-  * **treino.controller.ts**: Responsável por gerenciar os treinos.
-  * **analise.controller.ts**: Responsável por gerar e exibir relatórios de progresso.
-* **Repositórios**: Responsáveis pela persistência dos dados utilizando o **TypeORM**.
-
-  * **treino.repository.ts**: Repositório de treinos.
-  * **usuario.repository.ts**: Repositório de usuários.
-  * **analise.repository.ts**: Repositório de análises.
-
----
-
-### **Visão Geral do Projeto (Atualizada com DDD)**
-
-**Nome do Projeto**: **CargaLog**
-
-**Objetivo**: Registro e análise de progressão de carga em exercícios de musculação. O sistema permite que os usuários registrem dados dos seus treinos, visualizem a evolução do desempenho ao longo do tempo e gerenciem seus históricos.
-
----
-
-### **Arquitetura de Domínio (DDD) no CargaLog**
-
-O **Domain-Driven Design (DDD)** será incorporado ao projeto para garantir que o modelo de domínio reflita a complexidade do problema real, com ênfase no uso da **Clean Architecture** para organizar as camadas. O DDD se integra perfeitamente com a Clean Architecture, promovendo o desacoplamento das regras de negócios da implementação técnica.
-
----
-
-### **Camadas da Arquitetura com DDD e Clean Architecture**
-
-1. **Domínio (Domain Layer)**:
-
-   * Contém os **modelos de domínio** (entidades) e **lógica de negócios** que representam as operações do sistema.
-   * **Exemplo**: **Usuário**, **Treino**, **Análise de Progresso**.
-   * Aqui, as entidades são definidas com foco na lógica do domínio e não nas necessidades da interface de usuário ou persistência de dados.
-
-2. **Camada de Casos de Uso (Use Cases Layer)**:
-
-   * Organiza a lógica de aplicação, os fluxos de trabalho e os casos de uso que atendem aos requisitos do sistema.
-   * **Exemplo**: **Registrar Treino**, **Gerar Relatório de Progresso**, **Autenticar Usuário**.
-   * Esta camada define os **serviços de aplicação** que orquestram as interações entre o domínio e a infraestrutura.
+   * No uso dos princípios **SOLID**, o **princípio de Inversão de Dependência (DIP)** é aplicado, onde as dependências externas (como repositórios e frameworks) são abstraídas para que a lógica de negócios permaneça desacoplada da implementação concreta.
 
 3. **Camada de Interface (Interface Adapters Layer)**:
 
    * Adaptadores responsáveis por transformar dados entre o modelo de domínio e os formatos exigidos pelas interfaces externas (API, banco de dados, etc.).
    * **Exemplo**: **Controllers de API**, **Repositórios de Dados**.
+   * Aqui, o princípio **Interface Segregation Principle (ISP)** do SOLID é aplicado, garantindo que as interfaces usadas pelos adaptadores sejam específicas e coesas, evitando métodos desnecessários ou sobrecarregados.
 
 4. **Camada de Frameworks e Drivers (Frameworks and Drivers Layer)**:
 
    * Contém as tecnologias de implementação, como frameworks, bancos de dados e interfaces externas.
    * **Exemplo**: **NestJS**, **TypeORM**, **React Native**, **React**, **PostgreSQL**.
+   * Esta camada é onde a implementação concreta do sistema se conecta às camadas externas, mas sem violar o princípio **Inversão de Dependência (DIP)**.
 
 ---
 
-### **Estrutura de Diretórios Atualizada com DDD**
+### **Estrutura de Diretórios** (Organizada para Clean Architecture e DDD)
 
 ```plaintext
 src/
@@ -250,27 +86,25 @@ src/
 
 ---
 
-### **Principais Mudanças com DDD**
+### **Principais Mudanças com Clean Architecture, DDD e SOLID**:
 
-1. **Modelos de Domínio**:
+1. **Separação de Responsabilidades**:
 
-   * As **entidades de domínio** (como **Usuário**, **Treino**, **Análise**) são mais ricas em comportamento e regras de negócios. Elas são separadas da lógica de aplicação (casos de uso) e da persistência de dados.
+   * **Entidades de Domínio**: A lógica de negócios é encapsulada nas entidades de domínio. Exemplo: a entidade `Treino` contém as propriedades como carga, repetições e data, e a lógica associada. Essas entidades são projetadas com base no **DDD** e aplicam o **princípio de Responsabilidade Única (SRP)**.
+   * **Casos de Uso**: Representam tarefas específicas do sistema, como **Registrar Treino** e **Gerar Relatório de Progresso**. A camada de casos de uso aplica os princípios **SOLID** para manter cada caso de uso simples e com uma única responsabilidade.
+   * **Adaptadores de Interface**: **Controllers** que lidam com requisições HTTP e interagem com os casos de uso. Eles são projetados de forma a manter as interfaces de comunicação claras e coesas, conforme o **ISP (Interface Segregation Principle)** do SOLID.
 
-2. **Agregados e Objetos de Valor**:
+2. **Isolamento das Regras de Negócio**:
 
-   * Em vez de apenas ter entidades simples, podemos introduzir **agregados** (um grupo de entidades que são tratadas como uma unidade) e **objetos de valor** (tipos imutáveis que representam aspectos do domínio, como **Carga**, **Repetição**).
+   * A lógica de negócios é isolada nas **entidades de domínio** e **casos de uso**, de forma que as mudanças nas tecnologias de persistência ou nas interfaces externas não impactam a lógica do domínio, o que segue o princípio de **Inversão de Dependência (DIP)** do **SOLID**.
 
-3. **Repositórios no Domínio**:
+3. **Comunicação entre Camadas**:
 
-   * Os **repositórios** agora são interfaces dentro da camada de **domínio**, e a implementação concreta é feita na camada de **infraestrutura** (por exemplo, com **TypeORM**).
+   * A comunicação entre as camadas é feita de forma desacoplada, garantindo que mudanças em uma camada não afetem diretamente as outras. Isso é alcançado com o uso do **DIP**, onde as camadas superiores dependem de abstrações e não das implementações concretas.
 
-4. **Serviços de Domínio**:
+DDD/SOLID será usado aonde o domínio justificar.
 
-   * Em vez de a lógica do domínio ficar em **casos de uso** ou **controllers**, a **lógica de domínio complexa** (como análise de progresso ou cálculos) pode ser encapsulada em **serviços de domínio**.
-
----
-
-### **Stack Tecnológica com DDD no CargaLog**
+### **Stack Tecnológica Organizada**
 
 **Back-End**:
 
@@ -295,4 +129,4 @@ src/
 
 ### **Conclusão**
 
-Com a incorporação do **Domain-Driven Design (DDD)** e da **Clean Architecture**, o **CargaLog** garante que a lógica de negócios seja robusta, testável e facilmente escalável. A separação das camadas permite que a aplicação seja modular, facilitando futuras mudanças e a manutenção a longo prazo.
+Com a incorporação do **Domain-Driven Design (DDD)** e da **Clean Architecture**, e alinhando os princípios **SOLID**, o **CargaLog** garante que a lógica de negócios seja robusta, testável e facilmente escalável. A separação das camadas permite que a aplicação seja modular, facilitando futuras mudanças e a manutenção a longo prazo. O uso dos princípios **SOLID** dentro do domínio, principalmente o **DIP** e **SRP**, assegura que a arquitetura seja flexível e adaptável ao longo do tempo.
