@@ -46,7 +46,9 @@ export class AtualizarTreinoUseCase {
       try {
         new Carga(dto.carga);
       } catch (error) {
-        throw new BadRequestException(error.message);
+        const message =
+          error instanceof Error ? error.message : 'Carga inválida';
+        throw new BadRequestException(message);
       }
     }
 
@@ -55,7 +57,9 @@ export class AtualizarTreinoUseCase {
       try {
         new Repeticoes(dto.repeticoes);
       } catch (error) {
-        throw new BadRequestException(error.message);
+        const message =
+          error instanceof Error ? error.message : 'Repetições inválidas';
+        throw new BadRequestException(message);
       }
     }
 

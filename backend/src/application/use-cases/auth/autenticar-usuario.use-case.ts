@@ -44,6 +44,7 @@ export class AutenticarUsuarioUseCase {
     const token = this.jwtService.sign(payload);
 
     // Remove senha da resposta
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { senha, ...usuarioSemSenha } = usuario;
 
     return {

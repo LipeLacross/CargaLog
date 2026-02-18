@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Between, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
+import { Repository } from 'typeorm';
 import { ITreinoRepository } from '../../domain/repositories/treino.repository.interface';
 import { Treino } from '../../domain/entities/treino.entity';
 

@@ -5,6 +5,28 @@ import { IAnaliseRepository } from '../../domain/repositories/analise.repository
 import { Treino } from '../../domain/entities/treino.entity';
 import { Analise } from '../../domain/entities/analise.entity';
 
+// Tipos auxiliares para resultados de queries raw do TypeORM
+interface ExercicioRow {
+  exercicio: string;
+}
+
+interface RecordeRow {
+  exercicio: string;
+  cargaMaxima: string;
+}
+
+interface EvolucaoRow {
+  data: string;
+  cargaMaxima: string;
+}
+
+interface ComparacaoRow {
+  exercicio: string;
+  totalTreinos: string;
+  cargaMaxima: string;
+  cargaMedia: string;
+}
+
 /**
  * Implementação do repositório de Analise usando TypeORM
  */
@@ -30,7 +52,7 @@ export class TypeOrmAnaliseRepository implements IAnaliseRepository {
       .createQueryBuilder('treino')
       .select('DISTINCT treino.exercicioNome', 'exercicio')
       .where('treino.usuarioId = :usuarioId', { usuarioId })
-      .getRawMany();
+      .getRawMany<ExercicioRow>();
 
     const exercicios = exerciciosQuery.map((row) => row.exercicio);
 
@@ -41,7 +63,7 @@ export class TypeOrmAnaliseRepository implements IAnaliseRepository {
       .addSelect('MAX(treino.carga)', 'cargaMaxima')
       .where('treino.usuarioId = :usuarioId', { usuarioId })
       .groupBy('treino.exercicioNome')
-      .getRawMany();
+      .getRawMany<RecordeRow>();
 
     const recordesPorExercicio: Record<string, number> = {};
     recordesQuery.forEach((row) => {
@@ -130,7 +152,7 @@ export class TypeOrmAnaliseRepository implements IAnaliseRepository {
       .andWhere('treino.exercicioNome = :exercicio', { exercicio })
       .groupBy('DATE(treino.data)')
       .orderBy('DATE(treino.data)', 'ASC')
-      .getRawMany();
+      .getRawMany<EvolucaoRow>();
 
     return evolucao.map((row) => ({
       data: new Date(row.data),
@@ -158,11 +180,11 @@ export class TypeOrmAnaliseRepository implements IAnaliseRepository {
       .where('treino.usuarioId = :usuarioId', { usuarioId })
       .andWhere('treino.exercicioNome IN (:...exercicios)', { exercicios })
       .groupBy('treino.exercicioNome')
-      .getRawMany();
+      .getRawMany<ComparacaoRow>();
 
     return comparacao.map((row) => ({
       exercicio: row.exercicio,
-      totalTreinos: parseInt(row.totalTreinos),
+      totalTreinos: parseInt(row.totalTreinos, 10),
       cargaMaxima: parseFloat(row.cargaMaxima),
       cargaMedia: parseFloat(row.cargaMedia),
     }));

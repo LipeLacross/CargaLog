@@ -79,4 +79,3 @@ export class AnaliseIndisponivelException extends DomainException {
     this.name = 'AnaliseIndisponivelException';
   }
 }
-

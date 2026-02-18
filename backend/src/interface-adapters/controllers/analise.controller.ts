@@ -4,6 +4,12 @@ import { ObterEstatisticasUseCase } from '../../application/use-cases/analise/ob
 import { JwtAuthGuard } from '../../frameworks/auth/jwt-auth.guard';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
 
+// Interface para usuário autenticado
+interface AuthenticatedUser {
+  id: string;
+  email: string;
+}
+
 /**
  * Controller de análises
  * Endpoints: estatísticas, progresso
@@ -21,7 +27,7 @@ export class AnaliseController {
    * Retorna estatísticas gerais do usuário
    */
   @Get('estatisticas')
-  async obterEstatisticas(@CurrentUser() usuario) {
+  async obterEstatisticas(@CurrentUser() usuario: AuthenticatedUser) {
     return this.obterEstatisticasUseCase.execute(usuario.id);
   }
 
@@ -32,7 +38,7 @@ export class AnaliseController {
   @Get('progresso/:exercicio')
   async gerarRelatorioProgresso(
     @Param('exercicio') exercicio: string,
-    @CurrentUser() usuario,
+    @CurrentUser() usuario: AuthenticatedUser,
     @Query('dataInicio') dataInicio?: string,
     @Query('dataFim') dataFim?: string,
   ) {

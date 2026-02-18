@@ -14,6 +14,13 @@ import { LoginDto } from '../../application/dto/auth/login.dto';
 import { JwtAuthGuard } from '../../frameworks/auth/jwt-auth.guard';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
 
+// Interface para usuário autenticado
+interface AuthenticatedUser {
+  id: string;
+  email: string;
+  senha?: string; // Opcional pois será removido
+}
+
 /**
  * Controller de autenticação
  * Endpoints: registrar, login, perfil
@@ -51,7 +58,8 @@ export class AuthController {
    */
   @Get('perfil')
   @UseGuards(JwtAuthGuard)
-  async perfil(@CurrentUser() usuario) {
+  perfil(@CurrentUser() usuario: AuthenticatedUser) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { senha, ...usuarioSemSenha } = usuario;
     return usuarioSemSenha;
   }

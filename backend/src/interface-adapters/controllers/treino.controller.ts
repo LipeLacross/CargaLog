@@ -20,6 +20,12 @@ import { UpdateTreinoDto } from '../../application/dto/treino/update-treino.dto'
 import { JwtAuthGuard } from '../../frameworks/auth/jwt-auth.guard';
 import { CurrentUser } from '../../shared/decorators/current-user.decorator';
 
+// Interface para usuário autenticado
+interface AuthenticatedUser {
+  id: string;
+  email: string;
+}
+
 /**
  * Controller de treinos
  * Endpoints CRUD de treinos
@@ -40,7 +46,10 @@ export class TreinoController {
    */
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async criar(@CurrentUser() usuario, @Body() dto: CreateTreinoDto) {
+  async criar(
+    @CurrentUser() usuario: AuthenticatedUser,
+    @Body() dto: CreateTreinoDto,
+  ) {
     return this.registrarTreinoUseCase.execute(usuario.id, dto);
   }
 
@@ -50,12 +59,16 @@ export class TreinoController {
    */
   @Get()
   async listar(
-    @CurrentUser() usuario,
+    @CurrentUser() usuario: AuthenticatedUser,
     @Query('exercicio') exercicio?: string,
     @Query('dataInicio') dataInicio?: string,
     @Query('dataFim') dataFim?: string,
   ) {
-    const filtros: any = {};
+    const filtros: {
+      exercicio?: string;
+      dataInicio?: Date;
+      dataFim?: Date;
+    } = {};
 
     if (exercicio) filtros.exercicio = exercicio;
     if (dataInicio) filtros.dataInicio = new Date(dataInicio);
@@ -74,7 +87,7 @@ export class TreinoController {
   @Patch(':id')
   async atualizar(
     @Param('id') id: string,
-    @CurrentUser() usuario,
+    @CurrentUser() usuario: AuthenticatedUser,
     @Body() dto: UpdateTreinoDto,
   ) {
     return this.atualizarTreinoUseCase.execute(id, usuario.id, dto);
@@ -86,7 +99,10 @@ export class TreinoController {
    */
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deletar(@Param('id') id: string, @CurrentUser() usuario) {
+  async deletar(
+    @Param('id') id: string,
+    @CurrentUser() usuario: AuthenticatedUser,
+  ) {
     await this.deletarTreinoUseCase.execute(id, usuario.id);
   }
 }

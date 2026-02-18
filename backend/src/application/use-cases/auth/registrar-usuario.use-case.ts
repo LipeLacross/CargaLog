@@ -38,6 +38,7 @@ export class RegistrarUsuarioUseCase {
     });
 
     // Remove senha da resposta
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { senha, ...usuarioSemSenha } = usuario;
     return usuarioSemSenha;
   }

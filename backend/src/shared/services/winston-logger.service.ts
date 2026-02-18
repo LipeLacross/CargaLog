@@ -9,6 +9,55 @@ export class WinstonLoggerService implements LoggerService {
   private logger: winston.Logger;
 
   constructor() {
+    const isPrimitive = (
+      value: unknown,
+    ): value is string | number | boolean | bigint | symbol => {
+      const valueType = typeof value;
+      return (
+        valueType === 'string' ||
+        valueType === 'number' ||
+        valueType === 'boolean' ||
+        valueType === 'bigint' ||
+        valueType === 'symbol'
+      );
+    };
+
+    const formatContext = (value: unknown): string => {
+      if (value === null || value === undefined) {
+        return '';
+      }
+      if (typeof value === 'string') {
+        return value;
+      }
+      if (typeof value === 'object') {
+        try {
+          const jsonValue = JSON.stringify(value);
+          return jsonValue ?? '[unserializable]';
+        } catch {
+          return '[unserializable]';
+        }
+      }
+      return isPrimitive(value) ? String(value) : '[unserializable]';
+    };
+
+    const toLogString = (value: unknown): string => {
+      if (value === null || value === undefined) {
+        return '';
+      }
+      if (typeof value === 'string') {
+        return value;
+      }
+      if (typeof value === 'object') {
+        try {
+          const jsonValue = JSON.stringify(value);
+          return jsonValue ?? '[unserializable]';
+        } catch {
+          return '[unserializable]';
+        }
+      }
+      return isPrimitive(value) ? String(value) : '[unserializable]';
+    };
+
     this.logger = winston.createLogger({
       level: process.env.LOG_LEVEL || 'info',
       format: winston.format.combine(
@@ -26,11 +75,20 @@ export class WinstonLoggerService implements LoggerService {
         new winston.transports.Console({
           format: winston.format.combine(
             winston.format.colorize(),
-            winston.format.printf(({ timestamp, level, message, context, ...meta }) => {
-              const ctx = context ? `[${context}] ` : '';
-              const metaStr = Object.keys(meta).length > 0 ? `\n${JSON.stringify(meta, null, 2)}` : '';
-              return `${timestamp} ${level}: ${ctx}${message}${metaStr}`;
-            }),
+            winston.format.printf(
+              ({ timestamp, level, message, context, ...meta }) => {
+                const ctxValue = formatContext(context);
+                const ctx = ctxValue ? `[${ctxValue}] ` : '';
+                const metaStr =
+                  Object.keys(meta).length > 0
+                    ? `\n${JSON.stringify(meta, null, 2)}`
+                    : '';
+                const timestampStr = toLogString(timestamp);
+                const levelStr = toLogString(level);
+                const messageStr = toLogString(message);
+                return `${timestampStr} ${levelStr}: ${ctx}${messageStr}${metaStr}`;
+              },
+            ),
           ),
         }),
         // Arquivo para todos os logs
@@ -78,14 +136,20 @@ export class WinstonLoggerService implements LoggerService {
   /**
    * Log estruturado com metadados customizados
    */
-  logWithMeta(level: string, message: string, meta: Record<string, any>) {
+  logWithMeta(level: string, message: string, meta: Record<string, unknown>) {
     this.logger.log(level, message, meta);
   }
 
   /**
    * Log de request HTTP
    */
-  logRequest(method: string, url: string, statusCode: number, duration: number, userId?: string) {
+  logRequest(
+    method: string,
+    url: string,
+    statusCode: number,
+    duration: number,
+    userId?: string,
+  ) {
     this.logger.info('HTTP Request', {
       method,
       url,
@@ -107,4 +171,3 @@ export class WinstonLoggerService implements LoggerService {
     });
   }
 }
-

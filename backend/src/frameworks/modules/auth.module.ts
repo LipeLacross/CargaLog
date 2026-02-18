@@ -20,7 +20,7 @@ import { TypeOrmUsuarioRepository } from '../../interface-adapters/repositories/
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'default_secret_key',
       signOptions: {
-        expiresIn: process.env.JWT_EXPIRATION || '7d',
+        expiresIn: parseInt(process.env.JWT_EXPIRATION || '604800', 10), // 7 days in seconds
       },
     }),
   ],
