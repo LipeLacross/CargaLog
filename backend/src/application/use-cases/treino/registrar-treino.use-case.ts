@@ -50,4 +50,3 @@ export class RegistrarTreinoUseCase {
     return treino;
   }
 }
-

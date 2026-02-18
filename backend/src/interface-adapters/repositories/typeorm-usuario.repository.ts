@@ -45,4 +45,3 @@ export class TypeOrmUsuarioRepository implements IUsuarioRepository {
     return count > 0;
   }
 }
-

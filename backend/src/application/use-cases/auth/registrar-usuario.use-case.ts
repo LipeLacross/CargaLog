@@ -42,4 +42,3 @@ export class RegistrarUsuarioUseCase {
     return usuarioSemSenha;
   }
 }
-

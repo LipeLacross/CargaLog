@@ -36,4 +36,3 @@ export class DeletarTreinoUseCase {
     await this.treinoRepository.deletar(treinoId);
   }
 }
-

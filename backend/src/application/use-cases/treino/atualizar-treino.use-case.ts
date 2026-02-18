@@ -81,4 +81,3 @@ export class AtualizarTreinoUseCase {
     return this.treinoRepository.atualizar(treinoId, dadosAtualizacao);
   }
 }
-

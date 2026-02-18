@@ -108,4 +108,3 @@ export class TypeOrmTreinoRepository implements ITreinoRepository {
     return this.repository.count({ where: { usuarioId } });
   }
 }
-

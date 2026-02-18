@@ -24,4 +24,3 @@ export class ListarTreinosUseCase {
     return this.treinoRepository.listarPorUsuario(usuarioId, filtros);
   }
 }
-
