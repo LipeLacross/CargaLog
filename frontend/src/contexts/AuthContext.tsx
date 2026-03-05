@@ -31,8 +31,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
   const login = async (email: string, senha: string) => {
     const res = await authApi.login(email, senha);
+    console.log('📥 Resposta do login:', res.data);
+    console.log('🔑 Token recebido:', res.data.token ? `${res.data.token.substring(0, 20)}...` : 'NENHUM');
+
     localStorage.setItem('token', res.data.token);
     localStorage.setItem('usuario', JSON.stringify(res.data.usuario));
+
+    console.log('💾 Token salvo no localStorage:', localStorage.getItem('token')?.substring(0, 20) + '...');
+    console.log('👤 Usuario salvo:', JSON.parse(localStorage.getItem('usuario') || '{}'));
+
     setUsuario(res.data.usuario);
     return res.data;
   };

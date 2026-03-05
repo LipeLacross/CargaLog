@@ -9,6 +9,13 @@ import { RegistrarUsuarioUseCase } from '../../application/use-cases/auth/regist
 import { AutenticarUsuarioUseCase } from '../../application/use-cases/auth/autenticar-usuario.use-case';
 import { TypeOrmUsuarioRepository } from '../../interface-adapters/repositories/typeorm-usuario.repository';
 
+const jwtExpiration = process.env.JWT_EXPIRATION || '7d';
+const jwtExpiresIn: number | `${number}${'s' | 'm' | 'h' | 'd'}` = /^\d+$/.test(
+  jwtExpiration,
+)
+  ? Number(jwtExpiration)
+  : (jwtExpiration as `${number}${'s' | 'm' | 'h' | 'd'}`);
+
 /**
  * Módulo de Autenticação
  * Configuração de JWT e casos de uso de auth
@@ -20,7 +27,7 @@ import { TypeOrmUsuarioRepository } from '../../interface-adapters/repositories/
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'default_secret_key',
       signOptions: {
-        expiresIn: parseInt(process.env.JWT_EXPIRATION || '604800', 10), // 7 days in seconds
+        expiresIn: jwtExpiresIn,
       },
     }),
   ],

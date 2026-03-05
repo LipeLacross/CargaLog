@@ -22,7 +22,7 @@ export class RegistrarUsuarioDto {
   @IsNotEmpty({ message: 'Senha é obrigatória' })
   @IsString({ message: 'Senha deve ser uma string' })
   @MinLength(8, { message: 'Senha deve ter no mínimo 8 caracteres' })
-  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/, {
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).+$/, {
     message:
       'Senha deve conter letras maiúsculas, minúsculas, números e caracteres especiais',
   })

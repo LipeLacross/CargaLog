@@ -1,0 +1,133 @@
+### ========================================
+### 🏋️ CargaLog API - Testes HTTP
+### ========================================
+### Use com REST Client (VSCode) ou similar
+### Base URL: http://127.0.0.1:3000/api/v1
+### ========================================
+
+@baseUrl = http://127.0.0.1:3000/api/v1
+@token = seu_token_aqui
+
+### ========================================
+### 🔐 AUTENTICAÇÃO
+### ========================================
+
+### 1. Registrar novo usuário
+POST {{baseUrl}}/auth/registrar
+Content-Type: application/json
+
+{
+  "nome": "João Silva",
+  "email": "joao@example.com",
+  "senha": "senha123"
+}
+
+### 2. Login (copie o token retornado e cole na variável @token acima)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "joao@example.com",
+  "senha": "senha123"
+}
+
+### 3. Obter perfil do usuário (requer autenticação)
+GET {{baseUrl}}/auth/perfil
+Authorization: Bearer {{token}}
+
+### ========================================
+### 🏋️ TREINOS
+### ========================================
+
+### 4. Criar novo treino
+POST {{baseUrl}}/treinos
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "exercicioNome": "Supino Reto",
+  "carga": 80,
+  "repeticoes": 10,
+  "series": 4,
+  "data": "2026-03-05"
+}
+
+### 5. Listar todos os treinos
+GET {{baseUrl}}/treinos
+Authorization: Bearer {{token}}
+
+### 6. Listar treinos com filtro por exercício
+GET {{baseUrl}}/treinos?exercicioNome=Supino Reto
+Authorization: Bearer {{token}}
+
+### 7. Listar treinos com filtro por data
+GET {{baseUrl}}/treinos?dataInicio=2026-03-01&dataFim=2026-03-31
+Authorization: Bearer {{token}}
+
+### 8. Atualizar treino (substitua {id} pelo ID real)
+PATCH {{baseUrl}}/treinos/{id}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "carga": 85,
+  "repeticoes": 12
+}
+
+### 9. Deletar treino (substitua {id} pelo ID real)
+DELETE {{baseUrl}}/treinos/{id}
+Authorization: Bearer {{token}}
+
+### ========================================
+### 📊 ANÁLISES
+### ========================================
+
+### 10. Obter estatísticas gerais
+GET {{baseUrl}}/analises/estatisticas
+Authorization: Bearer {{token}}
+
+### 11. Obter progresso de um exercício específico
+GET {{baseUrl}}/analises/progresso/Supino Reto
+Authorization: Bearer {{token}}
+
+### 12. Obter progresso com filtro de período
+GET {{baseUrl}}/analises/progresso/Supino Reto?dataInicio=2026-03-01&dataFim=2026-03-31
+Authorization: Bearer {{token}}
+
+### ========================================
+### 🧪 TESTES DE ERRO
+### ========================================
+
+### 13. Teste de rota não autenticada (deve retornar 401)
+GET {{baseUrl}}/auth/perfil
+
+### 14. Teste de login com credenciais inválidas (deve retornar 401)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "invalido@example.com",
+  "senha": "senhaerrada"
+}
+
+### 15. Teste de criar treino com dados inválidos (deve retornar 400)
+POST {{baseUrl}}/treinos
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "exercicioNome": "",
+  "carga": -10,
+  "repeticoes": 0,
+  "series": 0
+}
+
+### ========================================
+### 📝 NOTAS
+### ========================================
+### 1. Após fazer login, copie o token retornado
+### 2. Cole o token na variável @token no topo do arquivo
+### 3. Todos os endpoints exceto registrar e login requerem token
+### 4. Substitua {id} pelos IDs reais retornados nas respostas
+### ========================================
+

@@ -6,8 +6,12 @@ const api = axios.create({
 });
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
+  console.log('🔑 Token no localStorage:', token ? `${token.substring(0, 20)}...` : 'NENHUM TOKEN');
   if (token) {
-    config.headers.Authorization = `Bearer $token`;
+    config.headers.Authorization = `Bearer ${token}`;
+    console.log('✅ Token adicionado ao header Authorization');
+  } else {
+    console.warn('⚠️ Nenhum token encontrado no localStorage');
   }
   return config;
 });

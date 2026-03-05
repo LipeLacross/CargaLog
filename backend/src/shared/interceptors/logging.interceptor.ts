@@ -8,9 +8,10 @@ import { Request, Response } from 'express';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { WinstonLoggerService } from '../services/winston-logger.service';
+import { Usuario } from '../../domain/entities/usuario.entity';
 
 interface RequestWithUser extends Request {
-  user?: unknown;
+  user?: Usuario;
 }
 
 /**
