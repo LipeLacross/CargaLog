@@ -42,6 +42,12 @@ export function Header() {
           {/* User Info e Logout */}
           <div className="flex items-center gap-4 pl-8 border-l border-blue-400">
             <span className="text-white text-sm font-medium">{usuario?.nome || 'Usuário'}</span>
+            <Link
+              to="/perfil"
+              className="text-white hover:text-blue-100 transition-colors font-medium px-3 py-2 rounded hover:bg-blue-500/30"
+            >
+              Perfil
+            </Link>
             <button
               onClick={handleLogout}
               className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all hover:shadow-lg"

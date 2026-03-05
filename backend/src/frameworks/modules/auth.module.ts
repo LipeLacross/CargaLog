@@ -6,10 +6,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import type { StringValue } from 'ms';
 import { AutenticarUsuarioUseCase } from '../../application/use-cases/auth/autenticar-usuario.use-case';
 import { RegistrarUsuarioUseCase } from '../../application/use-cases/auth/registrar-usuario.use-case';
+import { ResetPasswordUseCase } from '../../application/use-cases/auth/reset-password.use-case';
+import { AtualizarPerfilUseCase } from '../../application/use-cases/auth/atualizar-perfil.use-case';
 import { Usuario } from '../../domain/entities/usuario.entity';
 import { AuthController } from '../../interface-adapters/controllers/auth.controller';
 import { TypeOrmUsuarioRepository } from '../../interface-adapters/repositories/typeorm-usuario.repository';
 import { JwtStrategy } from '../auth/jwt.strategy';
+import { EmailService } from '../../shared/services/email.service';
 
 const authModuleLogger = new Logger('AuthModule');
 
@@ -53,8 +56,11 @@ const authModuleLogger = new Logger('AuthModule');
   controllers: [AuthController],
   providers: [
     JwtStrategy,
+    EmailService,
     RegistrarUsuarioUseCase,
     AutenticarUsuarioUseCase,
+    ResetPasswordUseCase,
+    AtualizarPerfilUseCase,
     {
       provide: 'IUsuarioRepository',
       useClass: TypeOrmUsuarioRepository,

@@ -7,17 +7,25 @@ import { Treinos } from './pages/Treinos';
 import { CreateTreino } from './pages/Treinos/Create';
 import { EditTreino } from './pages/Treinos/Edit';
 import { Analises } from './pages/Analises';
+import { Perfil } from './pages/Perfil';
+import { EsqueciSenha } from './pages/EsqueciSenha';
+import { ResetSenha } from './pages/ResetSenha';
 import './App.css';
+
 function ProtectedRoute({ children }: { children: React.ReactElement }) {
   const { usuario, loading } = useAuth();
   if (loading) return <div>Carregando...</div>;
   return usuario ? children : <Navigate to="/login" />;
 }
+
 function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/registrar" element={<Register />} />
+      <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+      <Route path="/reset-password" element={<ResetSenha />} />
+
       <Route
         path="/dashboard"
         element={
@@ -26,6 +34,16 @@ function App() {
           </ProtectedRoute>
         }
       />
+
+      <Route
+        path="/perfil"
+        element={
+          <ProtectedRoute>
+            <Perfil />
+          </ProtectedRoute>
+        }
+      />
+
       <Route
         path="/treinos"
         element={

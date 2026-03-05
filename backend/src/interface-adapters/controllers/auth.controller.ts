@@ -3,12 +3,15 @@ import {
   Post,
   Body,
   Get,
+  Patch,
   UseGuards,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
 import { RegistrarUsuarioUseCase } from '../../application/use-cases/auth/registrar-usuario.use-case';
 import { AutenticarUsuarioUseCase } from '../../application/use-cases/auth/autenticar-usuario.use-case';
+import { ResetPasswordUseCase } from '../../application/use-cases/auth/reset-password.use-case';
+import { AtualizarPerfilUseCase } from '../../application/use-cases/auth/atualizar-perfil.use-case';
 import { RegistrarUsuarioDto } from '../../application/dto/auth/registrar-usuario.dto';
 import { LoginDto } from '../../application/dto/auth/login.dto';
 import { JwtAuthGuard } from '../../frameworks/auth/jwt-auth.guard';
@@ -18,18 +21,20 @@ import { CurrentUser } from '../../shared/decorators/current-user.decorator';
 interface AuthenticatedUser {
   id: string;
   email: string;
-  senha?: string; // Opcional pois será removido
+  senha?: string;
 }
 
 /**
  * Controller de autenticação
- * Endpoints: registrar, login, perfil
+ * Endpoints: registrar, login, perfil, reset-password
  */
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly registrarUsuarioUseCase: RegistrarUsuarioUseCase,
     private readonly autenticarUsuarioUseCase: AutenticarUsuarioUseCase,
+    private readonly resetPasswordUseCase: ResetPasswordUseCase,
+    private readonly atualizarPerfilUseCase: AtualizarPerfilUseCase,
   ) {}
 
   /**
@@ -58,9 +63,43 @@ export class AuthController {
    */
   @Get('perfil')
   @UseGuards(JwtAuthGuard)
-  perfil(@CurrentUser() usuario: AuthenticatedUser) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { senha, ...usuarioSemSenha } = usuario;
-    return usuarioSemSenha;
+  async perfil(@CurrentUser() usuario: AuthenticatedUser) {
+    return usuario;
+  }
+
+  /**
+   * PATCH /auth/perfil
+   * Atualiza perfil (nome e/ou senha)
+   */
+  @Patch('perfil')
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  async atualizarPerfil(
+    @CurrentUser() usuario: AuthenticatedUser,
+    @Body() dto: { nome?: string; senhaAtual?: string; novaSenha?: string },
+  ) {
+    return this.atualizarPerfilUseCase.execute(usuario.id, dto);
+  }
+
+  /**
+   * POST /auth/esqueci-senha
+   * Envia email com link para reset de senha
+   */
+  @Post('esqueci-senha')
+  @HttpCode(HttpStatus.OK)
+  async esqueciSenha(@Body() dto: { email: string }) {
+    return this.resetPasswordUseCase.requestReset(dto);
+  }
+
+  /**
+   * POST /auth/confirmar-reset-senha
+   * Confirma reset de senha com novo token
+   */
+  @Post('confirmar-reset-senha')
+  @HttpCode(HttpStatus.OK)
+  async confirmarResetSenha(
+    @Body() dto: { token: string; novaSenha: string },
+  ) {
+    return this.resetPasswordUseCase.confirmReset(dto);
   }
 }
