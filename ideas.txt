@@ -116,8 +116,8 @@ DDD/SOLID será usado aonde o domínio justificar.
 
 **Front-End**:
 
-* **React Native (CLI)**: Para o aplicativo móvel (iOS/Android).
-* **React**: Para o dashboard web.
+* **React Native (CLI)**: Para o aplicativo móvel (iOS/Android) com native wind.
+* **React**: Para o dashboard web com tailwind.
 * **Redux**: Para gerenciamento de estado nos apps **React** e **React Native**.
 
 **Infraestrutura**:
