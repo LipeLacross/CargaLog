@@ -24,7 +24,9 @@ export class ResetPasswordUseCase {
   /**
    * Solicita reset de senha - envia email com link
    */
-  async requestReset(request: ResetPasswordRequest): Promise<{ mensagem: string }> {
+  async requestReset(
+    request: ResetPasswordRequest,
+  ): Promise<{ mensagem: string }> {
     const usuario = await this.usuarioRepository.buscarPorEmail(request.email);
 
     if (!usuario) {
@@ -50,17 +52,21 @@ export class ResetPasswordUseCase {
   /**
    * Confirma reset de senha com novo token
    */
-  async confirmReset(request: ConfirmResetPasswordRequest): Promise<{ mensagem: string }> {
+  async confirmReset(
+    request: ConfirmResetPasswordRequest,
+  ): Promise<{ mensagem: string }> {
     try {
-      // Verifica e decodifica o token
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const payload = this.jwtService.verify(request.token);
 
       // Valida que é um token de reset de senha
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (payload.tipo !== 'reset-password') {
         throw new BadRequestException('Token inválido');
       }
 
       // Busca o usuário
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
       const usuario = await this.usuarioRepository.buscarPorId(payload.userId);
 
       if (!usuario) {
@@ -81,14 +87,16 @@ export class ResetPasswordUseCase {
 
       return { mensagem: 'Senha redefinida com sucesso!' };
     } catch (error) {
-      if (error.name === 'TokenExpiredError') {
-        throw new BadRequestException('Link de reset expirou. Solicite um novo.');
+      const err = error as { name?: string; message?: string };
+      if (err.name === 'TokenExpiredError') {
+        throw new BadRequestException(
+          'Link de reset expirou. Solicite um novo.',
+        );
       }
-      if (error.name === 'JsonWebTokenError') {
+      if (err.name === 'JsonWebTokenError') {
         throw new BadRequestException('Token inválido');
       }
       throw error;
     }
   }
 }
-

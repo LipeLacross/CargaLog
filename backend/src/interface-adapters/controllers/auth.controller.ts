@@ -63,7 +63,7 @@ export class AuthController {
    */
   @Get('perfil')
   @UseGuards(JwtAuthGuard)
-  async perfil(@CurrentUser() usuario: AuthenticatedUser) {
+  perfil(@CurrentUser() usuario: AuthenticatedUser) {
     return usuario;
   }
 
@@ -97,9 +97,7 @@ export class AuthController {
    */
   @Post('confirmar-reset-senha')
   @HttpCode(HttpStatus.OK)
-  async confirmarResetSenha(
-    @Body() dto: { token: string; novaSenha: string },
-  ) {
+  async confirmarResetSenha(@Body() dto: { token: string; novaSenha: string }) {
     return this.resetPasswordUseCase.confirmReset(dto);
   }
 }

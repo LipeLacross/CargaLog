@@ -1,27 +1,19 @@
-﻿import { createContext, useState, useEffect, type ReactNode } from 'react';
+﻿import { useState, useEffect, type ReactNode } from 'react';
 import { authApi } from '../api/auth.api';
-interface Usuario {
-  id: string;
-  nome: string;
-  email: string;
-}
-interface AuthContextType {
-  usuario: Usuario | null;
-  loading: boolean;
-  login: (email: string, senha: string) => Promise<any>;
-  logout: () => void;
-  registrar: (nome: string, email: string, senha: string) => Promise<any>;
-}
-export const AuthContext = createContext<AuthContextType | null>(null);
+import { AuthContext, type AuthContextType } from './AuthContextType';
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [usuario, setUsuario] = useState<Usuario | null>(null);
+  const [usuario, setUsuario] = useState<AuthContextType['usuario']>(null);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     const usuarioStored = localStorage.getItem('usuario');
     if (token && usuarioStored) {
       try {
-        setUsuario(JSON.parse(usuarioStored));
+        const parsed = JSON.parse(usuarioStored);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setUsuario(parsed);
       } catch {
         localStorage.removeItem('token');
         localStorage.removeItem('usuario');
@@ -29,6 +21,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     setLoading(false);
   }, []);
+
   const login = async (email: string, senha: string) => {
     const res = await authApi.login(email, senha);
     console.log('📥 Resposta do login:', res.data);
@@ -43,15 +36,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUsuario(res.data.usuario);
     return res.data;
   };
+
   const registrar = async (nome: string, email: string, senha: string) => {
     const res = await authApi.registrar({ nome, email, senha });
     return res.data;
   };
+
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('usuario');
+    localStorage.clear();
     setUsuario(null);
   };
+
   return (
     <AuthContext.Provider value={{ usuario, loading, login, logout, registrar }}>
       {children}

@@ -34,13 +34,17 @@ export class EmailService {
         text: options.text,
       });
     } catch (error) {
+      const err = error as { message?: string };
       console.error('Erro ao enviar email:', error);
-      throw new Error(`Erro ao enviar email: ${error.message}`);
+      throw new Error(`Erro ao enviar email: ${err.message || 'desconhecido'}`);
     }
   }
 
   // Email de reset de senha
-  async sendResetPasswordEmail(email: string, resetLink: string): Promise<void> {
+  async sendResetPasswordEmail(
+    email: string,
+    resetLink: string,
+  ): Promise<void> {
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: linear-gradient(to right, #2563eb, #7c3aed); color: white; padding: 20px; border-radius: 10px; text-align: center;">
@@ -135,4 +139,3 @@ export class EmailService {
     });
   }
 }
-

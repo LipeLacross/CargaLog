@@ -25,8 +25,9 @@ export function Register() {
     try {
       await registrar(nome, email, senha);
       navigate('/login');
-    } catch (err: any) {
-      setErro(err.response?.data?.message || 'Erro ao registrar');
+    } catch (err) {
+      const error = err as { response?: { data?: { message?: string } } };
+      setErro(error.response?.data?.message || 'Erro ao registrar');
     } finally {
       setLoading(false);
     }

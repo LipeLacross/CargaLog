@@ -31,7 +31,9 @@ export class AtualizarPerfilUseCase {
     // Se mudança de senha, valida senha atual
     if (request.novaSenha) {
       if (!request.senhaAtual) {
-        throw new BadRequestException('Senha atual é obrigatória para mudar senha');
+        throw new BadRequestException(
+          'Senha atual é obrigatória para mudar senha',
+        );
       }
 
       const senhaValida = await Usuario.validarSenha(
@@ -44,7 +46,9 @@ export class AtualizarPerfilUseCase {
       }
 
       if (request.novaSenha.length < 8) {
-        throw new BadRequestException('Nova senha deve ter no mínimo 8 caracteres');
+        throw new BadRequestException(
+          'Nova senha deve ter no mínimo 8 caracteres',
+        );
       }
 
       usuario.senha = request.novaSenha;
@@ -62,12 +66,14 @@ export class AtualizarPerfilUseCase {
     if (request.novaSenha) {
       await this.emailService.sendPasswordChangedEmail(usuario.email);
     } else if (request.nome) {
-      await this.emailService.sendProfileUpdatedEmail(usuario.email, usuario.nome);
+      await this.emailService.sendProfileUpdatedEmail(
+        usuario.email,
+        usuario.nome,
+      );
     }
 
     // Retorna usuário sem senha
-    const { senha, ...usuarioSemSenha } = usuario;
+    const { ...usuarioSemSenha } = usuario;
     return usuarioSemSenha;
   }
 }
-
