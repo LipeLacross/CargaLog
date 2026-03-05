@@ -1,32 +1,44 @@
 ﻿import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
 import { treinoApi } from '../../api/treino.api';
 import { Header } from '../../components/common/Header';
+import { useAuth } from '../../hooks/useAuth';
+
+interface TreinoItem {
+  id: string;
+  exercicioNome: string;
+  carga: number;
+  repeticoes: number;
+  data: string;
+}
+
 export function Treinos() {
   const { usuario } = useAuth();
-  const [treinos, setTreinos] = useState<any[]>([]);
+  const [treinos, setTreinos] = useState<TreinoItem[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
   useEffect(() => {
-    if (usuario) {
-      treinoApi
-        .listar()
-        .then((res) => setTreinos(res.data))
-        .catch((err) => console.error(err))
-        .finally(() => setLoading(false));
-    }
+    if (!usuario) return;
+
+    treinoApi
+      .listar()
+      .then((res) => setTreinos(res.data as TreinoItem[]))
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
   }, [usuario]);
+
   const handleDelete = async (id: string) => {
-    if (confirm('Tem certeza que deseja deletar?')) {
-      try {
-        await treinoApi.deletar(id);
-        setTreinos(treinos.filter((t) => t.id !== id));
-      } catch {
-        alert('Erro ao deletar');
-      }
+    if (!confirm('Tem certeza que deseja deletar?')) return;
+
+    try {
+      await treinoApi.deletar(id);
+      setTreinos((prev) => prev.filter((t) => t.id !== id));
+    } catch {
+      alert('Erro ao deletar');
     }
   };
+
   return (
     <>
       <Header />
@@ -40,6 +52,7 @@ export function Treinos() {
             + Novo Treino
           </button>
         </div>
+
         {loading ? (
           <p>Carregando treinos...</p>
         ) : treinos.length === 0 ? (
@@ -50,12 +63,14 @@ export function Treinos() {
               <div key={treino.id} className="bg-white p-6 rounded-lg shadow">
                 <h3 className="text-xl font-bold">{treino.exercicioNome}</h3>
                 <p className="text-gray-600">
-                  {treino.carga}kg � {treino.repeticoes} reps � {treino.series} s�ries
+                  {treino.carga}kg x {treino.repeticoes} reps
                 </p>
-                <p className="text-sm text-gray-500">{new Date(treino.data).toLocaleDateString()}</p>
+                <p className="text-sm text-gray-500">
+                  {new Date(treino.data).toLocaleDateString()}
+                </p>
                 <div className="flex gap-2 mt-4">
                   <button
-                    onClick={() => navigate(`/treinos/editar/${ treino.id}`)}
+                    onClick={() => navigate(`/treinos/editar/${treino.id}`)}
                     className="bg-blue-600 text-white px-4 py-1 rounded"
                   >
                     Editar
