@@ -32,7 +32,15 @@ export class Treino {
   @Column({ name: 'exercicio_nome', type: 'varchar', length: 255 })
   exercicioNome: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string) => parseFloat(value),
+    },
+  })
   carga: number;
 
   @Column({ type: 'int' })

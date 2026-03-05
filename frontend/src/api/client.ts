@@ -19,6 +19,11 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    // 204 No Content é sucesso, não erro
+    if (error.response?.status === 204) {
+      return { status: 204, data: null, statusText: 'No Content' };
+    }
+
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('usuario');

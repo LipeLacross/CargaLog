@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { treinoApi } from '../../api/treino.api';
 import { Header } from '../../components/common/Header';
 import { useAuth } from '../../hooks/useAuth';
+import { formatarCarga, formatarData } from '../../utils/formatters';
 
 interface TreinoItem {
   id: string;
@@ -34,8 +35,14 @@ export function Treinos() {
     try {
       await treinoApi.deletar(id);
       setTreinos((prev) => prev.filter((t) => t.id !== id));
-    } catch {
-      alert('Erro ao deletar');
+    } catch (err) {
+      const error = err as {
+        response?: { data?: { message?: string } };
+        message?: string;
+      };
+      const errorMsg = error.response?.data?.message || error.message;
+      alert(`Erro ao deletar: ${errorMsg}`);
+      console.error('Erro ao deletar treino:', err);
     }
   };
 
@@ -63,10 +70,10 @@ export function Treinos() {
               <div key={treino.id} className="bg-white p-6 rounded-lg shadow">
                 <h3 className="text-xl font-bold">{treino.exercicioNome}</h3>
                 <p className="text-gray-600">
-                  {treino.carga}kg x {treino.repeticoes} reps
+                  {formatarCarga(treino.carga)}kg x {treino.repeticoes} reps
                 </p>
                 <p className="text-sm text-gray-500">
-                  {new Date(treino.data).toLocaleDateString()}
+                  {formatarData(treino.data)}
                 </p>
                 <div className="flex gap-2 mt-4">
                   <button

@@ -9,12 +9,14 @@ interface TreinoItem {
   exercicioNome: string;
   carga: number;
   repeticoes: number;
+  data: string;
 }
 
 interface EditTreinoFormData {
   exercicioNome: string;
   carga: string;
   repeticoes: string;
+  data: string;
 }
 
 export function EditTreino() {
@@ -23,6 +25,7 @@ export function EditTreino() {
     exercicioNome: '',
     carga: '',
     repeticoes: '',
+    data: '',
   });
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState('');
@@ -37,10 +40,16 @@ export function EditTreino() {
         const treino = (res.data as TreinoItem[]).find((t) => t.id === id);
 
         if (treino) {
+          // Converter data para formato YYYY-MM-DD
+          const dataFormatada = new Date(treino.data)
+            .toISOString()
+            .split('T')[0];
+
           setFormData({
             exercicioNome: treino.exercicioNome,
             carga: String(treino.carga),
             repeticoes: String(treino.repeticoes),
+            data: dataFormatada,
           });
         }
       })
@@ -63,6 +72,7 @@ export function EditTreino() {
         exercicioNome: formData.exercicioNome,
         carga: Number(formData.carga),
         repeticoes: Number(formData.repeticoes),
+        data: formData.data,
       });
       navigate('/treinos');
     } catch (err) {
@@ -105,6 +115,7 @@ export function EditTreino() {
             placeholder="Carga (kg)"
             value={formData.carga}
             onChange={handleChange}
+            step="0.5"
             className="w-full px-4 py-2 border rounded-lg"
             required
           />
@@ -118,6 +129,18 @@ export function EditTreino() {
             className="w-full px-4 py-2 border rounded-lg"
             required
           />
+
+          <div>
+            <label className="block text-sm font-medium mb-2">Data do Treino</label>
+            <input
+              type="date"
+              name="data"
+              value={formData.data}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-lg"
+              required
+            />
+          </div>
 
           {erro && <p className="text-red-500 text-sm">{erro}</p>}
 
