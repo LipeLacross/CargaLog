@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { treinoApi } from '../../api/treino.api';
 import { Header } from '../../components/common/Header';
+import { Modal } from '../../components/common/Modal';
 import { useAuth } from '../../hooks/useAuth';
 import { formatarCarga, formatarData } from '../../utils/formatters';
 
@@ -17,6 +18,18 @@ export function Treinos() {
   const { usuario } = useAuth();
   const [treinos, setTreinos] = useState<TreinoItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [modal, setModal] = useState<{
+    isOpen: boolean;
+    type: 'success' | 'error' | 'warning' | 'info';
+    title: string;
+    message: string;
+    treinoIdToDelete?: string;
+  }>({
+    isOpen: false,
+    type: 'info',
+    title: '',
+    message: '',
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,20 +42,47 @@ export function Treinos() {
       .finally(() => setLoading(false));
   }, [usuario]);
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Tem certeza que deseja deletar?')) return;
+  const handleDeleteClick = (id: string, nome: string) => {
+    setModal({
+      isOpen: true,
+      type: 'warning',
+      title: 'Deletar Treino?',
+      message: `Tem certeza que deseja deletar "${nome}"? Esta ação não pode ser desfeita.`,
+      treinoIdToDelete: id,
+    });
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!modal.treinoIdToDelete) return;
 
     try {
-      await treinoApi.deletar(id);
-      setTreinos((prev) => prev.filter((t) => t.id !== id));
+      await treinoApi.deletar(modal.treinoIdToDelete);
+      setTreinos((prev) => prev.filter((t) => t.id !== modal.treinoIdToDelete));
+
+      setModal({
+        isOpen: true,
+        type: 'success',
+        title: '✅ Sucesso!',
+        message: 'Treino deletado com sucesso.',
+      });
+
+      // Fechar modal de sucesso após 2 segundos
+      setTimeout(() => {
+        setModal({ isOpen: false, type: 'info', title: '', message: '' });
+      }, 2000);
     } catch (err) {
       const error = err as {
-        response?: { data?: { message?: string } };
+        response?: { status?: number; data?: { message?: string } };
         message?: string;
       };
-      const errorMsg = error.response?.data?.message || error.message;
-      alert(`Erro ao deletar: ${errorMsg}`);
-      console.error('Erro ao deletar treino:', err);
+      const errorMsg = error.response?.data?.message || error.message || 'Erro desconhecido';
+
+      setModal({
+        isOpen: true,
+        type: 'error',
+        title: '❌ Erro ao Deletar',
+        message: errorMsg,
+      });
     }
   };
 
@@ -78,13 +118,13 @@ export function Treinos() {
                 <div className="flex gap-2 mt-4">
                   <button
                     onClick={() => navigate(`/treinos/editar/${treino.id}`)}
-                    className="bg-blue-600 text-white px-4 py-1 rounded"
+                    className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
                   >
                     Editar
                   </button>
                   <button
-                    onClick={() => handleDelete(treino.id)}
-                    className="bg-red-600 text-white px-4 py-1 rounded"
+                    onClick={() => handleDeleteClick(treino.id, treino.exercicioNome)}
+                    className="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700"
                   >
                     Deletar
                   </button>
@@ -94,6 +134,19 @@ export function Treinos() {
           </div>
         )}
       </main>
+
+      {/* Modal de Confirmação */}
+      <Modal
+        isOpen={modal.isOpen}
+        type={modal.type}
+        title={modal.title}
+        message={modal.message}
+        onClose={() => setModal({ isOpen: false, type: 'info', title: '', message: '' })}
+        onConfirm={modal.type === 'warning' ? handleConfirmDelete : undefined}
+        confirmText={modal.type === 'warning' ? 'Deletar' : undefined}
+        cancelText={modal.type === 'warning' ? 'Cancelar' : 'Fechar'}
+        showConfirmButton={modal.type === 'warning'}
+      />
     </>
   );
 }

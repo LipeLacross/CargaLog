@@ -89,7 +89,15 @@ export function EditTreino() {
     <>
       <Header />
       <main className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Editar Treino</h1>
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold">Editar Treino</h1>
+          <button
+            onClick={() => navigate('/treinos')}
+            className="text-gray-600 hover:text-gray-900 font-semibold"
+          >
+            ← Voltar
+          </button>
+        </div>
         <form
           onSubmit={handleSubmit}
           className="max-w-md space-y-6 bg-white p-8 rounded-lg shadow"

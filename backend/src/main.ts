@@ -33,10 +33,13 @@ async function bootstrap() {
   // Interceptor de logging
   app.useGlobalInterceptors(new LoggingInterceptor());
 
-  // CORS
+  // CORS - Permitir DELETE, PATCH e outros métodos
   app.enableCors({
     origin: process.env.CORS_ORIGIN || '*',
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    preflightContinue: false,
   });
 
   // Prefixo global para rotas

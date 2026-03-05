@@ -7,13 +7,11 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const rawToken = localStorage.getItem('token');
   const token = rawToken?.trim();
-  console.log('🔑 Token no localStorage:', token ? `${token.substring(0, 20)}...` : 'NENHUM TOKEN');
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
-    console.log('✅ Token adicionado ao header Authorization');
-  } else {
-    console.warn('⚠️ Nenhum token encontrado no localStorage');
   }
+
   return config;
 });
 api.interceptors.response.use(
@@ -21,7 +19,7 @@ api.interceptors.response.use(
   (error) => {
     // 204 No Content é sucesso, não erro
     if (error.response?.status === 204) {
-      return { status: 204, data: null, statusText: 'No Content' };
+      return Promise.resolve({ status: 204, data: null, statusText: 'No Content' });
     }
 
     if (error.response?.status === 401) {
@@ -29,6 +27,7 @@ api.interceptors.response.use(
       localStorage.removeItem('usuario');
       window.location.href = '/login';
     }
+
     return Promise.reject(error);
   }
 );

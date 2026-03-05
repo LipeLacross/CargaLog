@@ -103,6 +103,8 @@ export class TreinoController {
     @Param('id') id: string,
     @CurrentUser() usuario: AuthenticatedUser,
   ) {
+    console.log('🗑️ DELETE /treinos/:id', { id, usuarioId: usuario.id });
     await this.deletarTreinoUseCase.execute(id, usuario.id);
+    console.log('✅ Treino deletado com sucesso:', id);
   }
 }
