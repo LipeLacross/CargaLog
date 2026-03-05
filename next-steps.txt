@@ -1,0 +1,5 @@
+Configurar env
+Fazer os migrations
+trocar express por fastify
+colocar atlhos para não usar ./ / /
+ver se é viável módulo de configuração ou config provider (em português: módulo de configuração / provedor de configuração). Em projetos NestJS é comum ver nomes como EnvConfig, ConfigModule, ConfigService ou Environment Configuration.
