@@ -20,6 +20,13 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@domain/*": ["src/domain/*"],
+      "@application/*": ["src/application/*"],
+      "@frameworks/*": ["src/frameworks/*"],
+      "@interface-adapters/*": ["src/interface-adapters/*"],
+      "@shared/*": ["src/shared/*"]
+    }
   }
 }

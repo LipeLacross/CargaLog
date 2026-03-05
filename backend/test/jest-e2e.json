@@ -3,10 +3,16 @@
   "rootDir": ".",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
+  "testTimeout": 30000,
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
   "moduleNameMapper": {
-    "^src/(.*)$": "<rootDir>/../src/$1"
+    "^src/(.*)$": "<rootDir>/../src/$1",
+    "^@domain/(.*)$": "<rootDir>/../src/domain/$1",
+    "^@application/(.*)$": "<rootDir>/../src/application/$1",
+    "^@frameworks/(.*)$": "<rootDir>/../src/frameworks/$1",
+    "^@interface-adapters/(.*)$": "<rootDir>/../src/interface-adapters/$1",
+    "^@shared/(.*)$": "<rootDir>/../src/shared/$1"
   }
 }

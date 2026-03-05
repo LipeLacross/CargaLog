@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { Treino } from './treino.entity';
 
 /**
@@ -45,7 +46,6 @@ export class Usuario {
     senhaPlain: string,
     senhaHash: string,
   ): Promise<boolean> {
-    const bcrypt = await import('bcrypt');
     return bcrypt.compare(senhaPlain, senhaHash);
   }
 
@@ -55,7 +55,6 @@ export class Usuario {
    * @returns Hash bcrypt da senha
    */
   static async hashSenha(senha: string): Promise<string> {
-    const bcrypt = await import('bcrypt');
     const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS || '10', 10);
     return bcrypt.hash(senha, saltRounds);
   }

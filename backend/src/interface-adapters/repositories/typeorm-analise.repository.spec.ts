@@ -10,7 +10,9 @@ const buildQueryBuilder = <T>(result: T[]) => {
     andWhere: jest.fn().mockReturnThis(),
     groupBy: jest.fn().mockReturnThis(),
     orderBy: jest.fn().mockReturnThis(),
+    limit: jest.fn().mockReturnThis(),
     getRawMany: jest.fn().mockResolvedValue(result),
+    getRawOne: jest.fn().mockResolvedValue(result[0] || null),
     getMany: jest.fn().mockResolvedValue(result as any),
   };
   return qb;
@@ -50,16 +52,27 @@ describe('TypeOrmAnaliseRepository', () => {
     const recordesQb = buildQueryBuilder([
       { exercicio: 'Supino', cargaMaxima: '120' },
     ]);
+    const volumeQb = buildQueryBuilder([{ volume: '1800' }]);
+    const maisTrainadoQb = buildQueryBuilder([
+      { nome: 'Supino', quantidade: '10' },
+    ]);
 
     ormRepository.createQueryBuilder
       .mockReturnValueOnce(exerciciosQb as any)
-      .mockReturnValueOnce(recordesQb as any);
+      .mockReturnValueOnce(recordesQb as any)
+      .mockReturnValueOnce(volumeQb as any)
+      .mockReturnValueOnce(maisTrainadoQb as any);
 
     const result = await repository.obterEstatisticas('user-1');
 
     expect(result.totalTreinos).toBe(3);
     expect(result.exercicios).toEqual(['Supino']);
     expect(result.recordesPorExercicio).toEqual({ Supino: 120 });
+    expect(result.totalVolume).toBe(1800);
+    expect(result.exercicioMaisTreinado).toEqual({
+      nome: 'Supino',
+      quantidade: 10,
+    });
   });
 
   it('deve obter progresso com treinos no periodo', async () => {
@@ -121,4 +134,3 @@ describe('TypeOrmAnaliseRepository', () => {
     ]);
   });
 });
-

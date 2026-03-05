@@ -10,6 +10,8 @@ export interface IAnaliseRepository {
     totalTreinos: number;
     exercicios: string[];
     recordesPorExercicio: Record<string, number>;
+    totalVolume: number;
+    exercicioMaisTreinado: { nome: string; quantidade: number } | null;
   }>;
 
   /**

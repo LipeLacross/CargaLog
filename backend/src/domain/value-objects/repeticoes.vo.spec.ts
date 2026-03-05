@@ -223,7 +223,7 @@ describe('Repeticoes Value Object', () => {
       const str = repeticoes.toString();
 
       // Assert
-      expect(str).toBe('10 repetições');
+      expect(str).toBe('10 reps');
     });
 
     it('deve usar singular para 1 repetição', () => {

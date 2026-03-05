@@ -17,7 +17,9 @@ describeE2e('Analise E2E Flow', () => {
     }).compile();
 
     const nestApp = moduleFixture.createNestApplication();
-    nestApp.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+    nestApp.useGlobalPipes(
+      new ValidationPipe({ whitelist: true, transform: true }),
+    );
     await nestApp.init();
     return nestApp;
   };
@@ -91,4 +93,3 @@ describeE2e('Analise E2E Flow', () => {
     expect(Array.isArray(response.body.pontos)).toBe(true);
   });
 });
-

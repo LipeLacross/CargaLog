@@ -34,8 +34,8 @@ export class RegistrarTreinoUseCase {
       throw new BadRequestException(message);
     }
 
-    // Valida séries se fornecidas
-    if (dto.series && !Treino.validarSeries(dto.series)) {
+    // Valida séries se fornecidas (considera 0 como inválido)
+    if (dto.series !== undefined && !Treino.validarSeries(dto.series)) {
       throw new BadRequestException('Séries devem estar entre 1 e 100');
     }
 

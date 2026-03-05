@@ -28,7 +28,7 @@ export class ObterEstatisticasUseCase {
     )) {
       recordesPorExercicio[exercicio] = {
         cargaMaxima: carga,
-        data: new Date(), // TODO: Buscar data real do recorde
+        data: new Date(), // TODO(lipelacross, 2026-03-04, otimizar): Buscar data real do recorde em query separada
       };
     }
 
@@ -36,6 +36,8 @@ export class ObterEstatisticasUseCase {
       totalTreinos: stats.totalTreinos,
       exercicios: stats.exercicios,
       recordesPorExercicio,
+      totalVolume: stats.totalVolume,
+      exercicioMaisTreinado: stats.exercicioMaisTreinado || undefined,
     };
   }
 }

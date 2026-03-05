@@ -17,8 +17,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:unit": "jest --testPathPattern=\\.spec\\.ts$",
-    "test:integration": "jest --testPathPattern=\\.integration\\.spec\\.ts$",
+    "test:unit": "jest --testPathPatterns=\\.spec\\.ts$",
+    "test:integration": "jest --testPathPatterns=\\.integration\\.spec\\.ts$",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:generate": "npm run typeorm -- migration:generate -d ormconfig.ts",
@@ -96,6 +96,13 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^@domain/(.*)$": "<rootDir>/domain/$1",
+      "^@application/(.*)$": "<rootDir>/application/$1",
+      "^@frameworks/(.*)$": "<rootDir>/frameworks/$1",
+      "^@interface-adapters/(.*)$": "<rootDir>/interface-adapters/$1",
+      "^@shared/(.*)$": "<rootDir>/shared/$1"
+    },
     "coverageThreshold": {
       "global": {
         "branches": 70,

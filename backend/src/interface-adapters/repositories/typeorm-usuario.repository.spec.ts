@@ -111,4 +111,3 @@ describe('TypeOrmUsuarioRepository', () => {
     expect(result).toBe(true);
   });
 });
-

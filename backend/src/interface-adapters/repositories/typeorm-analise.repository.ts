@@ -41,6 +41,8 @@ export class TypeOrmAnaliseRepository implements IAnaliseRepository {
     totalTreinos: number;
     exercicios: string[];
     recordesPorExercicio: Record<string, number>;
+    totalVolume: number;
+    exercicioMaisTreinado: { nome: string; quantidade: number } | null;
   }> {
     // Total de treinos
     const totalTreinos = await this.treinoRepository.count({
@@ -70,10 +72,41 @@ export class TypeOrmAnaliseRepository implements IAnaliseRepository {
       recordesPorExercicio[row.exercicio] = parseFloat(row.cargaMaxima);
     });
 
+    // Volume total movimentado (carga × repetições × séries)
+    const volumeQuery = await this.treinoRepository
+      .createQueryBuilder('treino')
+      .select('SUM(treino.carga * treino.repeticoes * treino.series)', 'volume')
+      .where('treino.usuarioId = :usuarioId', { usuarioId })
+      .getRawOne<{ volume: string }>();
+
+    const totalVolume = volumeQuery?.volume
+      ? parseFloat(volumeQuery.volume)
+      : 0;
+
+    // Exercício mais treinado
+    const exercicioMaisTreinadoQuery = await this.treinoRepository
+      .createQueryBuilder('treino')
+      .select('treino.exercicioNome', 'nome')
+      .addSelect('COUNT(*)', 'quantidade')
+      .where('treino.usuarioId = :usuarioId', { usuarioId })
+      .groupBy('treino.exercicioNome')
+      .orderBy('COUNT(*)', 'DESC')
+      .limit(1)
+      .getRawOne<{ nome: string; quantidade: string }>();
+
+    const exercicioMaisTreinado = exercicioMaisTreinadoQuery
+      ? {
+          nome: exercicioMaisTreinadoQuery.nome,
+          quantidade: parseInt(exercicioMaisTreinadoQuery.quantidade, 10),
+        }
+      : null;
+
     return {
       totalTreinos,
       exercicios,
       recordesPorExercicio,
+      totalVolume,
+      exercicioMaisTreinado,
     };
   }
 

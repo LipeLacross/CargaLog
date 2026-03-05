@@ -81,9 +81,12 @@ describe('TypeOrmTreinoRepository', () => {
 
     await repository.listarPorUsuario('user-1', { exercicio: 'Agachamento' });
 
-    expect(qb.andWhere).toHaveBeenCalledWith('treino.exercicioNome = :exercicio', {
-      exercicio: 'Agachamento',
-    });
+    expect(qb.andWhere).toHaveBeenCalledWith(
+      'treino.exercicioNome = :exercicio',
+      {
+        exercicio: 'Agachamento',
+      },
+    );
   });
 
   it('deve aplicar filtro por periodo', async () => {
@@ -124,7 +127,9 @@ describe('TypeOrmTreinoRepository', () => {
 
     const result = await repository.atualizar('treino-1', { carga: 110 });
 
-    expect(ormRepository.update).toHaveBeenCalledWith('treino-1', { carga: 110 });
+    expect(ormRepository.update).toHaveBeenCalledWith('treino-1', {
+      carga: 110,
+    });
     expect(result).toEqual(treinoAtualizado);
   });
 
@@ -149,7 +154,10 @@ describe('TypeOrmTreinoRepository', () => {
     const treino = buildTreino();
     ormRepository.findOne.mockResolvedValue(treino);
 
-    const result = await repository.buscarUltimoPorExercicio('user-1', 'Supino');
+    const result = await repository.buscarUltimoPorExercicio(
+      'user-1',
+      'Supino',
+    );
 
     expect(ormRepository.findOne).toHaveBeenCalledWith({
       where: { usuarioId: 'user-1', exercicioNome: 'Supino' },
@@ -169,4 +177,3 @@ describe('TypeOrmTreinoRepository', () => {
     expect(result).toBe(4);
   });
 });
-
