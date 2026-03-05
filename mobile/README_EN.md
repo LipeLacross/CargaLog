@@ -4,7 +4,7 @@
 
 [🇧🇷 Português](README.md) | [🇺🇸 English](README_EN.md)
 
-**Aplicativo mobile nativo para iOS e Android - Rastreamento de progressão de treinos**
+**Native mobile app for iOS and Android - Workout progression tracking**
 
 ![React Native](https://img.shields.io/badge/React%20Native-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
@@ -16,59 +16,59 @@
 
 ---
 
-## 📝 Sobre o Projeto
+## 📝 About the Project
 
-O **CargaLog Mobile** é um aplicativo nativo para **iOS** e **Android** desenvolvido com **React Native** e **Expo**. Permite que os usuários registrem, gerenciem e acompanhem sua progressão de treinos de forma portátil e conveniente.
+The **CargaLog Mobile** is a native app for **iOS** and **Android** developed with **React Native** and **Expo**. It allows users to record, manage, and track their workout progression in a portable and convenient way.
 
-### Objetivo Principal
-Fornecer um aplicativo mobile completo para:
-- ✅ Registro rápido de treinos
-- ✅ Sincronização em tempo real
-- ✅ Visualização de progresso offline
-- ✅ Notificações de treino
-- ✅ Gráficos interativos
-
----
-
-## 🎯 Funcionalidades Principais
-
-### 🔐 Autenticação
-- Login com email e senha
-- Registro de novo usuário
-- Biometria (Face ID, Touch ID)
-- Sessão persistente
-- Logout seguro
-
-### 🏋️ Registro de Treinos
-- Criar treino rápido
-- Registro por voz (opcional)
-- Timer integrado
-- Histórico de treinos
-- Edição de treinos anteriores
-
-### 📊 Dashboard Mobile
-- Resumo do dia
-- Recordes pessoais
-- Gráficos de progressão
-- Estatísticas rápidas
-- Widget de treino do dia
-
-### 🔔 Notificações
-- Lembrete de treino
-- Notificação de novo recorde
-- Semanal resumo de progresso
-- Alertas de meta atingida
-
-### ⚙️ Configurações
-- Temas (claro/escuro)
-- Unidades (kg/lb)
-- Idioma
-- Sincronização automática
-- Backup de dados
+### Main Objective
+Provide a complete mobile app for:
+- ✅ Quick workout recording
+- ✅ Real-time synchronization
+- ✅ Offline progress visualization
+- ✅ Workout notifications
+- ✅ Interactive charts
 
 ---
 
-## 📸 Exemplo Visual do Projeto
+## 🎯 Main Features
+
+### 🔐 Authentication
+- Login with email and password
+- New user registration
+- Biometrics (Face ID, Touch ID)
+- Persistent session
+- Secure logout
+
+### 🏋️ Workout Recording
+- Quick workout creation
+- Voice recording (optional)
+- Integrated timer
+- Workout history
+- Edit previous workouts
+
+### 📊 Mobile Dashboard
+- Daily summary
+- Personal records
+- Progression charts
+- Quick statistics
+- Daily workout widget
+
+### 🔔 Notifications
+- Workout reminder
+- New record notification
+- Weekly progress summary
+- Goal achieved alerts
+
+### ⚙️ Settings
+- Themes (light/dark)
+- Units (kg/lb)
+- Language
+- Auto sync
+- Data backup
+
+---
+
+## 📸 Project Visual Example
 
 <div align="center">
   <img src="" alt="Login Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
@@ -79,32 +79,32 @@ Fornecer um aplicativo mobile completo para:
 
 ---
 
-## ✔️ Técnicas e Tecnologias Utilizadas
+## ✔️ Techniques and Technologies Used
 
 ### 📱 Mobile Stack
-- **React Native** - Framework mobile
-- **Expo** - Plataforma de desenvolvimento
-- **TypeScript** - Tipagem estática
-- **React Navigation** - Navegação
+- **React Native** - Mobile framework
+- **Expo** - Development platform
+- **TypeScript** - Static typing
+- **React Navigation** - Navigation
 - **Axios** - HTTP client
-- **AsyncStorage** - Armazenamento local
+- **AsyncStorage** - Local storage
 
 ### 🎨 UI/UX
-- **React Native Paper** - Componentes Material Design
-- **React Native SVG** - Gráficos vetoriais
-- **Recharts** - Gráficos avançados
-- **React Native Gesture Handler** - Gestos
+- **React Native Paper** - Material Design components
+- **React Native SVG** - Vector graphics
+- **Recharts** - Advanced charts
+- **React Native Gesture Handler** - Gestures
 
-### 📊 Dados
-- **AsyncStorage** - Cache local
-- **Redux** (opcional) - State management
-- **SQLite** - Banco de dados local
+### 📊 Data
+- **AsyncStorage** - Local cache
+- **Redux** (optional) - State management
+- **SQLite** - Local database
 
-### 🔐 Segurança
-- **JWT Storage** - Token seguro
-- **Biometria** - Autenticação biométrica
-- **Encryption** - Dados criptografados
-- **HTTPS** - Comunicação segura
+### 🔐 Security
+- **JWT Storage** - Secure token storage
+- **Biometrics** - Biometric authentication
+- **Encryption** - Encrypted data
+- **HTTPS** - Secure communication
 
 ### ✅ Testing & Quality
 - **Jest** - Testing framework
@@ -113,28 +113,28 @@ Fornecer um aplicativo mobile completo para:
 
 ---
 
-## 📊 Diagrama de Arquitetura
+## 📊 Architecture Diagram
 
 ```mermaid
 graph TB
-    subgraph "📱 Camada de Apresentação"
-        Screens["Telas<br/>Login, Dashboard, Treinos"]
-        Components["Componentes<br/>Card, Button, Form, Chart"]
+    subgraph "📱 Presentation Layer"
+        Screens["Screens<br/>Login, Dashboard, Workouts"]
+        Components["Components<br/>Card, Button, Form, Chart"]
     end
     
-    subgraph "💼 Camada de Lógica"
+    subgraph "💼 Logic Layer"
         Hooks["Custom Hooks<br/>useAuth, useTreinos"]
         Redux["Redux Store<br/>Slices"]
     end
     
-    subgraph "💾 Camada de Dados"
-        AsyncStorage["AsyncStorage<br/>Cache local"]
-        SQLite["SQLite<br/>Banco local"]
+    subgraph "💾 Data Layer"
+        AsyncStorage["AsyncStorage<br/>Local cache"]
+        SQLite["SQLite<br/>Local database"]
     end
     
-    subgraph "🔌 Camada de API"
+    subgraph "🔌 API Layer"
         API["API Client<br/>axios"]
-        Services["Services<br/>auth, treino"]
+        Services["Services<br/>auth, workout"]
     end
     
     subgraph "🗄️ Backend"
@@ -159,7 +159,7 @@ graph TB
 
 ---
 
-## 📁 Estrutura do Projeto
+## 📁 Project Structure
 
 ```
 mobile/
@@ -243,19 +243,19 @@ mobile/
 │   ├── App.tsx
 │   └── app.json
 │
-├── .env                        # Variáveis de ambiente
-├── .env.example                # Exemplo de .env
-├── package.json                # Dependências
-├── tsconfig.json               # Config TypeScript
-├── app.json                    # Config Expo
-└── eas.json                    # Config EAS Build
+├── .env                        # Environment variables
+├── .env.example                # .env example
+├── package.json                # Dependencies
+├── tsconfig.json               # TypeScript config
+├── app.json                    # Expo config
+└── eas.json                    # EAS Build config
 ```
 
 ---
 
-## 🛠️ Como Abrir e Rodar o Projeto
+## 🛠️ How to Open and Run the Project
 
-### 📋 Pré-requisitos
+### 📋 Prerequisites
 
 1. **Node.js 18+**
    ```bash
@@ -267,26 +267,26 @@ mobile/
    npm install -g expo-cli
    ```
 
-3. **Simulador ou Dispositivo**
+3. **Simulator or Device**
    - iOS: Xcode Simulator
-   - Android: Android Emulator ou dispositivo físico
+   - Android: Android Emulator or physical device
 
-### 🚀 Instalação e Setup
+### 🚀 Installation and Setup
 
-1. **Clone o repositório:**
+1. **Clone the repository:**
    ```bash
-   git clone <URL_DO_REPOSITORIO>
+   git clone <REPOSITORY_URL>
    cd CargaLog/mobile
    ```
 
-2. **Instale as dependências:**
+2. **Install dependencies:**
    ```bash
    npm install
-   # ou
+   # or
    yarn install
    ```
 
-3. **Configure o `.env`:**
+3. **Configure `.env`:**
    ```bash
    cp .env.example .env
    ```
@@ -295,18 +295,18 @@ mobile/
    EXPO_PUBLIC_API_URL=http://localhost:3000/api/v1
    ```
 
-4. **Inicie o Expo:**
+4. **Start Expo:**
    ```bash
    expo start
    ```
 
-   **Esperado:**
+   **Expected output:**
    ```
    Expo Go (iOS):  exp://127.0.0.1:19000
    Expo Go (Android):  exp://127.0.0.1:19000
    ```
 
-### 📱 Executar no Simulador/Emulador
+### 📱 Run on Simulator/Emulator
 
 #### iOS (macOS)
 ```bash
@@ -321,44 +321,44 @@ expo start --android
 #### Expo Go App
 ```bash
 expo start
-# Escanear QR Code com câmera do celular
+# Scan QR Code with phone camera
 ```
 
 ---
 
-## 📚 Scripts Disponíveis
+## 📚 Available Scripts
 
 ```bash
-# Desenvolvimento
-npm run start       # Inicia Expo
-npm run ios         # Abre no iOS Simulator
-npm run android     # Abre no Android Emulator
-npm run web         # Abre na web
+# Development
+npm run start       # Start Expo
+npm run ios         # Open in iOS Simulator
+npm run android     # Open in Android Emulator
+npm run web         # Open in web
 
-# Build e Deploy
-npm run build       # Build para submissão
-npm run eas:build   # Build com EAS
-npm run eas:submit  # Submeter para stores
+# Build and Deploy
+npm run build       # Build for submission
+npm run eas:build   # Build with EAS
+npm run eas:submit  # Submit to stores
 
-# Testes
-npm run test        # Rodar testes
+# Tests
+npm run test        # Run tests
 npm run test:watch  # Watch mode
 
-# Qualidade
+# Quality
 npm run lint        # ESLint
 npm run format      # Prettier
-npm run type-check  # Verificar tipos
+npm run type-check  # Check types
 ```
 
 ---
 
-## 🔧 Configuração do `.env`
+## 🔧 `.env` Configuration
 
 ```dotenv
 # API
 EXPO_PUBLIC_API_URL=http://localhost:3000/api/v1
 
-# Ambiente
+# Environment
 EXPO_PUBLIC_ENV=development
 ```
 
@@ -389,51 +389,51 @@ eas submit --platform android
 ### EAS Build
 
 ```bash
-# 1. Conectar com Expo
+# 1. Connect with Expo
 eas build:configure
 
 # 2. Build
 eas build --platform all
 
-# 3. Submeter
+# 3. Submit
 eas submit --platform all
 ```
 
 ---
 
-## 📊 Métricas
+## 📊 Metrics
 
-| Métrica | Status |
-|---------|--------|
-| Compatibilidade iOS | 14+ |
-| Compatibilidade Android | 10+ |
-| Tamanho da App | < 50MB |
+| Metric | Status |
+|--------|--------|
+| iOS Compatibility | 14+ |
+| Android Compatibility | 10+ |
+| App Size | < 50MB |
 | Performance | 60 FPS |
-| Teste Coverage | 70%+ |
+| Test Coverage | 70%+ |
 
 ---
 
-## 🤝 Contribuindo
+## 🤝 Contributing
 
-1. Faça um Fork
-2. Crie uma branch (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças
-4. Push para a branch
-5. Abra um Pull Request
+1. Fork the project
+2. Create a branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
 
 ---
 
-## 📄 Licença
+## 📄 License
 
-MIT License - veja o arquivo LICENSE para detalhes.
+MIT License - see the LICENSE file for details.
 
 ---
 
 <div align="center">
 
-**[⬆ Voltar ao topo](#-cargalog---mobile)**
+**[⬆ Back to top](#-cargalog---mobile)**
 
-Feito com ❤️ por desenvolvedores apaixonados por clean code
+Made with ❤️ by developers passionate about clean code
 
 </div>
 
