@@ -4,14 +4,17 @@ import {
   ExecutionContext,
   CallHandler,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { WinstonLoggerService } from '../services/winston-logger.service';
 import { Usuario } from '../../domain/entities/usuario.entity';
 
-interface RequestWithUser extends Request {
+interface RequestWithUser {
+  method: string;
+  url: string;
   user?: Usuario;
+  [key: string]: any;
 }
 
 /**

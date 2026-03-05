@@ -7,7 +7,7 @@ import { StatCard } from '../components/cards/StatCard';
 export function Dashboard() {
   const { usuario, loading } = useAuth();
   const [stats, setStats] = useState<any>(null);
-  const [statsLoading, setStatsLoading] = useState(true);
+  const [statsLoading, setStatsLoading] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     if (!loading && !usuario) {
@@ -15,13 +15,24 @@ export function Dashboard() {
     }
   }, [loading, usuario, navigate]);
   useEffect(() => {
-    if (usuario) {
-      analisesApi
-        .estatisticas()
-        .then((res) => setStats(res.data))
-        .catch((err) => console.error(err))
-        .finally(() => setStatsLoading(false));
+    // Só carrega se tiver usuário autenticado
+    if (!usuario) {
+      return;
     }
+
+    setStatsLoading(true);
+    console.log('🔍 Dashboard: Carregando estatísticas para usuário:', usuario.id);
+
+    analisesApi
+      .estatisticas()
+      .then((res) => {
+        console.log('✅ Dashboard: Estatísticas carregadas:', res.data);
+        setStats(res.data);
+      })
+      .catch((err) => {
+        console.error('❌ Dashboard: Erro ao carregar estatísticas:', err.response?.data || err.message);
+      })
+      .finally(() => setStatsLoading(false));
   }, [usuario]);
   if (loading) return <div className="flex justify-center items-center h-screen">Carregando...</div>;
   return (

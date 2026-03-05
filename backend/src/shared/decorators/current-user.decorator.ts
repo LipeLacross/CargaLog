@@ -1,9 +1,9 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { Request } from 'express';
 import { Usuario } from '../../domain/entities/usuario.entity';
 
-interface RequestWithUser extends Request {
+interface RequestWithUser {
   user?: Usuario;
+  [key: string]: any;
 }
 
 /**

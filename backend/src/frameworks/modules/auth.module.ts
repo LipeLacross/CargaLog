@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Logger } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -9,6 +9,19 @@ import { RegistrarUsuarioUseCase } from '../../application/use-cases/auth/regist
 import { AutenticarUsuarioUseCase } from '../../application/use-cases/auth/autenticar-usuario.use-case';
 import { TypeOrmUsuarioRepository } from '../../interface-adapters/repositories/typeorm-usuario.repository';
 
+// Obter segredo JWT com validação
+const getJwtSecret = (): string => {
+  const secret = process.env.JWT_SECRET || 'default_secret_key';
+  if (secret === 'default_secret_key') {
+    Logger.warn(
+      '⚠️ JWT_SECRET não definido no .env, usando segredo padrão. Isso é INSEGURO em produção!',
+      'AuthModule',
+    );
+  }
+  return secret;
+};
+
+const jwtSecret = getJwtSecret();
 const jwtExpiration = process.env.JWT_EXPIRATION || '7d';
 const jwtExpiresIn: number | `${number}${'s' | 'm' | 'h' | 'd'}` = /^\d+$/.test(
   jwtExpiration,
@@ -25,9 +38,10 @@ const jwtExpiresIn: number | `${number}${'s' | 'm' | 'h' | 'd'}` = /^\d+$/.test(
     TypeOrmModule.forFeature([Usuario]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'default_secret_key',
+      secret: jwtSecret,
       signOptions: {
         expiresIn: jwtExpiresIn,
+        algorithm: 'HS256',
       },
     }),
   ],

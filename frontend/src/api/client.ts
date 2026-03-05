@@ -5,7 +5,8 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  const rawToken = localStorage.getItem('token');
+  const token = rawToken?.trim();
   console.log('🔑 Token no localStorage:', token ? `${token.substring(0, 20)}...` : 'NENHUM TOKEN');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

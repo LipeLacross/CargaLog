@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
   Logger,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import {
@@ -34,7 +35,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
     let message: string;
 
     // Mapear exceções de domínio para status HTTP
-    if (exception instanceof UsuarioNaoEncontradoException) {
+    if (exception instanceof UnauthorizedException) {
+      status = HttpStatus.UNAUTHORIZED;
+      message = exception.message || 'Token inválido ou expirado';
+    } else if (exception instanceof UsuarioNaoEncontradoException) {
       status = HttpStatus.NOT_FOUND;
       message = exception.message;
     } else if (exception instanceof TreinoNaoEncontradoException) {
