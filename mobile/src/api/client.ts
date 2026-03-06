@@ -1,13 +1,16 @@
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Para Android use o IP da sua máquina
+// Para encontrar: ipconfig (Windows) ou ifconfig (Mac/Linux)
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:3000/api/v1',
+  baseURL: 'http://10.0.2.2:3000/api/v1', // 10.0.2.2 = localhost do Android Emulator
   timeout: 10000,
   headers: { 'Content-Type': 'application/json' },
 });
 
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+api.interceptors.request.use(async (config) => {
+  const token = await AsyncStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -16,14 +19,14 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
     if (error.response?.status === 204) {
       return Promise.resolve({ status: 204, data: null });
     }
 
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('usuario');
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('usuario');
     }
     return Promise.reject(error);
   }
