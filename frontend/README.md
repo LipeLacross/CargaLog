@@ -18,15 +18,15 @@
 
 ## 📝 Sobre o Projeto
 
-O **CargaLog Web** é um dashboard responsivo desenvolvido com **React 18** e **TypeScript**. Oferece uma interface intuitiva para que os usuários visualizem, gerenciem e analisem sua progressão de treinos de forma eficiente.
+O **CargaLog Web** é um dashboard responsivo desenvolvido com **React 19** e **TypeScript**. Oferece uma interface intuitiva para que os usuários visualizem, gerenciem e analisem sua progressão de treinos de forma eficiente.
 
-### Objetivo Principal
-Fornecer uma experiência web moderna e responsiva para:
-- ✅ Gerenciar treinos pessoais
-- ✅ Visualizar progressão em gráficos
-- ✅ Acompanhar estatísticas em tempo real
-- ✅ Comparar exercícios
-- ✅ Monitorar evolução de carga
+## ✅ Status Atualizado (2026-03-06)
+
+- Runtime UI: `react@19.2.0` e `react-dom@19.2.0`
+- Build: `vite@8.0.0-beta.13`
+- Estilização: `tailwindcss@4.2.1` + `@tailwindcss/postcss@4.2.1`
+- Scripts reais: `npm run dev`, `npm run build`, `npm run preview`, `npm run lint`
+- APIs consumidas: `auth.api.ts`, `treino.api.ts`, `analise.api.ts`
 
 ---
 
@@ -64,9 +64,9 @@ Fornecer uma experiência web moderna e responsiva para:
 ## 📸 Exemplo Visual do Projeto
 
 <div align="center">
-  <img src="" alt="Dashboard Screenshot" width="80%" style="margin: 16px 0; border-radius: 10px;">
-  <img src="" alt="Treinos List Screenshot" width="80%" style="margin: 16px 0; border-radius: 10px;">
-  <img src="" alt="Analytics Screenshot" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="../public/Screenshot%202026-03-05%20151936.png" alt="Dashboard Screenshot" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="../public/Screenshot%202026-03-05%20183148.png" alt="Treinos List Screenshot" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="../public/Screenshot%202026-03-06%20081725.png" alt="Analytics Screenshot" width="80%" style="margin: 16px 0; border-radius: 10px;">
 </div>
 
 ---
@@ -74,11 +74,12 @@ Fornecer uma experiência web moderna e responsiva para:
 ## ✔️ Técnicas e Tecnologias Utilizadas
 
 ### 🏗️ Frontend Stack
-- **React 18** - Biblioteca de UI
+- **React 19** - Biblioteca de UI
 - **TypeScript** - Tipagem estática
-- **Vite** - Build tool rápido
+- **Vite 8** - Build tool rápido
 - **React Router** - Roteamento
-- **Axios** - HTTP client
+- **Tailwind CSS 4** - Estilização utility-first
+- **Axios** - Cliente HTTP
 
 ### 🎨 UI/UX
 - **Tailwind CSS** - Utility-first CSS
@@ -150,74 +151,43 @@ graph TB
 ```
 frontend/
 ├── public/
-│   ├── favicon.ico
-│   └── index.html
-│
+│   ├── favicon.svg
+│   └── vite.svg
 ├── src/
 │   ├── api/
-│   │   ├── client.ts              # Axios client configurado
-│   │   ├── auth.api.ts            # Endpoints de autenticação
-│   │   ├── treino.api.ts          # Endpoints de treino
-│   │   └── analise.api.ts         # Endpoints de análise
-│   │
-│   ├── contexts/
-│   │   └── AuthContext.tsx         # Contexto de autenticação
-│   │
-│   ├── hooks/
-│   │   ├── useAuth.ts             # Hook de autenticação
-│   │   ├── useTreinos.ts          # Hook de treinos
-│   │   └── useAnalises.ts         # Hook de análises
-│   │
-│   ├── pages/
-│   │   ├── Login.tsx              # Página de login
-│   │   ├── Register.tsx           # Página de registro
-│   │   ├── Dashboard.tsx          # Dashboard principal
-│   │   ├── Treinos.tsx            # Listagem de treinos
-│   │   ├── TreinoCreate.tsx        # Criar treino
-│   │   ├── TreinoEdit.tsx          # Editar treino
-│   │   ├── Analises.tsx           # Análises e relatórios
-│   │   └── NotFound.tsx           # Página 404
-│   │
+│   │   ├── analise.api.ts
+│   │   ├── auth.api.ts
+│   │   ├── client.ts
+│   │   └── treino.api.ts
 │   ├── components/
-│   │   ├── common/
-│   │   │   ├── Header.tsx         # Header/Navbar
-│   │   │   ├── Footer.tsx         # Footer
-│   │   │   ├── Sidebar.tsx        # Sidebar
-│   │   │   └── LoadingSpinner.tsx # Spinner
-│   │   │
-│   │   ├── layout/
-│   │   │   ├── MainLayout.tsx     # Layout principal
-│   │   │   └── AuthLayout.tsx     # Layout de autenticação
-│   │   │
-│   │   ├── forms/
-│   │   │   ├── LoginForm.tsx      # Formulário de login
-│   │   │   ├── RegisterForm.tsx   # Formulário de registro
-│   │   │   └── TreinoForm.tsx     # Formulário de treino
-│   │   │
-│   │   └── cards/
-│   │       ├── TreinoCard.tsx     # Card de treino
-│   │       ├── StatCard.tsx       # Card de estatística
-│   │       └── RecordCard.tsx     # Card de recorde
-│   │
-│   ├── styles/
-│   │   ├── tailwind.css           # Configuração Tailwind
-│   │   └── globals.css            # Estilos globais
-│   │
+│   │   ├── cards/
+│   │   ├── charts/
+│   │   └── common/
+│   ├── contexts/
+│   │   ├── AuthContext.tsx
+│   │   └── AuthContextType.ts
+│   ├── hooks/
+│   │   └── useAuth.ts
+│   ├── pages/
+│   │   ├── Analises.tsx
+│   │   ├── Dashboard.tsx
+│   │   ├── EsqueciSenha.tsx
+│   │   ├── Login.tsx
+│   │   ├── Perfil.tsx
+│   │   ├── Register.tsx
+│   │   ├── ResetSenha.tsx
+│   │   └── Treinos/
 │   ├── utils/
-│   │   ├── formatters.ts          # Funções de formatação
-│   │   ├── validators.ts          # Validadores
-│   │   └── constants.ts           # Constantes
-│   │
-│   ├── App.tsx                    # Componente principal
-│   ├── main.tsx                   # Entrada da aplicação
-│   └── vite-env.d.ts              # Tipos Vite
-│
-├── .env                           # Variáveis de ambiente
-├── .env.example                   # Exemplo de .env
-├── package.json                   # Dependências
-├── tsconfig.json                  # Config TypeScript
-├── vite.config.ts                 # Config Vite
-└── tailwind.config.js             # Config Tailwind
+│   │   └── formatters.ts
+│   ├── App.tsx
+│   ├── App.css
+│   ├── index.css
+│   └── main.tsx
+├── index.html
+├── package.json
+├── vite.config.ts
+├── tailwind.config.js
+└── tsconfig.json
 ```
 
 ---
@@ -276,23 +246,10 @@ frontend/
 ## 📚 Scripts Disponíveis
 
 ```bash
-# Desenvolvimento
-npm run dev          # Inicia servidor de desenvolvimento
-npm run dev:host     # Expõe para a rede local
-
-# Build e Produção
-npm run build        # Build para produção
-npm run preview      # Preview do build
-
-# Testes
-npm run test         # Rodar testes
-npm run test:ui      # Testes com UI
-npm run test:cov     # Com cobertura
-
-# Qualidade
-npm run lint         # ESLint
-npm run format       # Prettier
-npm run type-check   # Verificar tipos TypeScript
+npm run dev      # Inicia Vite em desenvolvimento
+npm run build    # Build de produção (tsc + vite build)
+npm run preview  # Preview do build
+npm run lint     # ESLint
 ```
 
 ---

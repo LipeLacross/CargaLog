@@ -20,6 +20,16 @@
 
 The **CargaLog Backend** is a REST API developed with **NestJS** following the principles of **Clean Architecture** and **Domain-Driven Design (DDD)**. The system allows users to register, analyze, and track load progression in their strength training workouts.
 
+## ✅ Updated Status (2026-03-06)
+
+- Framework: `@nestjs/core@11.x` with `@nestjs/platform-fastify`
+- Database + ORM: `pg@8.18.0` + `typeorm@0.3.28`
+- Security: `@nestjs/jwt`, `passport`, `bcrypt`
+- Real scripts: `start`, `start:dev`, `build`, `test`, `test:e2e`, `migration:run`
+- Layered architecture: `domain`, `application`, `interface-adapters`, `frameworks`, `shared`
+
+---
+
 ### Main Objective
 Provide a robust, scalable, and well-tested API to manage:
 - ✅ Secure authentication with JWT
@@ -535,4 +545,3 @@ For support, open an issue in the repository or contact us through the project e
 Made with ❤️ by developers passionate about clean code
 
 </div>
-

@@ -18,15 +18,15 @@
 
 ## 📝 About the Project
 
-The **CargaLog Web** is a responsive dashboard developed with **React 18** and **TypeScript**. It provides an intuitive interface for users to view, manage, and analyze their workout progression efficiently.
+The **CargaLog Web** is a responsive dashboard built with **React 19** and **TypeScript**.
 
-### Main Objective
-Provide a modern and responsive web experience for:
-- ✅ Manage personal workouts
-- ✅ View progression in charts
-- ✅ Track real-time statistics
-- ✅ Compare exercises
-- ✅ Monitor load evolution
+## ✅ Updated Status (2026-03-06)
+
+- UI runtime: `react@19.2.0` and `react-dom@19.2.0`
+- Build tool: `vite@8.0.0-beta.13`
+- Styling: `tailwindcss@4.2.1` + `@tailwindcss/postcss@4.2.1`
+- Real scripts: `npm run dev`, `npm run build`, `npm run preview`, `npm run lint`
+- API clients: `auth.api.ts`, `treino.api.ts`, `analise.api.ts`
 
 ---
 
@@ -64,9 +64,9 @@ Provide a modern and responsive web experience for:
 ## 📸 Project Visual Example
 
 <div align="center">
-  <img src="" alt="Dashboard Screenshot" width="80%" style="margin: 16px 0; border-radius: 10px;">
-  <img src="" alt="Treinos List Screenshot" width="80%" style="margin: 16px 0; border-radius: 10px;">
-  <img src="" alt="Analytics Screenshot" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="../public/Screenshot%202026-03-05%20151936.png" alt="Dashboard Screenshot" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="../public/Screenshot%202026-03-05%20183148.png" alt="Workout List Screenshot" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="../public/Screenshot%202026-03-06%20081725.png" alt="Analytics Screenshot" width="80%" style="margin: 16px 0; border-radius: 10px;">
 </div>
 
 ---
@@ -74,10 +74,11 @@ Provide a modern and responsive web experience for:
 ## ✔️ Techniques and Technologies Used
 
 ### 🏗️ Frontend Stack
-- **React 18** - UI library
+- **React 19** - UI library
 - **TypeScript** - Static typing
-- **Vite** - Fast build tool
+- **Vite 8** - Build tool
 - **React Router** - Routing
+- **Tailwind CSS 4** - Utility-first styling
 - **Axios** - HTTP client
 
 ### 🎨 UI/UX
@@ -150,74 +151,43 @@ graph TB
 ```
 frontend/
 ├── public/
-│   ├── favicon.ico
-│   └── index.html
-│
+│   ├── favicon.svg
+│   └── vite.svg
 ├── src/
 │   ├── api/
-│   │   ├── client.ts              # Configured axios client
-│   │   ├── auth.api.ts            # Authentication endpoints
-│   │   ├── treino.api.ts          # Workout endpoints
-│   │   └── analise.api.ts         # Analysis endpoints
-│   │
-│   ├── contexts/
-│   │   └── AuthContext.tsx         # Authentication context
-│   │
-│   ├── hooks/
-│   │   ├── useAuth.ts             # Authentication hook
-│   │   ├── useTreinos.ts          # Workouts hook
-│   │   └── useAnalises.ts         # Analysis hook
-│   │
-│   ├── pages/
-│   │   ├── Login.tsx              # Login page
-│   │   ├── Register.tsx           # Registration page
-│   │   ├── Dashboard.tsx          # Main dashboard
-│   │   ├── Treinos.tsx            # Workouts list
-│   │   ├── TreinoCreate.tsx        # Create workout
-│   │   ├── TreinoEdit.tsx          # Edit workout
-│   │   ├── Analises.tsx           # Analysis and reports
-│   │   └── NotFound.tsx           # 404 page
-│   │
+│   │   ├── analise.api.ts
+│   │   ├── auth.api.ts
+│   │   ├── client.ts
+│   │   └── treino.api.ts
 │   ├── components/
-│   │   ├── common/
-│   │   │   ├── Header.tsx         # Header/Navbar
-│   │   │   ├── Footer.tsx         # Footer
-│   │   │   ├── Sidebar.tsx        # Sidebar
-│   │   │   └── LoadingSpinner.tsx # Spinner
-│   │   │
-│   │   ├── layout/
-│   │   │   ├── MainLayout.tsx     # Main layout
-│   │   │   └── AuthLayout.tsx     # Auth layout
-│   │   │
-│   │   ├── forms/
-│   │   │   ├── LoginForm.tsx      # Login form
-│   │   │   ├── RegisterForm.tsx   # Registration form
-│   │   │   └── TreinoForm.tsx     # Workout form
-│   │   │
-│   │   └── cards/
-│   │       ├── TreinoCard.tsx     # Workout card
-│   │       ├── StatCard.tsx       # Statistic card
-│   │       └── RecordCard.tsx     # Record card
-│   │
-│   ├── styles/
-│   │   ├── tailwind.css           # Tailwind configuration
-│   │   └── globals.css            # Global styles
-│   │
+│   │   ├── cards/
+│   │   ├── charts/
+│   │   └── common/
+│   ├── contexts/
+│   │   ├── AuthContext.tsx
+│   │   └── AuthContextType.ts
+│   ├── hooks/
+│   │   └── useAuth.ts
+│   ├── pages/
+│   │   ├── Analises.tsx
+│   │   ├── Dashboard.tsx
+│   │   ├── EsqueciSenha.tsx
+│   │   ├── Login.tsx
+│   │   ├── Perfil.tsx
+│   │   ├── Register.tsx
+│   │   ├── ResetSenha.tsx
+│   │   └── Treinos/
 │   ├── utils/
-│   │   ├── formatters.ts          # Formatting functions
-│   │   ├── validators.ts          # Validators
-│   │   └── constants.ts           # Constants
-│   │
-│   ├── App.tsx                    # Main component
-│   ├── main.tsx                   # Application entry
-│   └── vite-env.d.ts              # Vite types
-│
-├── .env                           # Environment variables
-├── .env.example                   # .env example
-├── package.json                   # Dependencies
-├── tsconfig.json                  # TypeScript config
-├── vite.config.ts                 # Vite config
-└── tailwind.config.js             # Tailwind config
+│   │   └── formatters.ts
+│   ├── App.tsx
+│   ├── App.css
+│   ├── index.css
+│   └── main.tsx
+├── index.html
+├── package.json
+├── vite.config.ts
+├── tailwind.config.js
+└── tsconfig.json
 ```
 
 ---
@@ -276,23 +246,10 @@ frontend/
 ## 📚 Available Scripts
 
 ```bash
-# Development
-npm run dev          # Start development server
-npm run dev:host     # Expose to local network
-
-# Build and Production
-npm run build        # Build for production
-npm run preview      # Preview the build
-
-# Tests
-npm run test         # Run tests
-npm run test:ui      # Tests with UI
-npm run test:cov     # With coverage
-
-# Quality
-npm run lint         # ESLint
-npm run format       # Prettier
-npm run type-check   # Check TypeScript types
+npm run dev      # Start Vite dev server
+npm run build    # Production build (tsc + vite build)
+npm run preview  # Preview build
+npm run lint     # ESLint
 ```
 
 ---

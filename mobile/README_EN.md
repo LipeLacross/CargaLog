@@ -8,7 +8,7 @@
 
 ![React Native](https://img.shields.io/badge/React%20Native-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Expo](https://img.shields.io/badge/Expo-000000?style=flat-square&logo=expo&logoColor=white)
+![NativeWind](https://img.shields.io/badge/NativeWind-38BDF8?style=flat-square&logo=tailwindcss&logoColor=white)
 ![iOS](https://img.shields.io/badge/iOS-000000?style=flat-square&logo=apple&logoColor=white)
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white)
 
@@ -18,15 +18,15 @@
 
 ## 📝 About the Project
 
-The **CargaLog Mobile** is a native app for **iOS** and **Android** developed with **React Native** and **Expo**. It allows users to record, manage, and track their workout progression in a portable and convenient way.
+The **CargaLog Mobile** is a native app for **iOS** and **Android** built with **React Native CLI** and **NativeWind**.
 
-### Main Objective
-Provide a complete mobile app for:
-- ✅ Quick workout recording
-- ✅ Real-time synchronization
-- ✅ Offline progress visualization
-- ✅ Workout notifications
-- ✅ Interactive charts
+## ✅ Updated Status (2026-03-06)
+
+- Main runtime: `react-native@0.84.1`
+- Styling: `nativewind@4.2.2` + `tailwindcss@3.4.1`
+- Navigation: `@react-navigation/native` + `native-stack` + `bottom-tabs`
+- Available scripts: `npm run start`, `npm run android`, `npm run ios`, `npm test`
+- NativeWind is configured in `babel.config.js`, `metro.config.js`, `tailwind.config.js`, and `input.css`
 
 ---
 
@@ -71,10 +71,10 @@ Provide a complete mobile app for:
 ## 📸 Project Visual Example
 
 <div align="center">
-  <img src="" alt="Login Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
-  <img src="" alt="Dashboard Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
-  <img src="" alt="Treino Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
-  <img src="" alt="Analytics Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
+  <img src="../public/Screenshot_1772800641.png" alt="Login Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
+  <img src="../public/Screenshot_1772800646.png" alt="Dashboard Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
+  <img src="../public/Screenshot_1772800649.png" alt="Workout Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
+  <img src="../public/Screenshot_1772800654.png" alt="Analytics Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
 </div>
 
 ---
@@ -82,8 +82,8 @@ Provide a complete mobile app for:
 ## ✔️ Techniques and Technologies Used
 
 ### 📱 Mobile Stack
-- **React Native** - Mobile framework
-- **Expo** - Development platform
+- **React Native CLI** - Mobile framework
+- **NativeWind** - Utility-first styling
 - **TypeScript** - Static typing
 - **React Navigation** - Navigation
 - **Axios** - HTTP client
@@ -163,165 +163,60 @@ graph TB
 
 ```
 mobile/
-├── app/
-│   ├── screens/
-│   │   ├── auth/
-│   │   │   ├── LoginScreen.tsx
-│   │   │   ├── RegisterScreen.tsx
-│   │   │   └── SplashScreen.tsx
-│   │   │
-│   │   ├── main/
-│   │   │   ├── DashboardScreen.tsx
-│   │   │   ├── TreinosScreen.tsx
-│   │   │   ├── TreinoDetailScreen.tsx
-│   │   │   ├── AnalisesScreen.tsx
-│   │   │   └── ProfileScreen.tsx
-│   │   │
-│   │   └── modals/
-│   │       ├── CreateTreinoModal.tsx
-│   │       ├── EditTreinoModal.tsx
-│   │       └── SettingsModal.tsx
-│   │
-│   ├── components/
-│   │   ├── common/
-│   │   │   ├── Button.tsx
-│   │   │   ├── Input.tsx
-│   │   │   ├── Card.tsx
-│   │   │   └── Loader.tsx
-│   │   │
-│   │   ├── treino/
-│   │   │   ├── TreinoCard.tsx
-│   │   │   ├── TreinoForm.tsx
-│   │   │   └── TreinoList.tsx
-│   │   │
-│   │   └── charts/
-│   │       ├── ProgressChart.tsx
-│   │       ├── LoadChart.tsx
-│   │       └── ComparisonChart.tsx
-│   │
-│   ├── navigation/
-│   │   ├── RootNavigator.tsx
-│   │   ├── AuthNavigator.tsx
-│   │   ├── MainNavigator.tsx
-│   │   └── types.ts
-│   │
+├── src/
 │   ├── api/
-│   │   ├── client.ts
-│   │   ├── auth.api.ts
-│   │   ├── treino.api.ts
-│   │   └── analise.api.ts
-│   │
-│   ├── store/
-│   │   ├── index.ts
-│   │   ├── authSlice.ts
-│   │   ├── treinosSlice.ts
-│   │   └── analisesSlice.ts
-│   │
-│   ├── hooks/
-│   │   ├── useAuth.ts
-│   │   ├── useTreinos.ts
-│   │   └── useAnalises.ts
-│   │
 │   ├── contexts/
-│   │   └── AuthContext.tsx
-│   │
-│   ├── services/
-│   │   ├── storage.service.ts
-│   │   ├── notification.service.ts
-│   │   └── biometric.service.ts
-│   │
-│   ├── utils/
-│   │   ├── formatters.ts
-│   │   ├── validators.ts
-│   │   └── constants.ts
-│   │
-│   ├── styles/
-│   │   ├── colors.ts
-│   │   ├── fonts.ts
-│   │   └── spacing.ts
-│   │
-│   ├── App.tsx
-│   └── app.json
-│
-├── .env                        # Environment variables
-├── .env.example                # .env example
-├── package.json                # Dependencies
-├── tsconfig.json               # TypeScript config
-├── app.json                    # Expo config
-└── eas.json                    # EAS Build config
+│   ├── hooks/
+│   ├── navigation/
+│   ├── screens/
+│   └── utils/
+├── android/
+├── ios/
+├── App.tsx
+├── index.js
+├── input.css
+├── babel.config.js
+├── metro.config.js
+├── tailwind.config.js
+├── package.json
+└── tsconfig.json
 ```
 
 ---
 
-## 🛠️ How to Open and Run the Project
+## 🛠️ How to Run
 
-### 📋 Prerequisites
+### Prerequisites
 
-1. **Node.js 18+**
-   ```bash
-   node -v
-   ```
+1. **Node.js 22+**
+2. **Android Studio** (SDK + emulator)
+3. **Xcode + CocoaPods** (macOS only)
+4. **Java 17**
 
-2. **Expo CLI**
-   ```bash
-   npm install -g expo-cli
-   ```
+### Install
 
-3. **Simulator or Device**
-   - iOS: Xcode Simulator
-   - Android: Android Emulator or physical device
-
-### 🚀 Installation and Setup
-
-1. **Clone the repository:**
-   ```bash
-   git clone <REPOSITORY_URL>
-   cd CargaLog/mobile
-   ```
-
-2. **Install dependencies:**
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-3. **Configure `.env`:**
-   ```bash
-   cp .env.example .env
-   ```
-
-   ```dotenv
-   EXPO_PUBLIC_API_URL=http://localhost:3000/api/v1
-   ```
-
-4. **Start Expo:**
-   ```bash
-   expo start
-   ```
-
-   **Expected output:**
-   ```
-   Expo Go (iOS):  exp://127.0.0.1:19000
-   Expo Go (Android):  exp://127.0.0.1:19000
-   ```
-
-### 📱 Run on Simulator/Emulator
-
-#### iOS (macOS)
 ```bash
-expo start --ios
+cd mobile
+npm install
 ```
 
-#### Android
+### Start in Development
+
 ```bash
-expo start --android
+# Terminal 1
+npm run start
+
+# Terminal 2 (Android)
+npm run android
+
+# Terminal 2 (iOS - macOS)
+npm run ios
 ```
 
-#### Expo Go App
+### Reset Metro Cache
+
 ```bash
-expo start
-# Scan QR Code with phone camera
+npx react-native start --reset-cache
 ```
 
 ---
@@ -329,74 +224,41 @@ expo start
 ## 📚 Available Scripts
 
 ```bash
-# Development
-npm run start       # Start Expo
-npm run ios         # Open in iOS Simulator
-npm run android     # Open in Android Emulator
-npm run web         # Open in web
-
-# Build and Deploy
-npm run build       # Build for submission
-npm run eas:build   # Build with EAS
-npm run eas:submit  # Submit to stores
-
-# Tests
-npm run test        # Run tests
-npm run test:watch  # Watch mode
-
-# Quality
-npm run lint        # ESLint
-npm run format      # Prettier
-npm run type-check  # Check types
+npm run start     # Start Metro bundler
+npm run android   # Build + run Android
+npm run ios       # Build + run iOS (macOS)
+npm run test      # Jest
+npm run lint      # ESLint
 ```
 
 ---
 
 ## 🔧 `.env` Configuration
 
-```dotenv
-# API
-EXPO_PUBLIC_API_URL=http://localhost:3000/api/v1
+Use React Native-style variables (without `EXPO_PUBLIC_`), for example:
 
-# Environment
-EXPO_PUBLIC_ENV=development
+```dotenv
+API_URL=http://localhost:3000/api/v1
+ENV=development
 ```
 
 ---
 
-## 🌐 Deploy
+## 🌐 Production Build
 
-### App Store (iOS)
+### Android
 
 ```bash
-# 1. Build
-expo run:ios --configuration Release
-
-# 2. Submit
-eas submit --platform ios
+cd android
+./gradlew assembleRelease
 ```
 
-### Google Play (Android)
+### iOS (macOS)
 
 ```bash
-# 1. Build
-expo run:android --configuration Release
-
-# 2. Submit
-eas submit --platform android
-```
-
-### EAS Build
-
-```bash
-# 1. Connect with Expo
-eas build:configure
-
-# 2. Build
-eas build --platform all
-
-# 3. Submit
-eas submit --platform all
+cd ios
+pod install
+xcodebuild -workspace mobile.xcworkspace -scheme mobile -configuration Release
 ```
 
 ---

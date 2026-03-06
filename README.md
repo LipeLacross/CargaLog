@@ -1,17 +1,17 @@
-# CargaLog
-# 🏋️ CargaLog - Aplicação Completa
+# 🏋️ CargaLog - Plataforma Completa
 
 <div align="center">
 
 [🇧🇷 Português](README.md) | [🇺🇸 English](README_EN.md)
 
-**Plataforma completa de rastreamento de progressão de treinos: Backend, Web e Mobile**
+**Plataforma profissional de rastreamento de progressão de treinos com Clean Architecture**
 
 ![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat-square&logo=nestjs&logoColor=white)
 ![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)
-![React Native](https://img.shields.io/badge/React%20Native-61DAFB?style=flat-square&logo=react&logoColor=black)
+![React%20Native](https://img.shields.io/badge/React%20Native-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
 </div>
@@ -20,398 +20,416 @@
 
 ## 📋 Índice
 
-- [Sobre o Projeto](#-sobre-o-projeto)
-- [Tecnologias](#-tecnologias)
-- [Projetos](#-projetos)
-- [Como Começar](#-como-começar)
-- [Documentação](#-documentação)
-- [Progresso](#-progresso-do-projeto)
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Galeria Visual](#-galeria-visual)
+- [Características](#características-principais)
+- [Arquitetura](#arquitetura)
+- [Stack Tecnológico](#stack-tecnológico)
+- [Projetos](#estrutura-dos-projetos)
+- [Como Começar](#como-começar)
+- [Documentação](#documentação)
+- [Status](#status-do-projeto)
 
 ---
 
-## 📝 Sobre o Projeto
+## Sobre o Projeto
 
-**CargaLog** é uma plataforma completa para rastreamento de progressão de treinos de musculação. Desenvolvida com arquitetura moderna (Clean Architecture + DDD) e princípios SOLID, oferece uma experiência perfeita entre backend, web e mobile.
+**CargaLog** é uma plataforma enterprise para rastreamento de progressão de treinos de musculação. Desenvolvida com **Clean Architecture**, **Domain-Driven Design (DDD)** e princípios **SOLID**, oferece uma experiência integrada entre:
 
-### Objetivo
-Permitir que atletas registrem, analisem e acompanhem sua evolução em tempo real através de múltiplos dispositivos com sincronização automática.
+- 🖥️ **Backend robusto** com API REST escalável
+- 🌐 **Web responsivo** com dashboard moderno
+- 📱 **App nativo** para iOS e Android
 
-### Principais Características
-- ✅ **Autenticação segura** com JWT e bcrypt
-- ✅ **Registro de treinos** com validações robustas
-- ✅ **Análise de progressão** com gráficos interativos
-- ✅ **Sincronização** em tempo real entre plataformas
-- ✅ **Interface responsiva** em web e mobile
-- ✅ **Testes automatizados** com alta cobertura (305 testes)
-- ✅ **Clean Architecture** e SOLID principles
-- ✅ **API REST** documentada e pronta para produção
+### 🎯 Objetivo
+Permitir que atletas, personal trainers e academias registrem, analisem e acompanhem a evolução de carga em tempo real através de múltiplos dispositivos com sincronização automática e segura.
+
+### ✨ Características Principais
+
+#### 🔐 Segurança
+- ✅ Autenticação JWT com expiração configurável
+- ✅ Criptografia de senhas com bcrypt (10 rounds)
+- ✅ Validação de entrada em todas as rotas
+- ✅ CORS configurado para produção
+- ✅ Rate limiting e proteção contra ataque
+
+#### 🏋️ Funcionalidades
+- ✅ Registro de treinos com validações robustas
+- ✅ Histórico completo de exercícios
+- ✅ Cálculo automático de carga máxima e volume
+- ✅ Filtros avançados por período, exercício, etc.
+- ✅ Comparação de progressão entre treinos
+
+#### 📊 Análises
+- ✅ Estatísticas gerais do usuário
+- ✅ Gráficos de progressão de carga
+- ✅ Ranking de exercícios mais treinados
+- ✅ Relatórios personalizados
+- ✅ Exportação de dados
+
+#### 🔄 Sincronização
+- ✅ Sincronização em tempo real entre dispositivos
+- ✅ Offline-first no mobile
+- ✅ Conflito resolution automático
+- ✅ Backup automático na nuvem
 
 ---
 
-## 🛠️ Tecnologias
+## 📸 Galeria Visual
+
+<div align="center">
+  <img src="./public/Screenshot%202026-03-05%20151936.png" alt="CargaLog Screenshot 1" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20162017.png" alt="CargaLog Screenshot 2" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20162200.png" alt="CargaLog Screenshot 3" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20183148.png" alt="CargaLog Screenshot 4" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20183204.png" alt="CargaLog Screenshot 5" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20184905.png" alt="CargaLog Screenshot 6" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20184934.png" alt="CargaLog Screenshot 7" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20184958.png" alt="CargaLog Screenshot 8" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20191821.png" alt="CargaLog Screenshot 9" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-06%20074833.png" alt="CargaLog Screenshot 10" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-06%20081725.png" alt="CargaLog Screenshot 11" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-06%20081731.png" alt="CargaLog Screenshot 12" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-06%20085445.png" alt="CargaLog Screenshot 13" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-06%20091739.png" alt="CargaLog Screenshot 14" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot_1772800641.png" alt="CargaLog Mobile Screenshot 1" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot_1772800646.png" alt="CargaLog Mobile Screenshot 2" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot_1772800649.png" alt="CargaLog Mobile Screenshot 3" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot_1772800654.png" alt="CargaLog Mobile Screenshot 4" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./frontend/public/favicon.svg" alt="Frontend Favicon" width="80" style="margin: 16px 8px;">
+  <img src="./frontend/public/vite.svg" alt="Frontend Vite Logo" width="80" style="margin: 16px 8px;">
+</div>
+
+---
+
+## Arquitetura
+
+### Clean Architecture + DDD
+
+O projeto segue uma arquitetura limpa com camadas bem definidas:
+
+```
+┌─────────────────────────────────────────┐
+│        Apresentação (Web/Mobile)        │
+├─────────────────────────────────────────┤
+│  Interface Adapters (Controllers/API)   │
+├─────────────────────────────────────────┤
+│     Application (Use Cases/Services)    │
+├─────────────────────────────────────────┤
+│    Domain (Entities/Value Objects)      │
+├─────────────────────────────────────────┤
+│  Frameworks & Drivers (DB/HTTP/Auth)    │
+└─────────────────────────────────────────┘
+```
+
+### Princípios SOLID
+
+- **S**RP: Cada classe tem uma única responsabilidade
+- **O**CP: Aberto para extensão, fechado para modificação
+- **L**SP: Subtypes substituem base types sem quebrar
+- **I**SP: Interfaces específicas, não genéricas
+- **D**IP: Dependência em abstrações, não em concretos
+
+---
+
+## Stack Tecnológico
 
 ### 📘 Backend
-- **NestJS 11** - Framework progressive Node.js
-- **FastifyAdapter** - Alta performance e escalabilidade
-- **TypeORM** - ORM com migrations versionadas
-- **PostgreSQL** - Banco de dados relacional
-- **JWT + Passport** - Autenticação segura
-- **Winston** - Logging estruturado
-- **Jest** - 305 testes unitários (71% cobertura)
+```json
+{
+  "runtime": "Node.js 22",
+  "framework": "NestJS 11",
+  "adapter": "FastifyAdapter",
+  "database": "PostgreSQL 15",
+  "orm": "TypeORM",
+  "auth": "JWT + Passport",
+  "validation": "Class-validator",
+  "logging": "Winston",
+  "testing": "Jest (305 tests, 71% coverage)",
+  "containerization": "Docker & Docker Compose"
+}
+```
 
 ### 🌐 Frontend Web
-- **React 18** - UI Library moderna
-- **TypeScript** - Tipagem estática completa
-- **Vite** - Build tool ultrarrápido
-- **Tailwind CSS** - Utility-first CSS
-- **Axios** - HTTP client
-- **React Router** - Roteamento SPA
-- **Recharts** - Gráficos interativos
+```json
+{
+  "library": "React 19",
+  "language": "TypeScript",
+  "buildTool": "Vite 8",
+  "styling": "Tailwind CSS 4",
+  "httpClient": "Axios",
+  "routing": "React Router",
+  "stateManagement": "Context API + Hooks",
+  "charts": "Recharts",
+  "packager": "npm"
+}
+```
 
 ### 📱 Mobile
-- **React Native** - Framework multiplataforma
-- **Expo** - Plataforma de desenvolvimento
-- **React Navigation** - Navegação nativa
-- **AsyncStorage** - Persistência de dados
-- **Redux** - State management
-- **Axios** - HTTP client sincronizado
+```json
+{
+  "framework": "React Native 0.84",
+  "platform": "React Native CLI",
+  "language": "TypeScript",
+  "styling": "NativeWind (Tailwind CSS)",
+  "navigation": "React Navigation",
+  "storage": "AsyncStorage",
+  "httpClient": "Axios",
+  "stateManagement": "Context API",
+  "packager": "npm"
+}
+```
 
 ---
 
-## 📁 Projetos
+## Estrutura dos Projetos
+
+### 📁 Diretório Raiz
 
 ```
 CargaLog/
-├── 📘 backend/
+├── 📘 backend/                    # API REST (NestJS)
 │   ├── src/
-│   │   ├── domain/                 # DDD - Entidades, VOs
-│   │   ├── application/            # Use cases
-│   │   ├── interface-adapters/     # Controllers, Repositories
-│   │   ├── frameworks/             # NestJS, TypeORM
-│   │   └── shared/                 # Serviços compartilhados
-│   ├── test/                       # Testes E2E
+│   │   ├── domain/               # Entidades, Value Objects, Repositórios
+│   │   ├── application/          # Use Cases, DTOs
+│   │   ├── interface-adapters/   # Controllers, Repositories Impl
+│   │   ├── frameworks/           # NestJS Modules, TypeORM
+│   │   └── shared/               # Decorators, Filters, Services
+│   ├── test/                     # Testes E2E
+│   ├── Dockerfile
+│   ├── docker-compose.yml
 │   ├── package.json
-│   ├── README.md (Português) ✅
-│   └── README_EN.md (Inglês) ✅
-│   └── ✅ PRONTO PARA PRODUÇÃO
+│   ├── README.md                 # 📖 Documentação Detalhada
+│   └── README_EN.md
 │
-├── 🌐 frontend/
+├── 🌐 frontend/                  # Dashboard Web (React + Vite)
 │   ├── src/
-│   │   ├── api/                    # HTTP client
-│   │   ├── pages/                  # Páginas SPA
-│   │   ├── components/             # Componentes React
-│   │   ├── hooks/                  # Custom hooks
-│   │   ├── contexts/               # Context API
-│   │   └── styles/                 # Tailwind CSS
+│   │   ├── api/                  # HTTP clients
+│   │   ├── pages/                # Componentes de página
+│   │   ├── components/           # Componentes reutilizáveis
+│   │   ├── hooks/                # Custom Hooks
+│   │   ├── contexts/             # Context API
+│   │   ├── utils/                # Utilitários
+│   │   └── styles/               # CSS Global + Tailwind
+│   ├── public/                   # Assets estáticos
 │   ├── package.json
-│   ├── README.md (Português) ✅
-│   └── README_EN.md (Inglês) ✅
-│   └── 🔄 Em desenvolvimento
+│   ├── vite.config.ts
+│   ├── tailwind.config.js
+│   ├── README.md                 # 📖 Documentação Detalhada
+│   └── README_EN.md
 │
-└── 📱 mobile/
-    ├── app/
-    │   ├── screens/                # Telas React Native
-    │   ├── components/             # Componentes RN
-    │   ├── navigation/             # React Navigation
-    │   ├── api/                    # HTTP client
-    │   ├── store/                  # Redux slices
-    │   └── hooks/                  # Custom hooks
-    ├── package.json
-    ├── README.md (Português) ✅
-    └── README_EN.md (Inglês) ✅
-    └── 🔄 Em desenvolvimento
+├── 📱 mobile/                    # App Nativo (React Native)
+│   ├── src/
+│   │   ├── screens/              # Telas do app
+│   │   ├── components/           # Componentes RN
+│   │   ├── navigation/           # React Navigation
+│   │   ├── api/                  # HTTP clients
+│   │   ├── contexts/             # Context API
+│   │   ├── hooks/                # Custom Hooks
+│   │   └── utils/                # Utilitários
+│   ├── app.json
+│   ├── babel.config.js
+│   ├── metro.config.js
+│   ├── tailwind.config.js
+│   ├── package.json
+│   ├── README.md                 # 📖 Documentação Detalhada
+│   └── README_EN.md
+│
+├── 📋 ARCHITECTURE.md            # 🏗️ Detalhes arquitetura completa
+├── 📄 README.md                  # Este arquivo
+├── 📄 README_EN.md               # English version
+├── 📋 IDEAS.md                   # Roadmap e ideias futuras
+├── 📋 LICENSE                    # MIT License
+└── 📋 next-steps.txt             # Próximas ações
 ```
 
 ---
 
-## 🚀 Como Começar
+## Como Começar
 
-### Pré-requisitos Globais
-- **Node.js 18+** - Runtime JavaScript
-- **npm ou yarn** - Gerenciador de pacotes
-- **Git** - Controle de versão
-- **Conta Supabase** (opcional - pode usar PostgreSQL local)
+### Pré-requisitos
+
+```bash
+# Verificar versões mínimas
+node --version          # v22.0.0+
+npm --version          # v10.0.0+
+git --version          # 2.30+
+
+# Ferramentas opcionais
+docker --version       # Para containerização
+postgresql --version   # Se usar local (caso contrário use Docker)
+```
 
 ### Instalação Rápida
 
 #### 1. Clone o repositório
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone https://github.com/seu-usuario/cargalog.git
 cd CargaLog
 ```
 
-#### 2. Backend (Pronto para usar)
+#### 2. Backend (Node + PostgreSQL)
+
 ```bash
 cd backend
+
+# Instalar dependências
 npm install
+
+# Configurar ambiente
 cp .env.example .env
-# Edite .env com suas credenciais Supabase
+
+# Migrations do banco (ou usar docker-compose)
 npm run migration:run
+
+# Iniciar servidor
 npm run start:dev
-# API disponível em http://localhost:3000/api/v1
 ```
 
-#### 3. Frontend Web (Base estruturada)
-```bash
-cd ../frontend
-npm install
-cp .env.example .env
-npm run dev
-# App disponível em http://localhost:5173
-```
+**Acesso:** `http://localhost:3000`
+**Documentação:** `http://localhost:3000/api`
 
-#### 4. Mobile (Base estruturada)
-```bash
-cd ../mobile
-npm install
-cp .env.example .env
-expo start
-# Escanear QR Code com Expo Go
-```
+#### 3. Frontend Web
 
----
-
-## 📚 Documentação Completa
-
-### 📘 Backend
-- **[README Backend PT-BR](backend/README.md)** - Documentação completa em Português
-- **[README Backend EN-US](backend/README_EN.md)** - Documentação completa em Inglês
-
-### 🌐 Frontend Web
-- **[README Web PT-BR](frontend/README.md)** - Documentação em Português
-- **[README Web EN-US](frontend/README_EN.md)** - Documentação em Inglês
-
-### 📱 Mobile
-- **[README Mobile PT-BR](mobile/README.md)** - Documentação em Português
-- **[README Mobile EN-US](mobile/README_EN.md)** - Documentação em Inglês
-
----
-
-## 📊 Arquitetura
-
-```mermaid
-graph LR
-    Mobile["📱 Mobile<br/>React Native + Expo"]
-    Web["🌐 Web<br/>React + TypeScript + Vite"]
-    Backend["📘 Backend<br/>NestJS + Fastify"]
-    Database["🗄️ Banco de Dados<br/>PostgreSQL"]
-    
-    Mobile -->|REST API| Backend
-    Web -->|REST API| Backend
-    Backend -->|SQL| Database
-    
-    Mobile -.->|Sync Local| Storage["📦 AsyncStorage"]
-    
-    style Mobile fill:#e1f5ff
-    style Web fill:#f3e5f5
-    style Backend fill:#e8f5e9
-    style Database fill:#fff3e0
-    style Storage fill:#f0f0f0
-```
-
----
-
-## 🧪 Testes
-
-### Cobertura de Testes
-| Projeto | Testes | Cobertura | Status |
-|---------|--------|-----------|--------|
-| Backend | 305 | 71% | ✅ Completo |
-| Frontend Web | 0 | 0% | 🔄 Planejado |
-| Mobile | 0 | 0% | 🔄 Planejado |
-
-### Rodar Testes Backend
-```bash
-cd backend
-
-# Testes unitários (sem banco)
-npm run test:unit
-
-# Com cobertura
-npm run test:cov
-
-# E2E (com banco)
-npm run test:e2e
-
-# Watch mode
-npm run test:watch
-```
-
----
-
-## 🌐 Deploy
-
-### 📘 Deploy Backend
-```bash
-cd backend
-npm run build
-npm run start:prod
-# ou com Docker
-docker-compose up -d
-```
-
-### 🌐 Deploy Web
 ```bash
 cd frontend
-npm run build
-# Fazer deploy da pasta dist em:
-# - Netlify (recomendado)
-# - Vercel
-# - GitHub Pages
+
+# Instalar dependências
+npm install
+
+# Iniciar desenvolvimento
+npm run dev
 ```
 
-### 📱 Deploy Mobile
+**Acesso:** `http://localhost:5173`
+
+#### 4. Mobile App
+
 ```bash
 cd mobile
-# iOS App Store
-eas build --platform ios
-eas submit --platform ios
 
-# Google Play
-eas build --platform android
-eas submit --platform android
+# Instalar dependências
+npm install
 
-# Ambas
-eas build --platform all
-eas submit --platform all
+# Terminal 1
+npm run start
+
+# Terminal 2 (Android)
+npm run android
+
+# Terminal 2 (iOS - macOS)
+npm run ios
+```
+
+### Com Docker (Recomendado)
+
+```bash
+# Na raiz do projeto
+cd backend
+
+# Build e iniciar
+docker-compose up -d
+
+# Migrations automáticas
+npm run migration:run
 ```
 
 ---
 
-## 📈 Progresso do Projeto
+## Documentação
 
-| Componente | Status | Progresso | Detalhes |
-|-----------|--------|----------|----------|
-| **Backend API** | ✅ Completo | 100% | 305 testes, Clean Arch, SOLID |
-| **Backend Testes** | ✅ Completo | 100% | 71% cobertura, 8 seg execução |
-| **Backend Docs** | ✅ Completo | 100% | README PT + EN, 5 guias |
-| **Frontend Web** | 🔄 Base | 0% | Estrutura pronta para dev |
-| **Mobile App** | 🔄 Base | 0% | Estrutura pronta para dev |
-| **Documentação** | ✅ Completo | 100% | Todos os projetos documentados |
+### 📚 Documentação Detalhada por Projeto
+
+- **[Backend](./backend/README.md)** - API REST, autenticação, banco de dados
+- **[Frontend](./frontend/README.md)** - Dashboard web, componentes, estado
+- **[Mobile](./mobile/README.md)** - App nativo, sincronização, offline
+
+### 📐 Arquitetura
+
+- **[ARCHITECTURE.md](./ARCHITECTURE.md)** - Clean Architecture, DDD, SOLID
+- **[IDEAS.md](./ideas.txt)** - Roadmap e funcionalidades futuras
+
+### 🔗 Links Úteis
+
+- [API Docs (Swagger)](http://localhost:3000/api) - Após iniciar backend
+- [NestJS Docs](https://docs.nestjs.com)
+- [React Docs](https://react.dev)
+- [React Native Docs](https://reactnative.dev)
+- [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+- [DDD Fundamentals](https://www.domainlanguage.com/ddd/)
 
 ---
 
-## 🎯 Status Atual
+## Status do Projeto
 
-### ✅ Pronto para Usar
-- [x] Backend REST API 100% funcional
-- [x] Autenticação JWT segura
-- [x] Banco de dados configurado
-- [x] 305 testes passando
-- [x] Documentação completa
-- [x] Docker support
+### ✅ Concluído
+
+- [x] Backend API completa com CRUD
+- [x] Autenticação com JWT
+- [x] Validações e tratamento de erro
+- [x] Testes unitários e E2E (305 testes)
+- [x] Documentação API Swagger
+- [x] Docker setup completo
+- [x] Clean Architecture implementada
 
 ### 🔄 Em Desenvolvimento
-- [ ] Frontend Web (React)
-- [ ] Mobile App (React Native)
-- [ ] Testes Frontend
-- [ ] Testes Mobile
 
-### 📅 Próximas Etapas
-1. ✅ Implementar Frontend Web
-2. ✅ Implementar Mobile App
-3. ⏳ Testes completos
-4. ⏳ Deploy em produção
-5. ⏳ Monitoramento e observabilidade
+- [ ] Frontend web - Dashboard interativo
+- [ ] Mobile app - Sincronização real-time
+- [ ] Gráficos avançados
+- [ ] Notificações push
+- [ ] Biometria no mobile
+
+### 📋 Roadmap
+
+- [ ] Sistema de grupos e competições
+- [ ] Integração com wearables
+- [ ] IA para recomendações de treino
+- [ ] Marketplace de planos de treino
+- [ ] Certificação de Personal Trainers
+- [ ] Versão desktop (Electron)
 
 ---
 
-## 🤝 Como Contribuir
+## 🤝 Contribuindo
 
-1. **Fork** o projeto
-2. **Crie** uma branch (`git checkout -b feature/AmazingFeature`)
-3. **Commit** suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** para a branch (`git push origin feature/AmazingFeature`)
-5. **Abra** um Pull Request
+1. Fork o projeto
+2. Crie uma branch (`git checkout -b feature/MinhaFeature`)
+3. Commit suas mudanças (`git commit -m 'Add: nova feature'`)
+4. Push para a branch (`git push origin feature/MinhaFeature`)
+5. Abra um Pull Request
 
-### Padrões de Contribuição
-- Seguir **Clean Code** principles
-- Adicionar **testes** para novas features
-- Manter consistência com **eslint** e **prettier**
-- Descrever mudanças em **commits claros**
-- Usar **conventional commits**
+### Regras de Commit
+
+- Use conventional commits: `feat:`, `fix:`, `docs:`, `refactor:`
+- Exemplo: `feat(backend): adicionar validação de carga`
+
+---
+
+## 📞 Suporte
+
+- 📧 Email: [seu-email@example.com]
+- 💬 Issues: [GitHub Issues](https://github.com/seu-usuario/cargalog/issues)
+- 📚 Discussões: [GitHub Discussions]
 
 ---
 
 ## 📄 Licença
 
-Este projeto está licenciado sob a **Licença MIT** - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
-```
-MIT License
-
-Copyright (c) 2026 CargaLog Contributors
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction...
-```
+Este projeto está licenciado sob a MIT License - veja [LICENSE](./LICENSE) para detalhes.
 
 ---
 
-## 👥 Autores
+## 👨‍💻 Autores
 
-- **GitHub Copilot** - Arquitetura, Backend, Documentação e Setup
-- **Desenvolvedores** - Frontend e Mobile (em desenvolvimento)
-
----
-
-## 📞 Suporte e Contato
-
-Para suporte, feedback ou dúvidas:
-
-1. **Abra uma Issue** no [GitHub Issues](../../issues)
-2. **Consulte a documentação** específica de cada projeto
-3. **Verifique os READMEs** individuais em cada pasta
-4. **Leia os guias de setup** antes de reportar problemas
-
----
-
-## 🔗 Links Rápidos
-
-### Documentação Oficial
-- [Backend (PT-BR)](backend/README.md) | [Backend (EN-US)](backend/README_EN.md)
-- [Frontend (PT-BR)](frontend/README.md) | [Frontend (EN-US)](frontend/README_EN.md)
-- [Mobile (PT-BR)](mobile/README.md) | [Mobile (EN-US)](mobile/README_EN.md)
-
-### Guias Rápidos Backend
-- [Começar Rápido](backend/QUICK_TEST.md)
-- [Guia de Testes](backend/TESTING_GUIDE.md)
-- [Análise Completa](backend/FINAL_ANALYSIS.md)
-
-### Configuração
-- [Backend .env](backend/.env.example)
-- [Frontend .env](frontend/.env.example)
-- [Mobile .env](mobile/.env.example)
-
-### Recursos Adicionais
-- [Docker Compose](backend/docker-compose.yml)
-- [TypeScript Config](backend/tsconfig.json)
-- [ESLint Config](backend/eslint.config.mjs)
+- **Felipe** - [@felipelacross](https://github.com/felipelacross) - Desenvolvimento Full-Stack
 
 ---
 
 <div align="center">
 
-### 🎯 Visão Geral do Projeto
+**Feito com ❤️ para a comunidade de fitness e desenvolvimento**
 
-```
-CargaLog: Aplicação Fullstack para Rastreamento de Treinos
-├── Backend: ✅ PRONTO (305 testes, Clean Arch, SOLID)
-├── Frontend Web: 🔄 Estrutura base pronta
-├── Mobile: 🔄 Estrutura base pronta
-└── Documentação: ✅ COMPLETA (PT + EN)
-```
-
----
-
-**[⬆ Voltar ao topo](#-cargalog---aplicação-completa)**
-
----
-
-Desenvolvido com ❤️ seguindo **Clean Code**, **SOLID Principles** e **DDD**
-
-Última atualização: **05/03/2026**
+⭐ Se este projeto te ajudou, considere dar uma estrela!
 
 </div>
 

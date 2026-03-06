@@ -8,7 +8,7 @@
 
 ![React Native](https://img.shields.io/badge/React%20Native-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Expo](https://img.shields.io/badge/Expo-000000?style=flat-square&logo=expo&logoColor=white)
+![NativeWind](https://img.shields.io/badge/NativeWind-38BDF8?style=flat-square&logo=tailwindcss&logoColor=white)
 ![iOS](https://img.shields.io/badge/iOS-000000?style=flat-square&logo=apple&logoColor=white)
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white)
 
@@ -18,15 +18,15 @@
 
 ## 📝 Sobre o Projeto
 
-O **CargaLog Mobile** é um aplicativo nativo para **iOS** e **Android** desenvolvido com **React Native** e **Expo**. Permite que os usuários registrem, gerenciem e acompanhem sua progressão de treinos de forma portátil e conveniente.
+O **CargaLog Mobile** é um aplicativo nativo para **iOS** e **Android** desenvolvido com **React Native CLI** e **NativeWind**. Permite que os usuários registrem, gerenciem e acompanhem sua progressão de treinos de forma portátil e conveniente.
 
-### Objetivo Principal
-Fornecer um aplicativo mobile completo para:
-- ✅ Registro rápido de treinos
-- ✅ Sincronização em tempo real
-- ✅ Visualização de progresso offline
-- ✅ Notificações de treino
-- ✅ Gráficos interativos
+## ✅ Status Atualizado (2026-03-06)
+
+- Runtime principal: `react-native@0.84.1`
+- Estilização: `nativewind@4.2.2` + `tailwindcss@3.4.1`
+- Navegação: `@react-navigation/native` + `native-stack` + `bottom-tabs`
+- Scripts reais disponíveis: `npm run start`, `npm run android`, `npm run ios`, `npm test`
+- Configuração NativeWind ativa em `babel.config.js`, `metro.config.js`, `tailwind.config.js` e `input.css`
 
 ---
 
@@ -71,10 +71,10 @@ Fornecer um aplicativo mobile completo para:
 ## 📸 Exemplo Visual do Projeto
 
 <div align="center">
-  <img src="" alt="Login Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
-  <img src="" alt="Dashboard Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
-  <img src="" alt="Treino Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
-  <img src="" alt="Analytics Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
+  <img src="../public/Screenshot_1772800641.png" alt="Login Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
+  <img src="../public/Screenshot_1772800646.png" alt="Dashboard Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
+  <img src="../public/Screenshot_1772800649.png" alt="Treino Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
+  <img src="../public/Screenshot_1772800654.png" alt="Analytics Screen" width="40%" style="margin: 16px 8px; border-radius: 10px;">
 </div>
 
 ---
@@ -82,8 +82,8 @@ Fornecer um aplicativo mobile completo para:
 ## ✔️ Técnicas e Tecnologias Utilizadas
 
 ### 📱 Mobile Stack
-- **React Native** - Framework mobile
-- **Expo** - Plataforma de desenvolvimento
+- **React Native CLI** - Framework mobile
+- **NativeWind** - Estilização utility-first
 - **TypeScript** - Tipagem estática
 - **React Navigation** - Navegação
 - **Axios** - HTTP client
@@ -163,92 +163,23 @@ graph TB
 
 ```
 mobile/
-├── app/
-│   ├── screens/
-│   │   ├── auth/
-│   │   │   ├── LoginScreen.tsx
-│   │   │   ├── RegisterScreen.tsx
-│   │   │   └── SplashScreen.tsx
-│   │   │
-│   │   ├── main/
-│   │   │   ├── DashboardScreen.tsx
-│   │   │   ├── TreinosScreen.tsx
-│   │   │   ├── TreinoDetailScreen.tsx
-│   │   │   ├── AnalisesScreen.tsx
-│   │   │   └── ProfileScreen.tsx
-│   │   │
-│   │   └── modals/
-│   │       ├── CreateTreinoModal.tsx
-│   │       ├── EditTreinoModal.tsx
-│   │       └── SettingsModal.tsx
-│   │
-│   ├── components/
-│   │   ├── common/
-│   │   │   ├── Button.tsx
-│   │   │   ├── Input.tsx
-│   │   │   ├── Card.tsx
-│   │   │   └── Loader.tsx
-│   │   │
-│   │   ├── treino/
-│   │   │   ├── TreinoCard.tsx
-│   │   │   ├── TreinoForm.tsx
-│   │   │   └── TreinoList.tsx
-│   │   │
-│   │   └── charts/
-│   │       ├── ProgressChart.tsx
-│   │       ├── LoadChart.tsx
-│   │       └── ComparisonChart.tsx
-│   │
-│   ├── navigation/
-│   │   ├── RootNavigator.tsx
-│   │   ├── AuthNavigator.tsx
-│   │   ├── MainNavigator.tsx
-│   │   └── types.ts
-│   │
+├── src/
 │   ├── api/
-│   │   ├── client.ts
-│   │   ├── auth.api.ts
-│   │   ├── treino.api.ts
-│   │   └── analise.api.ts
-│   │
-│   ├── store/
-│   │   ├── index.ts
-│   │   ├── authSlice.ts
-│   │   ├── treinosSlice.ts
-│   │   └── analisesSlice.ts
-│   │
-│   ├── hooks/
-│   │   ├── useAuth.ts
-│   │   ├── useTreinos.ts
-│   │   └── useAnalises.ts
-│   │
 │   ├── contexts/
-│   │   └── AuthContext.tsx
-│   │
-│   ├── services/
-│   │   ├── storage.service.ts
-│   │   ├── notification.service.ts
-│   │   └── biometric.service.ts
-│   │
-│   ├── utils/
-│   │   ├── formatters.ts
-│   │   ├── validators.ts
-│   │   └── constants.ts
-│   │
-│   ├── styles/
-│   │   ├── colors.ts
-│   │   ├── fonts.ts
-│   │   └── spacing.ts
-│   │
-│   ├── App.tsx
-│   └── app.json
-│
-├── .env                        # Variáveis de ambiente
-├── .env.example                # Exemplo de .env
-├── package.json                # Dependências
-├── tsconfig.json               # Config TypeScript
-├── app.json                    # Config Expo
-└── eas.json                    # Config EAS Build
+│   ├── hooks/
+│   ├── navigation/
+│   ├── screens/
+│   └── utils/
+├── android/
+├── ios/
+├── App.tsx
+├── index.js
+├── input.css
+├── babel.config.js
+├── metro.config.js
+├── tailwind.config.js
+├── package.json
+└── tsconfig.json
 ```
 
 ---
@@ -257,71 +188,35 @@ mobile/
 
 ### 📋 Pré-requisitos
 
-1. **Node.js 18+**
-   ```bash
-   node -v
-   ```
-
-2. **Expo CLI**
-   ```bash
-   npm install -g expo-cli
-   ```
-
-3. **Simulador ou Dispositivo**
-   - iOS: Xcode Simulator
-   - Android: Android Emulator ou dispositivo físico
+1. **Node.js 22+**
+2. **Android Studio** (SDK + emulator) para Android
+3. **Xcode + CocoaPods** (apenas macOS) para iOS
+4. **Java 17** para build Android
 
 ### 🚀 Instalação e Setup
 
-1. **Clone o repositório:**
-   ```bash
-   git clone <URL_DO_REPOSITORIO>
-   cd CargaLog/mobile
-   ```
-
-2. **Instale as dependências:**
-   ```bash
-   npm install
-   # ou
-   yarn install
-   ```
-
-3. **Configure o `.env`:**
-   ```bash
-   cp .env.example .env
-   ```
-
-   ```dotenv
-   EXPO_PUBLIC_API_URL=http://localhost:3000/api/v1
-   ```
-
-4. **Inicie o Expo:**
-   ```bash
-   expo start
-   ```
-
-   **Esperado:**
-   ```
-   Expo Go (iOS):  exp://127.0.0.1:19000
-   Expo Go (Android):  exp://127.0.0.1:19000
-   ```
-
-### 📱 Executar no Simulador/Emulador
-
-#### iOS (macOS)
 ```bash
-expo start --ios
+cd mobile
+npm install
 ```
 
-#### Android
+### ▶️ Executar em Desenvolvimento
+
 ```bash
-expo start --android
+# Terminal 1
+npm run start
+
+# Terminal 2 (Android)
+npm run android
+
+# Terminal 2 (iOS - macOS)
+npm run ios
 ```
 
-#### Expo Go App
+### 🔁 Limpar cache do Metro (quando necessário)
+
 ```bash
-expo start
-# Escanear QR Code com câmera do celular
+npx react-native start --reset-cache
 ```
 
 ---
@@ -329,74 +224,41 @@ expo start
 ## 📚 Scripts Disponíveis
 
 ```bash
-# Desenvolvimento
-npm run start       # Inicia Expo
-npm run ios         # Abre no iOS Simulator
-npm run android     # Abre no Android Emulator
-npm run web         # Abre na web
-
-# Build e Deploy
-npm run build       # Build para submissão
-npm run eas:build   # Build com EAS
-npm run eas:submit  # Submeter para stores
-
-# Testes
-npm run test        # Rodar testes
-npm run test:watch  # Watch mode
-
-# Qualidade
-npm run lint        # ESLint
-npm run format      # Prettier
-npm run type-check  # Verificar tipos
+npm run start     # Inicia Metro bundler
+npm run android   # Build + run Android
+npm run ios       # Build + run iOS (macOS)
+npm run test      # Jest
+npm run lint      # ESLint
 ```
 
 ---
 
 ## 🔧 Configuração do `.env`
 
-```dotenv
-# API
-EXPO_PUBLIC_API_URL=http://localhost:3000/api/v1
+Use variáveis em formato React Native (sem `EXPO_PUBLIC_`), por exemplo:
 
-# Ambiente
-EXPO_PUBLIC_ENV=development
+```dotenv
+API_URL=http://localhost:3000/api/v1
+ENV=development
 ```
 
 ---
 
-## 🌐 Deploy
+## 🌐 Build de Produção
 
-### App Store (iOS)
+### Android
 
 ```bash
-# 1. Build
-expo run:ios --configuration Release
-
-# 2. Submit
-eas submit --platform ios
+cd android
+./gradlew assembleRelease
 ```
 
-### Google Play (Android)
+### iOS (macOS)
 
 ```bash
-# 1. Build
-expo run:android --configuration Release
-
-# 2. Submit
-eas submit --platform android
-```
-
-### EAS Build
-
-```bash
-# 1. Conectar com Expo
-eas build:configure
-
-# 2. Build
-eas build --platform all
-
-# 3. Submeter
-eas submit --platform all
+cd ios
+pod install
+xcodebuild -workspace mobile.xcworkspace -scheme mobile -configuration Release
 ```
 
 ---

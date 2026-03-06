@@ -1,16 +1,17 @@
-# 🏋️ CargaLog - Complete Application
+# 🏋️ CargaLog - Complete Platform
 
 <div align="center">
 
 [🇧🇷 Português](README.md) | [🇺🇸 English](README_EN.md)
 
-**Complete platform for workout progression tracking: Backend, Web, and Mobile**
+**Enterprise-grade workout progression tracking platform with Clean Architecture**
 
 ![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat-square&logo=nestjs&logoColor=white)
 ![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)
-![React Native](https://img.shields.io/badge/React%20Native-61DAFB?style=flat-square&logo=react&logoColor=black)
+![React%20Native](https://img.shields.io/badge/React%20Native-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
 </div>
@@ -19,398 +20,299 @@
 
 ## 📋 Table of Contents
 
-- [About the Project](#-about-the-project)
-- [Technologies](#-technologies)
-- [Projects](#-projects)
-- [Getting Started](#-getting-started)
-- [Documentation](#-documentation)
-- [Progress](#-project-progress)
+- [About the Project](#about-the-project)
+- [Visual Gallery](#-visual-gallery)
+- [Key Features](#key-features)
+- [Architecture](#architecture)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [Documentation](#documentation)
+- [Project Status](#project-status)
 
 ---
 
-## 📝 About the Project
+## About the Project
 
-**CargaLog** is a complete platform for tracking progression in strength training workouts. Developed with modern architecture (Clean Architecture + DDD) and SOLID principles, it offers a perfect experience across backend, web, and mobile platforms.
+**CargaLog** is an enterprise platform for tracking workout progression in strength training. Developed with **Clean Architecture**, **Domain-Driven Design (DDD)** and **SOLID principles**, it offers an integrated experience across:
 
-### Objective
-Enable athletes to record, analyze, and track their evolution in real-time across multiple devices with automatic synchronization.
+- 🖥️ **Robust Backend** with scalable REST API
+- 🌐 **Responsive Web** with modern dashboard
+- 📱 **Native Apps** for iOS and Android
 
-### Key Features
-- ✅ **Secure authentication** with JWT and bcrypt
-- ✅ **Workout recording** with robust validations
-- ✅ **Progression analysis** with interactive charts
-- ✅ **Real-time synchronization** between platforms
-- ✅ **Responsive interface** on web and mobile
-- ✅ **Automated tests** with high coverage (305 tests)
-- ✅ **Clean Architecture** and SOLID principles
-- ✅ **REST API** documented and production-ready
+### 🎯 Goal
+
+Enable athletes, personal trainers and gyms to record, analyze and track load progression in real-time across multiple devices with automatic and secure synchronization.
+
+### ✨ Key Features
+
+#### 🔐 Security
+- ✅ JWT authentication with configurable expiration
+- ✅ Password encryption with bcrypt (10 rounds)
+- ✅ Input validation on all routes
+- ✅ CORS configured for production
+- ✅ Rate limiting and attack protection
+
+#### 🏋️ Functionality
+- ✅ Workout logging with robust validation
+- ✅ Complete exercise history
+- ✅ Automatic max load and volume calculation
+- ✅ Advanced filters by period, exercise, etc.
+- ✅ Progression comparison between workouts
+
+#### 📊 Analytics
+- ✅ User-wide statistics
+- ✅ Load progression charts
+- ✅ Most trained exercise ranking
+- ✅ Custom reports
+- ✅ Data export
+
+#### 🔄 Synchronization
+- ✅ Real-time sync across devices
+- ✅ Offline-first on mobile
+- ✅ Automatic conflict resolution
+- ✅ Automatic cloud backup
 
 ---
 
-## 🛠️ Technologies
+## 📸 Visual Gallery
+
+<div align="center">
+  <img src="./public/Screenshot%202026-03-05%20151936.png" alt="CargaLog Screenshot 1" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20162017.png" alt="CargaLog Screenshot 2" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20162200.png" alt="CargaLog Screenshot 3" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20183148.png" alt="CargaLog Screenshot 4" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20183204.png" alt="CargaLog Screenshot 5" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20184905.png" alt="CargaLog Screenshot 6" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20184934.png" alt="CargaLog Screenshot 7" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20184958.png" alt="CargaLog Screenshot 8" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-05%20191821.png" alt="CargaLog Screenshot 9" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-06%20074833.png" alt="CargaLog Screenshot 10" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-06%20081725.png" alt="CargaLog Screenshot 11" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-06%20081731.png" alt="CargaLog Screenshot 12" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-06%20085445.png" alt="CargaLog Screenshot 13" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot%202026-03-06%20091739.png" alt="CargaLog Screenshot 14" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot_1772800641.png" alt="CargaLog Mobile Screenshot 1" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot_1772800646.png" alt="CargaLog Mobile Screenshot 2" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot_1772800649.png" alt="CargaLog Mobile Screenshot 3" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./public/Screenshot_1772800654.png" alt="CargaLog Mobile Screenshot 4" width="80%" style="margin: 16px 0; border-radius: 10px;">
+  <img src="./frontend/public/favicon.svg" alt="Frontend Favicon" width="80" style="margin: 16px 8px;">
+  <img src="./frontend/public/vite.svg" alt="Frontend Vite Logo" width="80" style="margin: 16px 8px;">
+</div>
+
+---
+
+## Architecture
+
+### Clean Architecture + DDD
+
+The project follows a clean architecture with well-defined layers:
+
+```
+┌─────────────────────────────────────────┐
+│     Presentation (Web/Mobile)           │
+├─────────────────────────────────────────┤
+│  Interface Adapters (Controllers/API)   │
+├─────────────────────────────────────────┤
+│     Application (Use Cases/Services)    │
+├─────────────────────────────────────────┤
+│    Domain (Entities/Value Objects)      │
+├─────────────────────────────────────────┤
+│  Frameworks & Drivers (DB/HTTP/Auth)    │
+└─────────────────────────────────────────┘
+```
+
+### SOLID Principles
+
+- **S**RP: Each class has a single responsibility
+- **O**CP: Open for extension, closed for modification
+- **L**SP: Subtypes substitute base types without breaking
+- **I**SP: Specific interfaces, not generic
+- **D**IP: Depend on abstractions, not on concretes
+
+---
+
+## Tech Stack
 
 ### 📘 Backend
-- **NestJS 11** - Progressive Node.js framework
-- **FastifyAdapter** - High performance and scalability
-- **TypeORM** - ORM with versioned migrations
-- **PostgreSQL** - Relational database
-- **JWT + Passport** - Secure authentication
-- **Winston** - Structured logging
-- **Jest** - 305 unit tests (71% coverage)
+```
+- Node.js 22 + NestJS 11 (FastifyAdapter)
+- PostgreSQL 15 + TypeORM
+- JWT + Passport authentication
+- Jest (305 tests, 71% coverage)
+- Docker & Docker Compose
+```
 
 ### 🌐 Frontend Web
-- **React 18** - Modern UI Library
-- **TypeScript** - Complete static typing
-- **Vite** - Ultra-fast build tool
-- **Tailwind CSS** - Utility-first CSS
-- **Axios** - HTTP client
-- **React Router** - SPA routing
-- **Recharts** - Interactive charts
+```
+- React 19 + TypeScript
+- Vite 8 (build tool)
+- Tailwind CSS 4 + Recharts
+- React Router
+- Axios HTTP client
+```
 
 ### 📱 Mobile
-- **React Native** - Cross-platform framework
-- **Expo** - Development platform
-- **React Navigation** - Native navigation
-- **AsyncStorage** - Data persistence
-- **Redux** - State management
-- **Axios** - Synchronized HTTP client
+```
+- React Native 0.84
+- React Native CLI workflow
+- React Navigation
+- NativeWind (Tailwind CSS)
+- AsyncStorage
+```
 
 ---
 
-## 📁 Projects
+## Project Structure
 
 ```
 CargaLog/
-├── 📘 backend/
-│   ├── src/
-│   │   ├── domain/                 # DDD - Entities, VOs
-│   │   ├── application/            # Use cases
-│   │   ├── interface-adapters/     # Controllers, Repositories
-│   │   ├── frameworks/             # NestJS, TypeORM
-│   │   └── shared/                 # Shared services
-│   ├── test/                       # E2E tests
-│   ├── package.json
-│   ├── README.md (Portuguese) ✅
-│   └── README_EN.md (English) ✅
-│   └── ✅ PRODUCTION READY
-│
-├── 🌐 frontend/
-│   ├── src/
-│   │   ├── api/                    # HTTP client
-│   │   ├── pages/                  # SPA pages
-│   │   ├── components/             # React components
-│   │   ├── hooks/                  # Custom hooks
-│   │   ├── contexts/               # Context API
-│   │   └── styles/                 # Tailwind CSS
-│   ├── package.json
-│   ├── README.md (Portuguese) ✅
-│   └── README_EN.md (English) ✅
-│   └── 🔄 In development
-│
-└── 📱 mobile/
-    ├── app/
-    │   ├── screens/                # React Native screens
-    │   ├── components/             # RN components
-    │   ├── navigation/             # React Navigation
-    │   ├── api/                    # HTTP client
-    │   ├── store/                  # Redux slices
-    │   └── hooks/                  # Custom hooks
-    ├── package.json
-    ├── README.md (Portuguese) ✅
-    └── README_EN.md (English) ✅
-    └── 🔄 In development
+├── 📘 backend/              # REST API (NestJS)
+├── 🌐 frontend/             # Web Dashboard (React)
+├── 📱 mobile/               # Native App (React Native)
+├── 📋 ARCHITECTURE.md       # Architecture details
+├── 📄 README.md             # Portuguese version
+├── 📄 README_EN.md          # This file
+└── 📋 IDEAS.md              # Roadmap & ideas
 ```
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
-### Global Prerequisites
-- **Node.js 18+** - JavaScript runtime
-- **npm or yarn** - Package manager
-- **Git** - Version control
-- **Supabase Account** (optional - can use local PostgreSQL)
+### Prerequisites
 
-### Quick Installation
-
-#### 1. Clone the repository
 ```bash
-git clone <REPOSITORY_URL>
+node --version          # v22.0.0+
+npm --version          # v10.0.0+
+git --version          # 2.30+
+docker --version       # For containerization (optional)
+```
+
+### Quick Start
+
+#### 1. Clone repository
+```bash
+git clone https://github.com/your-username/cargalog.git
 cd CargaLog
 ```
 
-#### 2. Backend (Ready to use)
+#### 2. Backend Setup
 ```bash
 cd backend
 npm install
 cp .env.example .env
-# Edit .env with your Supabase credentials
 npm run migration:run
 npm run start:dev
-# API available at http://localhost:3000/api/v1
 ```
+Access: `http://localhost:3000`
 
-#### 3. Frontend Web (Structured base)
-```bash
-cd ../frontend
-npm install
-cp .env.example .env
-npm run dev
-# App available at http://localhost:5173
-```
-
-#### 4. Mobile (Structured base)
-```bash
-cd ../mobile
-npm install
-cp .env.example .env
-expo start
-# Scan QR Code with Expo Go
-```
-
----
-
-## 📚 Complete Documentation
-
-### 📘 Backend
-- **[Backend README EN-US](backend/README_EN.md)** - Complete documentation in English
-- **[Backend README PT-BR](backend/README.md)** - Complete documentation in Portuguese
-
-### 🌐 Frontend Web
-- **[Web README EN-US](frontend/README_EN.md)** - Documentation in English
-- **[Web README PT-BR](frontend/README.md)** - Documentation in Portuguese
-
-### 📱 Mobile
-- **[Mobile README EN-US](mobile/README_EN.md)** - Documentation in English
-- **[Mobile README PT-BR](mobile/README.md)** - Documentation in Portuguese
-
----
-
-## 📊 Architecture
-
-```mermaid
-graph LR
-    Mobile["📱 Mobile<br/>React Native + Expo"]
-    Web["🌐 Web<br/>React + TypeScript + Vite"]
-    Backend["📘 Backend<br/>NestJS + Fastify"]
-    Database["🗄️ Database<br/>PostgreSQL"]
-    
-    Mobile -->|REST API| Backend
-    Web -->|REST API| Backend
-    Backend -->|SQL| Database
-    
-    Mobile -.->|Local Sync| Storage["📦 AsyncStorage"]
-    
-    style Mobile fill:#e1f5ff
-    style Web fill:#f3e5f5
-    style Backend fill:#e8f5e9
-    style Database fill:#fff3e0
-    style Storage fill:#f0f0f0
-```
-
----
-
-## 🧪 Tests
-
-### Test Coverage
-| Project | Tests | Coverage | Status |
-|---------|-------|----------|--------|
-| Backend | 305 | 71% | ✅ Complete |
-| Frontend Web | 0 | 0% | 🔄 Planned |
-| Mobile | 0 | 0% | 🔄 Planned |
-
-### Run Backend Tests
-```bash
-cd backend
-
-# Unit tests (no database)
-npm run test:unit
-
-# With coverage
-npm run test:cov
-
-# E2E (with database)
-npm run test:e2e
-
-# Watch mode
-npm run test:watch
-```
-
----
-
-## 🌐 Deploy
-
-### 📘 Deploy Backend
-```bash
-cd backend
-npm run build
-npm run start:prod
-# or with Docker
-docker-compose up -d
-```
-
-### 🌐 Deploy Web
+#### 3. Frontend Setup
 ```bash
 cd frontend
-npm run build
-# Deploy dist folder to:
-# - Netlify (recommended)
-# - Vercel
-# - GitHub Pages
+npm install
+npm run dev
 ```
+Access: `http://localhost:5173`
 
-### 📱 Deploy Mobile
+#### 4. Mobile Setup
 ```bash
 cd mobile
-# iOS App Store
-eas build --platform ios
-eas submit --platform ios
+npm install
 
-# Google Play
-eas build --platform android
-eas submit --platform android
+# Terminal 1
+npm run start
 
-# Both
-eas build --platform all
-eas submit --platform all
+# Terminal 2 (Android)
+npm run android
+
+# Terminal 2 (iOS - macOS)
+npm run ios
+```
+
+### With Docker
+```bash
+cd backend
+docker-compose up -d
+npm run migration:run
 ```
 
 ---
 
-## 📈 Project Progress
+## Documentation
 
-| Component | Status | Progress | Details |
-|-----------|--------|----------|---------|
-| **Backend API** | ✅ Complete | 100% | 305 tests, Clean Arch, SOLID |
-| **Backend Tests** | ✅ Complete | 100% | 71% coverage, 8 sec execution |
-| **Backend Docs** | ✅ Complete | 100% | README EN + PT, 5 guides |
-| **Frontend Web** | 🔄 Base | 0% | Structure ready for dev |
-| **Mobile App** | 🔄 Base | 0% | Structure ready for dev |
-| **Documentation** | ✅ Complete | 100% | All projects documented |
+- **[Backend](./backend/README_EN.md)** - API, authentication, database
+- **[Frontend](./frontend/README_EN.md)** - Dashboard, components, state
+- **[Mobile](./mobile/README_EN.md)** - App, sync, offline features
+- **[Architecture](./ARCHITECTURE.md)** - Design patterns & decisions
 
 ---
 
-## 🎯 Current Status
+## Project Status
 
-### ✅ Ready to Use
-- [x] Backend REST API 100% functional
-- [x] Secure JWT authentication
-- [x] Database configured
-- [x] 305 tests passing
-- [x] Complete documentation
-- [x] Docker support
+### ✅ Completed
+- [x] Backend API with CRUD operations
+- [x] JWT authentication & security
+- [x] 305 automated tests (71% coverage)
+- [x] Swagger API documentation
+- [x] Docker containerization
+- [x] Clean Architecture implementation
 
 ### 🔄 In Development
-- [ ] Frontend Web (React)
-- [ ] Mobile App (React Native)
-- [ ] Frontend tests
-- [ ] Mobile tests
+- [ ] Interactive web dashboard
+- [ ] Real-time mobile sync
+- [ ] Advanced charts & analytics
+- [ ] Push notifications
+- [ ] Biometric authentication
 
-### 📅 Next Steps
-1. ✅ Implement Frontend Web
-2. ✅ Implement Mobile App
-3. ⏳ Complete testing
-4. ⏳ Production deployment
-5. ⏳ Monitoring and observability
+### 📋 Roadmap
+- [ ] Group system & competitions
+- [ ] Wearable device integration
+- [ ] AI workout recommendations
+- [ ] Workout plan marketplace
+- [ ] Desktop app (Electron)
 
 ---
 
 ## 🤝 Contributing
 
-1. **Fork** the project
-2. **Create** a branch (`git checkout -b feature/AmazingFeature`)
-3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** to the branch (`git push origin feature/AmazingFeature`)
-5. **Open** a Pull Request
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/MyFeature`)
+3. Commit changes (`git commit -m 'Add: new feature'`)
+4. Push to branch (`git push origin feature/MyFeature`)
+5. Open a Pull Request
 
-### Contributing Standards
-- Follow **Clean Code** principles
-- Add **tests** for new features
-- Maintain consistency with **eslint** and **prettier**
-- Describe changes in **clear commits**
-- Use **conventional commits**
+### Commit Convention
+- Use: `feat:`, `fix:`, `docs:`, `refactor:`
+- Example: `feat(backend): add load validation`
+
+---
+
+## 📞 Support
+
+- 📧 Email: [your-email@example.com]
+- 💬 Issues: [GitHub Issues](https://github.com/your-username/cargalog/issues)
+- 📚 Discussions: [GitHub Discussions]
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-```
-MIT License
-
-Copyright (c) 2026 CargaLog Contributors
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction...
-```
+This project is licensed under MIT License - see [LICENSE](./LICENSE) for details.
 
 ---
 
-## 👥 Authors
+## 👨‍💻 Authors
 
-- **GitHub Copilot** - Architecture, Backend, Documentation, and Setup
-- **Developers** - Frontend and Mobile (in development)
-
----
-
-## 📞 Support and Contact
-
-For support, feedback, or questions:
-
-1. **Open an Issue** on [GitHub Issues](../../issues)
-2. **Consult documentation** specific to each project
-3. **Review individual READMEs** in each folder
-4. **Read setup guides** before reporting issues
-
----
-
-## 🔗 Quick Links
-
-### Official Documentation
-- [Backend (EN-US)](backend/README_EN.md) | [Backend (PT-BR)](backend/README.md)
-- [Frontend (EN-US)](frontend/README_EN.md) | [Frontend (PT-BR)](frontend/README.md)
-- [Mobile (EN-US)](mobile/README_EN.md) | [Mobile (PT-BR)](mobile/README.md)
-
-### Backend Quick Guides
-- [Quick Start](backend/QUICK_TEST.md)
-- [Testing Guide](backend/TESTING_GUIDE.md)
-- [Complete Analysis](backend/FINAL_ANALYSIS.md)
-
-### Configuration
-- [Backend .env](backend/.env.example)
-- [Frontend .env](frontend/.env.example)
-- [Mobile .env](mobile/.env.example)
-
-### Additional Resources
-- [Docker Compose](backend/docker-compose.yml)
-- [TypeScript Config](backend/tsconfig.json)
-- [ESLint Config](backend/eslint.config.mjs)
+- **Felipe** - [@felipelacross](https://github.com/felipelacross) - Full-Stack Development
 
 ---
 
 <div align="center">
 
-### 🎯 Project Overview
+**Made with ❤️ for the fitness and development community**
 
-```
-CargaLog: Fullstack Application for Workout Tracking
-├── Backend: ✅ READY (305 tests, Clean Arch, SOLID)
-├── Frontend Web: 🔄 Base structure ready
-├── Mobile: 🔄 Base structure ready
-└── Documentation: ✅ COMPLETE (EN + PT)
-```
-
----
-
-**[⬆ Back to top](#-cargalog---complete-application)**
-
----
-
-Developed with ❤️ following **Clean Code**, **SOLID Principles**, and **DDD**
-
-Last update: **05/03/2026**
+⭐ If this project helped you, consider giving it a star!
 
 </div>
 
