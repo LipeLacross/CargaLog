@@ -1,212 +1,115 @@
-name: Backend CD Pipeline
+name: Backend CD
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
+    tags: ["v*"]
     paths:
-      - 'backend/**'
-      - '.github/workflows/backend-cd.yml'
+      - "backend/**"
+      - ".github/workflows/backend-cd.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: backend-cd-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  deploy-staging:
-    name: Deploy to Staging
+  build-and-push:
+    name: Build and Push Docker Image
     runs-on: ubuntu-latest
-    environment:
-      name: staging
-      url: https://api-staging.cargalog.com
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: backend/package-lock.json
-
-      - name: Install dependencies
-        working-directory: backend
-        run: npm ci
-
-      - name: Build application
-        working-directory: backend
-        run: npm run build
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Login to Docker Registry
+      - name: Login to GHCR
         uses: docker/login-action@v3
         with:
-          registry: ${{ secrets.DOCKER_REGISTRY }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+      - name: Extract image metadata
+        id: meta
+        uses: docker/metadata-action@v5
         with:
-          context: ./backend
-          file: ./backend/Dockerfile
-          push: true
+          images: ghcr.io/${{ github.repository_owner }}/cargalog-backend
           tags: |
-            ${{ secrets.DOCKER_REGISTRY }}/cargalog-backend:staging
-            ${{ secrets.DOCKER_REGISTRY }}/cargalog-backend:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+            type=sha
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=ref,event=tag
 
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.8.0
+      # 1. SLSA/Supply chain security
+      - name: Generate provenance
+        uses: actions/attest-build-provenance@v1
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_STAGING }}
+          subject-name: ghcr.io/${{ github.repository_owner }}/cargalog-backend
+          subject-digest: ${{ steps.build-and-push.outputs.digest }}
+          push-to-registry: true
 
-      - name: Deploy to Staging Server
-        env:
-          STAGING_HOST: ${{ secrets.STAGING_HOST }}
-          STAGING_USER: ${{ secrets.STAGING_USER }}
-        run: |
-          ssh -o StrictHostKeyChecking=no $STAGING_USER@$STAGING_HOST << 'EOF'
-            cd /var/www/cargalog
-            docker pull ${{ secrets.DOCKER_REGISTRY }}/cargalog-backend:staging
-            docker-compose -f docker-compose.staging.yml up -d backend
-            docker exec cargalog-backend npm run migration:run
-            docker-compose -f docker-compose.staging.yml restart backend
-          EOF
-
-      - name: Health check
-        run: |
-          sleep 10
-          curl -f https://api-staging.cargalog.com/api/v1/health || exit 1
-
-  deploy-production:
-    name: Deploy to Production
-    runs-on: ubuntu-latest
-    needs: deploy-staging
-    if: github.ref == 'refs/heads/main'
-    environment:
-      name: production
-      url: https://api.cargalog.com
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      # 2. Scanner de vulnerabilidades
+      - name: Scan image for vulnerabilities
+        uses: aquasecurity/trivy-action@master
         with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: backend/package-lock.json
+          image-ref: ghcr.io/${{ github.repository_owner }}/cargalog-backend:${{ steps.meta.outputs.version }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
 
-      - name: Install dependencies
-        working-directory: backend
-        run: npm ci
-
-      - name: Build application
-        working-directory: backend
-        run: npm run build
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to Docker Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ secrets.DOCKER_REGISTRY }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./backend
-          file: ./backend/Dockerfile
-          push: true
-          tags: |
-            ${{ secrets.DOCKER_REGISTRY }}/cargalog-backend:latest
-            ${{ secrets.DOCKER_REGISTRY }}/cargalog-backend:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.8.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_PRODUCTION }}
-
-      - name: Backup database
-        env:
-          PROD_HOST: ${{ secrets.PRODUCTION_HOST }}
-          PROD_USER: ${{ secrets.PRODUCTION_USER }}
-        run: |
-          ssh -o StrictHostKeyChecking=no $PROD_USER@$PROD_HOST << 'EOF'
-            docker exec cargalog-postgres pg_dump -U postgres cargalog > /backups/cargalog_$(date +%Y%m%d_%H%M%S).sql
-          EOF
-
-      - name: Deploy to Production Server
-        env:
-          PROD_HOST: ${{ secrets.PRODUCTION_HOST }}
-          PROD_USER: ${{ secrets.PRODUCTION_USER }}
-        run: |
-          ssh -o StrictHostKeyChecking=no $PROD_USER@$PROD_HOST << 'EOF'
-            cd /var/www/cargalog
-            docker pull ${{ secrets.DOCKER_REGISTRY }}/cargalog-backend:latest
-            docker-compose -f docker-compose.prod.yml up -d backend
-            docker exec cargalog-backend npm run migration:run
-            docker-compose -f docker-compose.prod.yml restart backend
-          EOF
-
-      - name: Health check
-        run: |
-          sleep 15
-          curl -f https://api.cargalog.com/api/v1/health || exit 1
-
-      - name: Notify deployment
-        uses: 8398a7/action-slack@v3
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
-          status: ${{ job.status }}
-          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
-          text: |
-            Backend deployed to Production
-            Commit: ${{ github.sha }}
-            Author: ${{ github.actor }}
-            Status: ${{ job.status }}
+          sarif_file: 'trivy-results.sarif'
 
-  rollback:
-    name: Rollback on Failure
+      # 3. Build e Push (mantido do original)
+      - name: Build and push
+        id: build-and-push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: true  # Atesta a origem da imagem
+
+
+  deploy-by-webhook:
+    name: Deploy (optional webhook)
     runs-on: ubuntu-latest
-    needs: deploy-production
-    if: failure()
-    environment:
-      name: production
+    needs: build-and-push
+    if: ${{ secrets.BACKEND_DEPLOY_WEBHOOK_URL != '' }}
 
     steps:
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.8.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_PRODUCTION }}
-
-      - name: Rollback deployment
-        env:
-          PROD_HOST: ${{ secrets.PRODUCTION_HOST }}
-          PROD_USER: ${{ secrets.PRODUCTION_USER }}
+      - name: Trigger deployment webhook
         run: |
-          ssh -o StrictHostKeyChecking=no $PROD_USER@$PROD_HOST << 'EOF'
-            cd /var/www/cargalog
-            docker-compose -f docker-compose.prod.yml down backend
-            docker-compose -f docker-compose.prod.yml up -d backend
-            docker exec cargalog-backend npm run migration:revert
-          EOF
+          curl -X POST "${{ secrets.BACKEND_DEPLOY_WEBHOOK_URL }}"
 
-      - name: Notify rollback
-        uses: 8398a7/action-slack@v3
-        with:
-          status: 'warning'
-          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
-          text: |
-            ⚠️ Production deployment failed and rolled back
-            Commit: ${{ github.sha }}
-            Author: ${{ github.actor }}
-
+  # Job opcional de deploy direto (comentado por segurança)
+  # deploy-to-prod:
+  #   name: Deploy to Production (SSH)
+  #   runs-on: ubuntu-latest
+  #   needs: build-and-push
+  #   if: false  # Desabilitado por segurança - habilite quando quiser
+  #   steps:
+  #     - name: Deploy to production server
+  #       uses: appleboy/ssh-action@v1.0.3
+  #       with:
+  #         host: ${{ secrets.SERVER_HOST }}
+  #         username: ${{ secrets.SERVER_USER }}
+  #         key: ${{ secrets.SSH_PRIVATE_KEY }}
+  #         script: |
+  #           docker pull ghcr.io/${{ github.repository_owner }}/cargalog-backend:latest
+  #           docker stop backend || true
+  #           docker rm backend || true
+  #           docker run -d --name backend -p 3000:3000 ghcr.io/${{ github.repository_owner }}/cargalog-backend:latest

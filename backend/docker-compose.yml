@@ -1,8 +1,9 @@
 version: '3.8'
 
 services:
-  # PostgreSQL Database
+  # Banco local opcional (habilite com --profile local-db)
   postgres:
+    profiles: ["local-db"]
     image: postgres:15-alpine
     container_name: cargalog-postgres
     restart: unless-stopped
@@ -23,22 +24,26 @@ services:
       timeout: 5s
       retries: 5
 
-  # Backend API (opcional - para desenvolvimento com hot-reload)
+  # API backend
   backend:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: cargalog-backend
     restart: unless-stopped
-    depends_on:
-      postgres:
-        condition: service_healthy
     environment:
       NODE_ENV: ${NODE_ENV:-development}
-      DATABASE_URL: postgresql://${DATABASE_USER:-postgres}:${DATABASE_PASSWORD:-postgres}@postgres:5432/${DATABASE_NAME:-cargalog}
-      JWT_SECRET: ${JWT_SECRET}
-      JWT_EXPIRATION: ${JWT_EXPIRATION:-7d}
       PORT: ${PORT:-3000}
+      CORS_ORIGIN: ${CORS_ORIGIN:-*}
+      # Se DATABASE_URL estiver no .env (Supabase), ela sera usada.
+      # Fallback aponta para banco local quando profile local-db estiver ativo.
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/cargalog}
+      DIRECT_URL: ${DIRECT_URL:-postgresql://postgres:postgres@postgres:5432/cargalog}
+      JWT_SECRET: ${JWT_SECRET:-change_me_to_a_strong_secret_with_32_plus_chars}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-7d}
+      BCRYPT_SALT_ROUNDS: ${BCRYPT_SALT_ROUNDS:-10}
+      LOG_LEVEL: ${LOG_LEVEL:-debug}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
     ports:
       - "${PORT:-3000}:3000"
     volumes:
