@@ -30,7 +30,7 @@ export function LoginScreen({ navigation }: any) {
 
   return (
     <ScrollView className="flex-1 bg-blue-50">
-      <View className="flex-1 justify-center min-h-screen px-6 py-12">
+      <View className="flex-1 justify-center px-6 py-12">
         {/* Título */}
         <View className="mb-8">
           <Text className="text-4xl font-bold text-blue-600">CargaLog</Text>
