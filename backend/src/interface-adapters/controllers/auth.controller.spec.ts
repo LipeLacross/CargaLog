@@ -11,8 +11,6 @@ describe('AuthController', () => {
   let controller: AuthController;
   let registrarUseCase: jest.Mocked<RegistrarUsuarioUseCase>;
   let autenticarUseCase: jest.Mocked<AutenticarUsuarioUseCase>;
-  let resetPasswordUseCase: jest.Mocked<ResetPasswordUseCase>;
-  let atualizarPerfilUseCase: jest.Mocked<AtualizarPerfilUseCase>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -51,12 +49,6 @@ describe('AuthController', () => {
     );
     autenticarUseCase = module.get<jest.Mocked<AutenticarUsuarioUseCase>>(
       AutenticarUsuarioUseCase,
-    );
-    resetPasswordUseCase = module.get<jest.Mocked<ResetPasswordUseCase>>(
-      ResetPasswordUseCase,
-    );
-    atualizarPerfilUseCase = module.get<jest.Mocked<AtualizarPerfilUseCase>>(
-      AtualizarPerfilUseCase,
     );
   });
 
