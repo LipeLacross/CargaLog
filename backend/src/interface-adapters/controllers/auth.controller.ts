@@ -64,7 +64,9 @@ export class AuthController {
   @Get('perfil')
   @UseGuards(JwtAuthGuard)
   perfil(@CurrentUser() usuario: AuthenticatedUser) {
-    return usuario;
+    // Remove senha da resposta
+    const { senha, ...usuarioSemSenha } = usuario;
+    return usuarioSemSenha;
   }
 
   /**

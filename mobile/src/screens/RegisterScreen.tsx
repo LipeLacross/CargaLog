@@ -26,7 +26,7 @@ export function RegisterScreen({ navigation }: any) {
 
     try {
       await registrar(nome, email, senha);
-      navigation.navigate('Dashboard');
+      // Navegação automática pelo contexto de autenticação
     } catch (err: any) {
       setErro(err.response?.data?.message || 'Erro ao registrar');
     } finally {
@@ -35,79 +35,84 @@ export function RegisterScreen({ navigation }: any) {
   };
 
   return (
-    <ScrollView className="flex-1 bg-gradient-to-br from-blue-50 to-purple-50">
+    <ScrollView className="flex-1 bg-blue-50">
       <View className="flex-1 px-6 py-12">
         {/* Título */}
         <View className="mb-8">
           <Text className="text-4xl font-bold text-blue-600">CargaLog</Text>
-          <Text className="text-gray-600 text-base mt-2">Crie sua conta</Text>
+          <Text className="text-base text-gray-700 mt-2">Crie sua conta</Text>
         </View>
 
-        {/* Nome */}
-        <View className="mb-4">
-          <Text className="text-sm font-medium text-gray-700 mb-2">Nome</Text>
+        {/* Nome Input */}
+        <View className="mb-6">
+          <Text className="text-sm font-semibold text-gray-700 mb-2">Nome</Text>
           <TextInput
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900"
-            placeholder="Seu nome"
+            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-base text-gray-900"
+            placeholder="Seu nome completo"
+            placeholderTextColor="#999"
             value={nome}
             onChangeText={setNome}
             editable={!loading}
-            placeholderTextColor="#999"
+            autoCapitalize="words"
           />
         </View>
 
-        {/* Email */}
-        <View className="mb-4">
-          <Text className="text-sm font-medium text-gray-700 mb-2">Email</Text>
+        {/* Email Input */}
+        <View className="mb-6">
+          <Text className="text-sm font-semibold text-gray-700 mb-2">Email</Text>
           <TextInput
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900"
+            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-base text-gray-900"
             placeholder="seu@email.com"
+            placeholderTextColor="#999"
             value={email}
             onChangeText={setEmail}
             editable={!loading}
-            placeholderTextColor="#999"
+            keyboardType="email-address"
+            autoCapitalize="none"
           />
         </View>
 
-        {/* Senha */}
-        <View className="mb-6">
-          <Text className="text-sm font-medium text-gray-700 mb-2">Senha</Text>
+        {/* Senha Input */}
+        <View className="mb-4">
+          <Text className="text-sm font-semibold text-gray-700 mb-2">Senha</Text>
           <TextInput
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900"
+            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-base text-gray-900"
             placeholder="Mínimo 8 caracteres"
+            placeholderTextColor="#999"
             value={senha}
             onChangeText={setSenha}
             secureTextEntry
             editable={!loading}
-            placeholderTextColor="#999"
           />
+          <Text className="text-xs text-gray-500 mt-1">Deve conter letras e números</Text>
         </View>
 
-        {/* Erro */}
+        {/* Erro Message */}
         {erro && (
-          <View className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-            <Text className="text-red-700 text-sm">{erro}</Text>
+          <View className="mb-4 p-3 bg-red-100 border border-red-300 rounded-lg">
+            <Text className="text-sm text-red-700">{erro}</Text>
           </View>
         )}
 
-        {/* Botão Registrar */}
+        {/* Register Button */}
         <TouchableOpacity
           onPress={handleRegistro}
           disabled={loading}
-          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 py-3 rounded-lg flex-row justify-center items-center"
+          className="w-full bg-blue-600 py-3 rounded-lg mt-6"
+          activeOpacity={0.8}
         >
           {loading ? (
-            <ActivityIndicator color="white" />
+            <ActivityIndicator color="white" size="small" />
           ) : (
-            <Text className="text-white font-semibold text-base">Registrar</Text>
+            <Text className="text-base font-semibold text-white text-center">Registrar</Text>
           )}
         </TouchableOpacity>
 
-        {/* Login */}
-        <View className="mt-6 flex-row justify-center">
-          <Text className="text-gray-600 text-sm">Já tem conta? </Text>
+        {/* Login Link */}
+        <View className="mt-8 flex-row justify-center">
+          <Text className="text-sm text-gray-700">Já tem conta? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text className="text-blue-600 font-semibold text-sm">Faça login</Text>
+            <Text className="text-sm font-semibold text-blue-600">Faça login</Text>
           </TouchableOpacity>
         </View>
       </View>

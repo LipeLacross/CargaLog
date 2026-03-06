@@ -26,7 +26,7 @@ export function NovoTreinoScreen({ navigation }: any) {
       });
 
       Alert.alert('Sucesso', 'Treino criado!', [
-        { text: 'OK', onPress: () => navigation.navigate('Treinos') }
+        { text: 'OK', onPress: () => navigation.goBack() }
       ]);
     } catch (err: any) {
       Alert.alert('Erro', err.response?.data?.message || 'Erro ao criar treino');

@@ -121,21 +121,21 @@ export function DashboardScreen({ navigation }: any) {
         {/* Botões */}
         <View className="flex-row gap-3 mb-6">
           <TouchableOpacity
-            onPress={() => navigation.navigate('Treinos')}
+            onPress={() => navigation.navigate('TreinosTab')}
             className="flex-1 bg-blue-600 py-3 rounded-lg"
           >
             <Text className="text-white font-semibold text-center">Meus Treinos</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate('Analises')}
+            onPress={() => navigation.navigate('AnalisesTab')}
             className="flex-1 bg-purple-600 py-3 rounded-lg"
           >
             <Text className="text-white font-semibold text-center">Análises</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate('Perfil')}
+            onPress={() => navigation.navigate('PerfilTab')}
             className="flex-1 bg-gray-600 py-3 rounded-lg"
           >
             <Text className="text-white font-semibold text-center">Perfil</Text>

@@ -50,7 +50,7 @@ export function EditarTreinoScreen({ navigation, route }: any) {
       });
 
       Alert.alert('Sucesso', 'Treino atualizado!', [
-        { text: 'OK', onPress: () => navigation.navigate('Treinos') }
+        { text: 'OK', onPress: () => navigation.goBack() }
       ]);
     } catch (err: any) {
       Alert.alert('Erro', err.response?.data?.message || 'Erro ao atualizar');

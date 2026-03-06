@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { RegistrarUsuarioUseCase } from '../../application/use-cases/auth/registrar-usuario.use-case';
 import { AutenticarUsuarioUseCase } from '../../application/use-cases/auth/autenticar-usuario.use-case';
+import { ResetPasswordUseCase } from '../../application/use-cases/auth/reset-password.use-case';
+import { AtualizarPerfilUseCase } from '../../application/use-cases/auth/atualizar-perfil.use-case';
 import { RegistrarUsuarioDto } from '../../application/dto/auth/registrar-usuario.dto';
 import { LoginDto } from '../../application/dto/auth/login.dto';
 
@@ -9,6 +11,8 @@ describe('AuthController', () => {
   let controller: AuthController;
   let registrarUseCase: jest.Mocked<RegistrarUsuarioUseCase>;
   let autenticarUseCase: jest.Mocked<AutenticarUsuarioUseCase>;
+  let resetPasswordUseCase: jest.Mocked<ResetPasswordUseCase>;
+  let atualizarPerfilUseCase: jest.Mocked<AtualizarPerfilUseCase>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -26,6 +30,18 @@ describe('AuthController', () => {
             execute: jest.fn(),
           },
         },
+        {
+          provide: ResetPasswordUseCase,
+          useValue: {
+            execute: jest.fn(),
+          },
+        },
+        {
+          provide: AtualizarPerfilUseCase,
+          useValue: {
+            execute: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
@@ -35,6 +51,12 @@ describe('AuthController', () => {
     );
     autenticarUseCase = module.get<jest.Mocked<AutenticarUsuarioUseCase>>(
       AutenticarUsuarioUseCase,
+    );
+    resetPasswordUseCase = module.get<jest.Mocked<ResetPasswordUseCase>>(
+      ResetPasswordUseCase,
+    );
+    atualizarPerfilUseCase = module.get<jest.Mocked<AtualizarPerfilUseCase>>(
+      AtualizarPerfilUseCase,
     );
   });
 

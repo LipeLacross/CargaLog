@@ -2,6 +2,7 @@
  * CargaLog - Registro e análise de progressão de carga
  */
 
+import './global.css';
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
