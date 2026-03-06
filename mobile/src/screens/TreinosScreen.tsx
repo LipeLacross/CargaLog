@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, FlatList, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, FlatList, Alert, ScrollView } from 'react-native';
 import { treinoApi } from '../api/treino.api';
 import { formatarCarga, formatarData } from '../utils/formatters';
 
@@ -8,15 +8,23 @@ export function TreinosScreen({ navigation }: any) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      carregarTreinos();
+    });
+
     carregarTreinos();
-  }, []);
+
+    return unsubscribe;
+  }, [navigation]);
 
   const carregarTreinos = async () => {
     try {
+      setLoading(true);
       const res = await treinoApi.listar();
       setTreinos(res.data);
-    } catch {
-      console.error('Erro ao carregar treinos');
+    } catch (err) {
+      console.error('Erro ao carregar treinos:', err);
+      Alert.alert('Erro', 'Falha ao carregar treinos');
     } finally {
       setLoading(false);
     }
@@ -35,7 +43,8 @@ export function TreinosScreen({ navigation }: any) {
               await treinoApi.deletar(id);
               setTreinos(treinos.filter(t => t.id !== id));
               Alert.alert('Sucesso', 'Treino deletado');
-            } catch {
+            } catch (err) {
+              console.error('Erro ao deletar:', err);
               Alert.alert('Erro', 'Erro ao deletar treino');
             }
           },
@@ -54,10 +63,10 @@ export function TreinosScreen({ navigation }: any) {
   }
 
   return (
-    <View className="flex-1 bg-gradient-to-br from-blue-50 to-purple-50">
+    <View className="flex-1 bg-blue-50">
       {/* Header */}
-      <View className="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-6">
-        <Text className="text-white text-2xl font-bold">Meus Treinos 💪</Text>
+      <View className="bg-blue-600 px-6 py-6">
+        <Text className="text-white text-2xl font-bold">💪 Meus Treinos</Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('NovoTreino')}
           className="bg-green-500 mt-4 py-3 rounded-lg"
@@ -66,10 +75,11 @@ export function TreinosScreen({ navigation }: any) {
         </TouchableOpacity>
       </View>
 
-      {/* Lista */}
+      {/* Lista de Treinos */}
       {treinos.length === 0 ? (
         <View className="flex-1 justify-center items-center">
           <Text className="text-gray-500 text-lg">Nenhum treino registrado</Text>
+          <Text className="text-gray-400 text-sm mt-2">Comece adicionando seu primeiro treino</Text>
         </View>
       ) : (
         <FlatList
@@ -80,30 +90,35 @@ export function TreinosScreen({ navigation }: any) {
                 <View className="flex-1">
                   <Text className="text-lg font-bold text-gray-900">{item.exercicioNome}</Text>
                   <Text className="text-sm text-gray-600 mt-1">
-                    {formatarCarga(item.carga)}kg × {item.repeticoes} reps • {formatarData(item.data)}
+                    {formatarCarga(item.carga)}kg × {item.repeticoes} reps
+                  </Text>
+                  <Text className="text-xs text-gray-500 mt-1">
+                    {formatarData(item.data)}
                   </Text>
                 </View>
               </View>
 
+              {/* Botões de ação */}
               <View className="flex-row gap-2">
                 <TouchableOpacity
                   onPress={() => navigation.navigate('EditarTreino', { id: item.id })}
                   className="flex-1 bg-blue-600 py-2 rounded"
                 >
-                  <Text className="text-white font-semibold text-center text-sm">Editar</Text>
+                  <Text className="text-white font-semibold text-center text-sm">✏️ Editar</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => handleDelete(item.id, item.exercicioNome)}
                   className="flex-1 bg-red-600 py-2 rounded"
                 >
-                  <Text className="text-white font-semibold text-center text-sm">Deletar</Text>
+                  <Text className="text-white font-semibold text-center text-sm">🗑️ Deletar</Text>
                 </TouchableOpacity>
               </View>
             </View>
           )}
           keyExtractor={(item) => item.id}
-          scrollEnabled={false}
+          contentContainerStyle={{ paddingBottom: 20 }}
+          scrollEnabled={true}
         />
       )}
     </View>

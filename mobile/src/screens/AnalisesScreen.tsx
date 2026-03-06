@@ -8,6 +8,7 @@ export function AnalisesScreen() {
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [records, setRecords] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     carregarAnalises();
@@ -15,6 +16,7 @@ export function AnalisesScreen() {
 
   const carregarAnalises = async () => {
     try {
+      setError(null);
       const statsRes = await analisesApi.estatisticas();
       setStats(statsRes.data);
 
@@ -31,8 +33,9 @@ export function AnalisesScreen() {
       });
 
       setRecords(Array.from(recordMap.values()).sort((a, b) => b.carga - a.carga));
-    } catch (err) {
-      console.error('Erro:', err);
+    } catch (err: any) {
+      console.error('Erro ao carregar análises:', err);
+      setError('Erro ao carregar análises');
     } finally {
       setLoading(false);
     }
@@ -47,27 +50,38 @@ export function AnalisesScreen() {
   }
 
   return (
-    <ScrollView className="flex-1 bg-gradient-to-br from-blue-50 to-purple-50">
-      <View className="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-6">
+    <ScrollView className="flex-1 bg-blue-50">
+      {/* Header */}
+      <View className="bg-blue-600 px-6 py-6">
         <Text className="text-white text-2xl font-bold">📊 Análises</Text>
       </View>
 
+      {/* Conteúdo */}
       <View className="px-4 py-6">
+        {error && (
+          <View className="bg-red-100 border border-red-300 rounded-lg p-4 mb-4">
+            <Text className="text-red-700 text-sm">{error}</Text>
+          </View>
+        )}
+
         {stats && (
           <>
-            <View className="bg-white rounded-lg p-4 mb-3">
-              <Text className="text-gray-600 text-sm">Total Treinos</Text>
+            {/* Card Total Treinos */}
+            <View className="bg-white rounded-lg p-4 mb-3 shadow-sm">
+              <Text className="text-gray-600 text-sm font-medium">Total Treinos</Text>
               <Text className="text-4xl font-bold text-blue-600 mt-2">{stats.totalTreinos}</Text>
             </View>
 
-            <View className="bg-white rounded-lg p-4 mb-3">
-              <Text className="text-gray-600 text-sm">Exercícios</Text>
+            {/* Card Exercícios */}
+            <View className="bg-white rounded-lg p-4 mb-3 shadow-sm">
+              <Text className="text-gray-600 text-sm font-medium">Exercícios Únicos</Text>
               <Text className="text-4xl font-bold text-green-600 mt-2">{stats.exercicios?.length || 0}</Text>
             </View>
 
+            {/* Card Mais Treinado */}
             {stats.exercicioMaisTreinado && (
-              <View className="bg-white rounded-lg p-4 mb-6">
-                <Text className="text-gray-600 text-sm">Mais Treinado</Text>
+              <View className="bg-white rounded-lg p-4 mb-6 shadow-sm border-l-4 border-purple-600">
+                <Text className="text-gray-600 text-sm font-medium">Exercício Mais Treinado</Text>
                 <Text className="text-2xl font-bold text-purple-600 mt-2">{stats.exercicioMaisTreinado.nome}</Text>
                 <Text className="text-sm text-gray-500 mt-1">{stats.exercicioMaisTreinado.quantidade}x</Text>
               </View>
@@ -75,18 +89,25 @@ export function AnalisesScreen() {
           </>
         )}
 
-        <Text className="text-xl font-bold text-gray-900 mb-3">🏆 Recordes</Text>
-        {records.map((record) => (
-          <View key={record.id} className="bg-white rounded-lg p-4 mb-2">
-            <View className="flex-row justify-between items-center">
-              <View>
-                <Text className="font-semibold text-gray-900">{record.exercicioNome}</Text>
-                <Text className="text-xs text-gray-500 mt-1">{formatarData(record.data)}</Text>
-              </View>
-              <Text className="text-2xl font-bold text-blue-600">{formatarCarga(record.carga)}kg</Text>
-            </View>
+        {/* Recordes */}
+        <Text className="text-xl font-bold text-gray-900 mb-3">🏆 Recordes Pessoais</Text>
+        {records.length === 0 ? (
+          <View className="bg-white rounded-lg p-4">
+            <Text className="text-gray-500 text-center">Nenhum recorde registrado ainda</Text>
           </View>
-        ))}
+        ) : (
+          records.map((record) => (
+            <View key={record.id} className="bg-white rounded-lg p-4 mb-2 shadow-sm">
+              <View className="flex-row justify-between items-center">
+                <View className="flex-1">
+                  <Text className="font-semibold text-gray-900">{record.exercicioNome}</Text>
+                  <Text className="text-xs text-gray-500 mt-1">{formatarData(record.data)}</Text>
+                </View>
+                <Text className="text-2xl font-bold text-blue-600">{formatarCarga(record.carga)}kg</Text>
+              </View>
+            </View>
+          ))
+        )}
       </View>
     </ScrollView>
   );

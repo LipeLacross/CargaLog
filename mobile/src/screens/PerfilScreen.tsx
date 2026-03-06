@@ -54,9 +54,13 @@ export function PerfilScreen({ navigation }: any) {
   };
 
   return (
-    <ScrollView className="flex-1 bg-gradient-to-br from-blue-50 to-purple-50">
+    <ScrollView className="flex-1 bg-blue-50">
+      {/* Header */}
+      <View className="bg-blue-600 px-6 py-6">
+        <Text className="text-white text-2xl font-bold">👤 Meu Perfil</Text>
+      </View>
+
       <View className="px-6 py-8">
-        <Text className="text-3xl font-bold text-gray-900 mb-8">👤 Meu Perfil</Text>
 
         {/* Email */}
         <View className="mb-6">
