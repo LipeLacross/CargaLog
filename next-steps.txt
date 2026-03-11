@@ -1,0 +1,30 @@
+Back
+
+## 📌 **RESUMO EXECUTIVO
+
+### **O HELSON DISSE:**
+1. **Trocar Jest por Vitest** (mais rápido, mesma sintaxe)
+2. **Remover console.log** do código (usar Winston)
+3. **Criar tabela de logs** no banco (em vez de ferramentas externas)
+4. **Fazer cleanup do Docker** no CI/CD (não acumular imagens)
+
+---
+
+## ✅ Decidido
+- ✅ **Manter Winston** (logs em arquivo)
+- ✅ **Criar tabela de ações** no banco (para consultas SQL)
+- ❌ **Sem ferramentas externas** (não quer Datadog/Grafana)
+
+---
+
+## 📋 **RESUMO DO PLANO Helson
+
+### **PARTE 1 - TABELA DE LOGS
+```
+1. Criar entidade AuditLog
+2. Criar LoggerService (que usa Winston + Banco)
+3. Adicionar nos use cases (deletar treino, login, etc)
+4. Rodar migration
+5. Migrar Jest para Vitest (mais rápido)
+6. Remover console.log do frontend
+7. Adicionar cleanup no GitHub Actions
