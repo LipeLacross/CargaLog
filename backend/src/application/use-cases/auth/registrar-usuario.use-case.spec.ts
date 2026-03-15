@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { RegistrarUsuarioUseCase } from './registrar-usuario.use-case';
 import { IUsuarioRepository } from '../../../domain/repositories/usuario.repository.interface';
 import { RegistrarUsuarioDto } from '../../dto/auth/registrar-usuario.dto';
@@ -6,20 +7,20 @@ import { ConflictException } from '@nestjs/common';
 
 describe('RegistrarUsuarioUseCase', () => {
   let useCase: RegistrarUsuarioUseCase;
-  let repository: jest.Mocked<IUsuarioRepository>;
+  let repository: vi.Mocked<IUsuarioRepository>;
 
-  const mockRepositorio: jest.Mocked<IUsuarioRepository> = {
-    criar: jest.fn(),
-    buscarPorId: jest.fn(),
-    buscarPorEmail: jest.fn(),
-    existeEmail: jest.fn(),
-    atualizar: jest.fn(),
-    deletar: jest.fn(),
-    listar: jest.fn(),
+  const mockRepositorio: vi.Mocked<IUsuarioRepository> = {
+    criar: vi.fn(),
+    buscarPorId: vi.fn(),
+    buscarPorEmail: vi.fn(),
+    existeEmail: vi.fn(),
+    atualizar: vi.fn(),
+    deletar: vi.fn(),
+    listar: vi.fn(),
   };
 
   beforeEach(async () => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [

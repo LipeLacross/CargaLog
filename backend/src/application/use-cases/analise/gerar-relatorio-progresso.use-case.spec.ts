@@ -1,18 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { GerarRelatorioProgressoUseCase } from './gerar-relatorio-progresso.use-case';
 import { IAnaliseRepository } from '../../../domain/repositories/analise.repository.interface';
 
 describe('GerarRelatorioProgressoUseCase', () => {
   let useCase: GerarRelatorioProgressoUseCase;
-  let repository: jest.Mocked<IAnaliseRepository>;
+  let repository: vi.Mocked<IAnaliseRepository>;
 
-  const mockRepositorio: jest.Mocked<IAnaliseRepository> = {
-    obterProgresso: jest.fn(),
-    obterEstatisticas: jest.fn(),
+  const mockRepositorio: vi.Mocked<IAnaliseRepository> = {
+    obterProgresso: vi.fn(),
+    obterEstatisticas: vi.fn(),
   };
 
   beforeEach(async () => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [

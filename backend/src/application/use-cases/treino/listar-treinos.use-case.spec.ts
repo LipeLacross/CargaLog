@@ -1,23 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { ListarTreinosUseCase } from './listar-treinos.use-case';
 import { ITreinoRepository } from '../../../domain/repositories/treino.repository.interface';
 import { Treino } from '../../../domain/entities/treino.entity';
 
 describe('ListarTreinosUseCase', () => {
   let useCase: ListarTreinosUseCase;
-  let repository: jest.Mocked<ITreinoRepository>;
+  let repository: vi.Mocked<ITreinoRepository>;
 
-  const mockRepositorio: jest.Mocked<ITreinoRepository> = {
-    criar: jest.fn(),
-    buscarPorId: jest.fn(),
-    listarPorUsuario: jest.fn(),
-    atualizar: jest.fn(),
-    deletar: jest.fn(),
-    obterEstatisticas: jest.fn(),
+  const mockRepositorio: vi.Mocked<ITreinoRepository> = {
+    criar: vi.fn(),
+    buscarPorId: vi.fn(),
+    listarPorUsuario: vi.fn(),
+    atualizar: vi.fn(),
+    deletar: vi.fn(),
+    obterEstatisticas: vi.fn(),
   };
 
   beforeEach(async () => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
