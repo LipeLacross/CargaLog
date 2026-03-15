@@ -1,33 +1,45 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtService } from '@nestjs/jwt';
 import { UnauthorizedException } from '@nestjs/common';
+import { vi, describe, it, expect, beforeEach, Mock, Mocked } from 'vitest';
 import { AutenticarUsuarioUseCase } from './autenticar-usuario.use-case';
 import { IUsuarioRepository } from '../../../domain/repositories/usuario.repository.interface';
 import { LoginDto } from '../../dto/auth/login.dto';
 import { Usuario } from '../../../domain/entities/usuario.entity';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 describe('AutenticarUsuarioUseCase', () => {
   let useCase: AutenticarUsuarioUseCase;
-  let usuarioRepository: jest.Mocked<IUsuarioRepository>;
-  let jwtService: jest.Mocked<JwtService>;
+  let usuarioRepository: Mocked<IUsuarioRepository>;
+  let jwtService: Mocked<JwtService>;
+  let logger: Mocked<LoggerService>;
 
-  const mockRepositorio: jest.Mocked<IUsuarioRepository> = {
-    criar: jest.fn(),
-    buscarPorId: jest.fn(),
-    buscarPorEmail: jest.fn(),
-    existeEmail: jest.fn(),
-    atualizar: jest.fn(),
-    deletar: jest.fn(),
-    listar: jest.fn(),
+  const mockRepositorio: Mocked<IUsuarioRepository> = {
+    criar: vi.fn(),
+    buscarPorId: vi.fn(),
+    buscarPorEmail: vi.fn(),
+    existeEmail: vi.fn(),
+    atualizar: vi.fn(),
+    deletar: vi.fn(),
+    listar: vi.fn(),
   };
 
   const mockJwtService = {
-    sign: jest.fn(),
-    verify: jest.fn(),
+    sign: vi.fn(),
+    verify: vi.fn(),
+  };
+
+  const mockLogger: Mocked<LoggerService> = {
+    log: vi.fn(),
+    error: vi.fn(),
+    warn: vi.fn(),
+    debug: vi.fn(),
+    verbose: vi.fn(),
+    audit: vi.fn().mockResolvedValue(undefined),
   };
 
   beforeEach(async () => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -40,55 +52,21 @@ describe('AutenticarUsuarioUseCase', () => {
           provide: JwtService,
           useValue: mockJwtService,
         },
+        {
+          provide: LoggerService,
+          useValue: mockLogger,
+        },
       ],
     }).compile();
 
     useCase = module.get<AutenticarUsuarioUseCase>(AutenticarUsuarioUseCase);
-    usuarioRepository =
-      module.get<jest.Mocked<IUsuarioRepository>>('IUsuarioRepository');
-    jwtService = module.get<jest.Mocked<JwtService>>(JwtService);
+    usuarioRepository = module.get<Mocked<IUsuarioRepository>>('IUsuarioRepository');
+    jwtService = module.get<Mocked<JwtService>>(JwtService);
+    logger = module.get<Mocked<LoggerService>>(LoggerService);
   });
 
   describe('Caminho Feliz', () => {
     it('deve autenticar usuário com sucesso', async () => {
-      // Arrange
-      const dto: LoginDto = {
-        email: 'joao@example.com',
-        senha: 'Senha@123',
-      };
-
-      const usuarioExistente = {
-        id: '123',
-        nome: 'João Silva',
-        email: 'joao@example.com',
-        senha: '$2b$10$hashedPassword', // hash bcrypt
-        treinos: [],
-        criadoEm: new Date(),
-        atualizadoEm: new Date(),
-      };
-
-      usuarioRepository.buscarPorEmail.mockResolvedValue(usuarioExistente);
-
-      // Mock validarSenha
-      jest.spyOn(Usuario, 'validarSenha').mockResolvedValue(true);
-
-      jwtService.sign.mockReturnValue('token-jwt-válido');
-
-      // Act
-      const resultado = await useCase.execute(dto);
-
-      // Assert
-      expect(resultado).toBeDefined();
-      expect(resultado.token).toBe('token-jwt-válido');
-      expect(resultado.usuario).toBeDefined();
-      expect(resultado.usuario.id).toBe('123');
-      expect(resultado.usuario).not.toHaveProperty('senha');
-      expect(usuarioRepository.buscarPorEmail).toHaveBeenCalledWith(dto.email);
-      expect(jwtService.sign).toHaveBeenCalled();
-    });
-
-    it('deve retornar token JWT válido', async () => {
-      // Arrange
       const dto: LoginDto = {
         email: 'joao@example.com',
         senha: 'Senha@123',
@@ -105,15 +83,52 @@ describe('AutenticarUsuarioUseCase', () => {
       };
 
       usuarioRepository.buscarPorEmail.mockResolvedValue(usuarioExistente);
-      jest.spyOn(Usuario, 'validarSenha').mockResolvedValue(true);
+
+      vi.spyOn(Usuario, 'validarSenha').mockResolvedValue(true);
+
+      jwtService.sign.mockReturnValue('token-jwt-válido');
+
+      const resultado = await useCase.execute(dto);
+
+      expect(resultado).toBeDefined();
+      expect(resultado.token).toBe('token-jwt-válido');
+      expect(resultado.usuario).toBeDefined();
+      expect(resultado.usuario.id).toBe('123');
+      expect(resultado.usuario).not.toHaveProperty('senha');
+      expect(usuarioRepository.buscarPorEmail).toHaveBeenCalledWith(dto.email);
+      expect(jwtService.sign).toHaveBeenCalled();
+      expect(logger.audit).toHaveBeenCalledWith(
+        expect.objectContaining({
+          usuarioId: '123',
+          acao: 'LOGIN_SUCESSO',
+        }),
+      );
+    });
+
+    it('deve retornar token JWT válido', async () => {
+      const dto: LoginDto = {
+        email: 'joao@example.com',
+        senha: 'Senha@123',
+      };
+
+      const usuarioExistente = {
+        id: '123',
+        nome: 'João Silva',
+        email: 'joao@example.com',
+        senha: '$2b$10$hashedPassword',
+        treinos: [],
+        criadoEm: new Date(),
+        atualizadoEm: new Date(),
+      };
+
+      usuarioRepository.buscarPorEmail.mockResolvedValue(usuarioExistente);
+      vi.spyOn(Usuario, 'validarSenha').mockResolvedValue(true);
 
       const tokenEsperado = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
       jwtService.sign.mockReturnValue(tokenEsperado);
 
-      // Act
       const resultado = await useCase.execute(dto);
 
-      // Assert
       expect(resultado.token).toBe(tokenEsperado);
       expect(jwtService.sign).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -126,7 +141,6 @@ describe('AutenticarUsuarioUseCase', () => {
 
   describe('Casos de Exceção', () => {
     it('deve lançar exceção se usuário não encontrado', async () => {
-      // Arrange
       const dto: LoginDto = {
         email: 'naoexiste@example.com',
         senha: 'Senha@123',
@@ -134,13 +148,11 @@ describe('AutenticarUsuarioUseCase', () => {
 
       usuarioRepository.buscarPorEmail.mockResolvedValue(null);
 
-      // Act & Assert
       await expect(useCase.execute(dto)).rejects.toThrow(UnauthorizedException);
       expect(jwtService.sign).not.toHaveBeenCalled();
     });
 
     it('deve lançar exceção se senha está incorreta', async () => {
-      // Arrange
       const dto: LoginDto = {
         email: 'joao@example.com',
         senha: 'SenhaErrada@123',
@@ -157,15 +169,13 @@ describe('AutenticarUsuarioUseCase', () => {
       };
 
       usuarioRepository.buscarPorEmail.mockResolvedValue(usuarioExistente);
-      jest.spyOn(Usuario, 'validarSenha').mockResolvedValue(false);
+      vi.spyOn(Usuario, 'validarSenha').mockResolvedValue(false);
 
-      // Act & Assert
       await expect(useCase.execute(dto)).rejects.toThrow(UnauthorizedException);
       expect(jwtService.sign).not.toHaveBeenCalled();
     });
 
     it('deve lançar UnauthorizedException com mensagem genérica', async () => {
-      // Arrange
       const dto: LoginDto = {
         email: 'joao@example.com',
         senha: 'SenhaErrada@123',
@@ -173,7 +183,6 @@ describe('AutenticarUsuarioUseCase', () => {
 
       usuarioRepository.buscarPorEmail.mockResolvedValue(null);
 
-      // Act & Assert
       await expect(useCase.execute(dto)).rejects.toThrow(
         'Credenciais inválidas',
       );
@@ -182,7 +191,6 @@ describe('AutenticarUsuarioUseCase', () => {
 
   describe('Validações', () => {
     it('não deve retornar senha do usuário', async () => {
-      // Arrange
       const dto: LoginDto = {
         email: 'joao@example.com',
         senha: 'Senha@123',
@@ -199,18 +207,15 @@ describe('AutenticarUsuarioUseCase', () => {
       };
 
       usuarioRepository.buscarPorEmail.mockResolvedValue(usuarioExistente);
-      jest.spyOn(Usuario, 'validarSenha').mockResolvedValue(true);
+      vi.spyOn(Usuario, 'validarSenha').mockResolvedValue(true);
       jwtService.sign.mockReturnValue('token');
 
-      // Act
       const resultado = await useCase.execute(dto);
 
-      // Assert
       expect(resultado.usuario).not.toHaveProperty('senha');
     });
 
     it('deve buscar usuário por email normalizado', async () => {
-      // Arrange
       const dto: LoginDto = {
         email: 'JOAO@EXAMPLE.COM',
         senha: 'Senha@123',
@@ -218,9 +223,7 @@ describe('AutenticarUsuarioUseCase', () => {
 
       usuarioRepository.buscarPorEmail.mockResolvedValue(null);
 
-      // Act & Assert
       await expect(useCase.execute(dto)).rejects.toThrow();
-      // Email é passado como está (o controller faz a validação)
       expect(usuarioRepository.buscarPorEmail).toHaveBeenCalledWith(dto.email);
     });
   });

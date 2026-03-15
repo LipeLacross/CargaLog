@@ -3,6 +3,7 @@ import type { IUsuarioRepository } from '../../../domain/repositories/usuario.re
 import { Usuario } from '../../../domain/entities/usuario.entity';
 import { RegistrarUsuarioDto } from '../../dto/auth/registrar-usuario.dto';
 import { Email } from '../../../domain/value-objects/email.vo';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 /**
  * Caso de uso: Registrar novo usuário
@@ -13,6 +14,7 @@ export class RegistrarUsuarioUseCase {
   constructor(
     @Inject('IUsuarioRepository')
     private readonly usuarioRepository: IUsuarioRepository,
+    private readonly logger: LoggerService,
   ) {}
 
   async execute(dto: RegistrarUsuarioDto): Promise<Omit<Usuario, 'senha'>> {
@@ -40,6 +42,13 @@ export class RegistrarUsuarioUseCase {
     // Remove senha da resposta
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { senha, ...usuarioSemSenha } = usuario;
+
+    await this.logger.audit({
+      usuarioId: usuario.id,
+      acao: 'REGISTRO_USUARIO',
+      dadosNovos: { email: usuario.email, nome: usuario.nome },
+    });
+
     return usuarioSemSenha;
   }
 }

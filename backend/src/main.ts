@@ -3,12 +3,14 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './shared/filters/http-exception.filter';
 import { LoggingInterceptor } from './shared/interceptors/logging.interceptor';
 
 async function bootstrap() {
+  const logger = new Logger('Bootstrap');
+  
   // Cria aplicação com Fastify
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -48,8 +50,8 @@ async function bootstrap() {
   const port = parseInt(process.env.PORT || '3000', 10);
   await app.listen(port, '0.0.0.0');
 
-  console.log(`🚀 CargaLog API rodando em: ${await app.getUrl()}`);
-  console.log(`📚 Ambiente: ${process.env.NODE_ENV || 'development'}`);
+  logger.log(`CargaLog API rodando em: ${await app.getUrl()}`);
+  logger.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
 }
 
 void bootstrap();

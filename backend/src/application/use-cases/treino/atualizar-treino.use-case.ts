@@ -10,6 +10,7 @@ import { Treino } from '../../../domain/entities/treino.entity';
 import { UpdateTreinoDto } from '../../dto/treino/update-treino.dto';
 import { Carga } from '../../../domain/value-objects/carga.vo';
 import { Repeticoes } from '../../../domain/value-objects/repeticoes.vo';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 /**
  * Caso de uso: Atualizar treino
@@ -20,6 +21,7 @@ export class AtualizarTreinoUseCase {
   constructor(
     @Inject('ITreinoRepository')
     private readonly treinoRepository: ITreinoRepository,
+    private readonly logger: LoggerService,
   ) {}
 
   async execute(
@@ -82,6 +84,22 @@ export class AtualizarTreinoUseCase {
     if (dto.data) dadosAtualizacao.data = new Date(dto.data);
 
     // Atualiza treino
-    return this.treinoRepository.atualizar(treinoId, dadosAtualizacao);
+    const treinoAtualizado = await this.treinoRepository.atualizar(treinoId, dadosAtualizacao);
+
+    await this.logger.audit({
+      usuarioId,
+      acao: 'ATUALIZAR_TREINO',
+      entidade: 'Treino',
+      entidadeId: treinoId,
+      dadosAntigos: {
+        exercicio: treino.exercicioNome,
+        carga: treino.carga,
+        repeticoes: treino.repeticoes,
+        series: treino.series,
+      },
+      dadosNovos: dadosAtualizacao,
+    });
+
+    return treinoAtualizado;
   }
 }

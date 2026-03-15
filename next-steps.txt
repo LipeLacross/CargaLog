@@ -1,7 +1,7 @@
 Back
 
 ## 📌 **RESUMO EXECUTIVO
-
+vamos usar a bib de swagger para esse back end
 ### **O HELSON DISSE:**
 1. **Trocar Jest por Vitest** (mais rápido, mesma sintaxe)
 2. **Remover console.log** do código (usar Winston)
@@ -28,3 +28,380 @@ Back
 5. Migrar Jest para Vitest (mais rápido)
 6. Remover console.log do frontend
 7. Adicionar cleanup no GitHub Actions
+
+Front
+
+Mobile
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## ✅ **PLANO CORRIGIDO - COM O QUE FALTAVA**
+
+Você tem razão! Eu esqueci de incluir a parte **CRÍTICA** do que o Helson falou no plano. Vamos corrigir:
+
+---
+
+## 🔴 **O QUE FALTAVA NO PLANO ANTERIOR:**
+
+### **1. Migrar de Jest para Vitest (Sugestão do Helson)**
+Ele recomendou Vitest por ser **mais rápido** e manter a mesma sintaxe.
+
+### **2. Cleanup do Docker no CI/CD**
+Ele alertou sobre acumular imagens no servidor.
+
+### **3. Remover console.log do frontend (já estava)**
+Isso estava certo.
+
+---
+
+## 📋 **PLANO COMPLETO E CORRIGIDO**
+
+### **PARTE 1 - TABELA DE LOGS + WINSTON (SUA PRIORIDADE)**
+
+```typescript
+// backend/src/domain/entities/audit-log.entity.ts
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
+  Index,
+} from 'typeorm';
+import { Usuario } from './usuario.entity';
+
+@Entity('logs_auditoria')
+@Index(['usuarioId'])
+@Index(['entidade', 'entidadeId'])
+@Index(['criadoEm'])
+export class AuditLog {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({ name: 'usuario_id', type: 'uuid', nullable: true })
+  usuarioId: string | null;
+
+  @ManyToOne(() => Usuario, { onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'usuario_id' })
+  usuario: Usuario | null;
+
+  @Column({ type: 'varchar', length: 100 })
+  acao: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  entidade: string | null;
+
+  @Column({ name: 'entidade_id', type: 'uuid', nullable: true })
+  entidadeId: string | null;
+
+  @Column({ type: 'jsonb', nullable: true })
+  dadosAnteriores: Record<string, any> | null;
+
+  @Column({ type: 'jsonb', nullable: true })
+  dadosNovos: Record<string, any> | null;
+
+  @Column({ type: 'varchar', length: 45, nullable: true })
+  ip: string | null;
+
+  @Column({ name: 'user_agent', type: 'text', nullable: true })
+  userAgent: string | null;
+
+  @CreateDateColumn({ name: 'criado_em' })
+  criadoEm: Date;
+}
+```
+
+```typescript
+// backend/src/shared/services/logger.service.ts
+import { Injectable, LoggerService as NestLoggerService } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { WinstonLoggerService } from './winston-logger.service';
+import { AuditLog } from '../../domain/entities/audit-log.entity';
+
+@Injectable()
+export class LoggerService implements NestLoggerService {
+  private winston: WinstonLoggerService;
+
+  constructor(
+    @InjectRepository(AuditLog)
+    private readonly auditRepository: Repository<AuditLog>,
+  ) {
+    this.winston = new WinstonLoggerService();
+  }
+
+  // ✅ WINSTON SEMPRE FUNCIONA
+  log(message: string, context?: string, meta?: Record<string, unknown>) {
+    this.winston.log(message, context, meta);
+  }
+
+  error(message: string, trace?: string, context?: string, meta?: Record<string, unknown>) {
+    this.winston.error(message, trace, context, meta);
+  }
+
+  warn(message: string, context?: string, meta?: Record<string, unknown>) {
+    this.winston.warn(message, context, meta);
+  }
+
+  debug(message: string, context?: string, meta?: Record<string, unknown>) {
+    this.winston.debug(message, context, meta);
+  }
+
+  // ✅ AUDITORIA (vai pro banco + Winston)
+  async audit(metadata: {
+    usuarioId?: string;
+    acao: string;
+    entidade?: string;
+    entidadeId?: string;
+    dadosAntigos?: any;
+    dadosNovos?: any;
+    ip?: string;
+    userAgent?: string;
+  }): Promise<void> {
+    // 1️⃣ Sempre loga no Winston primeiro
+    this.winston.logWithMeta('info', `[AUDIT] ${metadata.acao}`, metadata);
+
+    // 2️⃣ Tenta salvar no banco (nunca quebra)
+    try {
+      const log = this.auditRepository.create({
+        usuarioId: metadata.usuarioId || null,
+        acao: metadata.acao,
+        entidade: metadata.entidade || null,
+        entidadeId: metadata.entidadeId || null,
+        dadosAnteriores: metadata.dadosAntigos || null,
+        dadosNovos: metadata.dadosNovos || null,
+        ip: metadata.ip || null,
+        userAgent: metadata.userAgent || null,
+      });
+
+      // Não esperar - execução assíncrona
+      this.auditRepository.save(log).catch(err => {
+        this.winston.error('Falha ao salvar log no banco', err.stack, 'AuditLog');
+      });
+    } catch (err) {
+      this.winston.error('Erro ao criar log de auditoria', err instanceof Error ? err.stack : undefined, 'AuditLog');
+    }
+  }
+}
+```
+
+---
+
+### **PARTE 2 - O QUE FALTAVA (SUGESTÕES DO HELSON)**
+
+#### **🔸 2.1 Migrar Jest para Vitest**
+
+```bash
+# Instalar Vitest
+cd backend
+npm uninstall jest @types/jest ts-jest
+npm install -D vitest @vitest/coverage-v8 @vitest/ui
+```
+
+```typescript
+// backend/vitest.config.ts
+import { defineConfig } from 'vitest/config';
+import path from 'path';
+
+export default defineConfig({
+  test: {
+    globals: true,
+    environment: 'node',
+    setupFiles: ['./test/vitest-setup.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+    },
+  },
+  resolve: {
+    alias: {
+      '@domain': path.resolve(__dirname, './src/domain'),
+      '@application': path.resolve(__dirname, './src/application'),
+      '@frameworks': path.resolve(__dirname, './src/frameworks'),
+      '@interface-adapters': path.resolve(__dirname, './src/interface-adapters'),
+      '@shared': path.resolve(__dirname, './src/shared'),
+    },
+  },
+});
+```
+
+```json
+// backend/package.json - ATUALIZAR SCRIPTS
+{
+  "scripts": {
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "test:ui": "vitest --ui",
+    "test:unit": "vitest --testNamePattern='\\.spec\\.ts$'",
+    "test:integration": "vitest --testNamePattern='\\.integration\\.spec\\.ts$'",
+    "test:e2e": "vitest --config ./test/vitest-e2e.config.ts"
+  }
+}
+```
+
+```typescript
+// backend/test/vitest-e2e.config.ts
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  test: {
+    include: ['**/*.e2e-spec.ts'],
+    environment: 'node',
+    setupFiles: ['./test/vitest-setup.ts'],
+  },
+});
+```
+
+**Exemplo de teste convertido (mesma sintaxe do Jest):**
+```typescript
+// backend/src/application/use-cases/treino/deletar-treino.use-case.spec.ts
+import { describe, it, expect, beforeEach, vi } from 'vitest'; // <- só muda o import
+import { Test } from '@nestjs/testing';
+import { DeletarTreinoUseCase } from './deletar-treino.use-case';
+
+describe('DeletarTreinoUseCase', () => {
+  // O RESTO DO CÓDIGO CONTINUA IGUAL!
+});
+```
+
+---
+
+#### **🔸 2.2 Cleanup Docker no CI/CD**
+
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build Docker images
+        run: docker-compose build
+
+      - name: Deploy
+        run: |
+          docker-compose up -d
+
+      # ✅ CLEANUP - O QUE FALTAVA
+      - name: Cleanup Docker
+        run: |
+          echo "🧹 Removendo imagens não utilizadas..."
+          docker system prune -f
+          docker image prune -a -f
+          docker volume prune -f
+          echo "✅ Cleanup concluído!"
+```
+
+---
+
+#### **🔸 2.3 Script de Manutenção para Docker (opcional)**
+
+```bash
+#!/bin/bash
+# scripts/docker-cleanup.sh
+
+echo "🔍 Verificando espaço em disco antes:"
+df -h /
+
+echo "🧹 Limpando Docker..."
+docker system prune -f
+docker image prune -a -f
+docker volume prune -f
+docker builder prune -f
+
+echo "📊 Espaço em disco depois:"
+df -h /
+
+echo "✅ Cleanup concluído em $(date)"
+```
+
+```json
+// backend/package.json - adicionar script
+{
+  "scripts": {
+    "docker:cleanup": "bash scripts/docker-cleanup.sh"
+  }
+}
+```
+
+---
+
+## 📋 **CHECKLIST COMPLETO (COM O QUE FALTAVA)**
+
+### **PRIORIDADE ALTA - SUA TABELA DE LOGS**
+| # | Tarefa | Status |
+|---|---|:---:|
+| 1 | Criar entidade AuditLog | ⬜ |
+| 2 | Criar LoggerService unificado | ⬜ |
+| 3 | Adicionar LoggerModule no AppModule | ⬜ |
+| 4 | Implementar audit() nos use cases | ⬜ |
+| 5 | Passar Request nos controllers | ⬜ |
+| 6 | Criar migration da tabela | ⬜ |
+| 7 | Rodar migration | ⬜ |
+
+### **PRIORIDADE MÉDIA - SUGESTÕES DO HELSON**
+| # | Tarefa | Status |
+|---|---|:---:|
+| 8 | Migrar Jest para Vitest | ⬜ |
+| 9 | Remover console.log do frontend | ⬜ |
+| 10 | Adicionar cleanup no GitHub Actions | ⬜ |
+
+---
+
+## 🎯 **ORDEM CORRETA DE EXECUÇÃO**
+
+### **DIA 1 - IMPLEMENTAR TABELA (4-5 horas)**
+1. Criar entidade AuditLog
+2. Criar LoggerService
+3. Adicionar no AppModule
+4. Modificar use cases (começar por deletar-treino e auth)
+5. Criar e rodar migration
+6. Testar se logs estão indo para banco e Winston
+
+### **DIA 2 - MELHORIAS DO HELSON (2-3 horas)**
+7. Migrar Jest para Vitest
+8. Remover console.log do frontend
+9. Configurar GitHub Actions com cleanup
+10. Testar tudo
+
+---
+
+## ✅ **RESUMO DO QUE MUDEI**
+
+| O que faltava | Onde adicionei |
+|---|---|
+| Migração Jest → Vitest | **PARTE 2.1** |
+| Cleanup Docker no CI/CD | **PARTE 2.2** |
+| Script de cleanup | **PARTE 2.3** |
+| Checklist completo | **Checklist com 11 itens** |
+
+Agora sim o plano está **COMPLETO** com todas as sugestões do Helson! ✅

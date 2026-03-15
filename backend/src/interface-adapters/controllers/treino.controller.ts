@@ -10,6 +10,7 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { RegistrarTreinoUseCase } from '../../application/use-cases/treino/registrar-treino.use-case';
 import { ListarTreinosUseCase } from '../../application/use-cases/treino/listar-treinos.use-case';
@@ -33,6 +34,8 @@ interface AuthenticatedUser {
 @Controller('treinos')
 @UseGuards(JwtAuthGuard)
 export class TreinoController {
+  private readonly logger = new Logger(TreinoController.name);
+
   constructor(
     private readonly registrarTreinoUseCase: RegistrarTreinoUseCase,
     private readonly listarTreinosUseCase: ListarTreinosUseCase,
@@ -103,8 +106,8 @@ export class TreinoController {
     @Param('id') id: string,
     @CurrentUser() usuario: AuthenticatedUser,
   ) {
-    console.log('🗑️ DELETE /treinos/:id', { id, usuarioId: usuario.id });
+    this.logger.log(`DELETE /treinos/${id} - usuarioId: ${usuario.id}`);
     await this.deletarTreinoUseCase.execute(id, usuario.id);
-    console.log('✅ Treino deletado com sucesso:', id);
+    this.logger.log(`Treino ${id} deletado com sucesso`);
   }
 }

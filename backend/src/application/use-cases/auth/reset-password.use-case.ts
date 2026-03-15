@@ -2,6 +2,7 @@ import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import type { IUsuarioRepository } from '../../../domain/repositories/usuario.repository.interface';
 import { EmailService } from '../../../shared/services/email.service';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 interface ResetPasswordRequest {
   email: string;
@@ -19,6 +20,7 @@ export class ResetPasswordUseCase {
     private readonly usuarioRepository: IUsuarioRepository,
     private readonly jwtService: JwtService,
     private readonly emailService: EmailService,
+    private readonly logger: LoggerService,
   ) {}
 
   /**
@@ -45,6 +47,12 @@ export class ResetPasswordUseCase {
 
     // Envia email
     await this.emailService.sendResetPasswordEmail(usuario.email, resetLink);
+
+    await this.logger.audit({
+      usuarioId: usuario.id,
+      acao: 'SOLICITACAO_RESET_SENHA',
+      dadosNovos: { email: usuario.email },
+    });
 
     return { mensagem: 'Se o email existe, você receberá um link de reset.' };
   }
@@ -84,6 +92,12 @@ export class ResetPasswordUseCase {
 
       // Envia email de confirmação
       await this.emailService.sendPasswordChangedEmail(usuario.email);
+
+      await this.logger.audit({
+        usuarioId: usuario.id,
+        acao: 'TROCA_SENHA',
+        dadosNovos: { email: usuario.email },
+      });
 
       return { mensagem: 'Senha redefinida com sucesso!' };
     } catch (error) {

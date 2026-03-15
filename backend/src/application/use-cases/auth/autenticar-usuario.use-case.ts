@@ -4,6 +4,7 @@ import type { IUsuarioRepository } from '../../../domain/repositories/usuario.re
 import { Usuario } from '../../../domain/entities/usuario.entity';
 import { LoginDto } from '../../dto/auth/login.dto';
 import { TokenPayloadDto } from '../../dto/auth/token-payload.dto';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 /**
  * Caso de uso: Autenticar usuário
@@ -15,6 +16,7 @@ export class AutenticarUsuarioUseCase {
     @Inject('IUsuarioRepository')
     private readonly usuarioRepository: IUsuarioRepository,
     private readonly jwtService: JwtService,
+    private readonly logger: LoggerService,
   ) {}
 
   async execute(dto: LoginDto): Promise<{
@@ -42,6 +44,12 @@ export class AutenticarUsuarioUseCase {
     };
 
     const token = this.jwtService.sign(payload);
+
+    await this.logger.audit({
+      usuarioId: usuario.id,
+      acao: 'LOGIN_SUCESSO',
+      dadosNovos: { email: usuario.email },
+    });
 
     // Remove senha da resposta
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

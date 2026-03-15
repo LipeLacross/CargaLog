@@ -1,20 +1,32 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException, ForbiddenException } from '@nestjs/common';
+import { vi, describe, it, expect, beforeEach, Mock, Mocked } from 'vitest';
 import { DeletarTreinoUseCase } from './deletar-treino.use-case';
 import { ITreinoRepository } from '../../../domain/repositories/treino.repository.interface';
 import { Treino } from '../../../domain/entities/treino.entity';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 describe('DeletarTreinoUseCase', () => {
   let useCase: DeletarTreinoUseCase;
-  let repository: jest.Mocked<ITreinoRepository>;
+  let repository: Mocked<ITreinoRepository>;
+  let logger: Mocked<LoggerService>;
 
-  const mockRepositorio: jest.Mocked<ITreinoRepository> = {
-    criar: jest.fn(),
-    buscarPorId: jest.fn(),
-    listarPorUsuario: jest.fn(),
-    atualizar: jest.fn(),
-    deletar: jest.fn(),
-    obterEstatisticas: jest.fn(),
+  const mockRepositorio: Mocked<ITreinoRepository> = {
+    criar: vi.fn(),
+    buscarPorId: vi.fn(),
+    listarPorUsuario: vi.fn(),
+    atualizar: vi.fn(),
+    deletar: vi.fn(),
+    obterEstatisticas: vi.fn(),
+  };
+
+  const mockLogger: Mocked<LoggerService> = {
+    log: vi.fn(),
+    error: vi.fn(),
+    warn: vi.fn(),
+    debug: vi.fn(),
+    verbose: vi.fn(),
+    audit: vi.fn().mockResolvedValue(undefined),
   };
 
   const treinoExistente: Treino = {
@@ -34,7 +46,7 @@ describe('DeletarTreinoUseCase', () => {
   };
 
   beforeEach(async () => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -43,12 +55,16 @@ describe('DeletarTreinoUseCase', () => {
           provide: 'ITreinoRepository',
           useValue: mockRepositorio,
         },
+        {
+          provide: LoggerService,
+          useValue: mockLogger,
+        },
       ],
     }).compile();
 
     useCase = module.get<DeletarTreinoUseCase>(DeletarTreinoUseCase);
-    repository =
-      module.get<jest.Mocked<ITreinoRepository>>('ITreinoRepository');
+    repository = module.get<Mocked<ITreinoRepository>>('ITreinoRepository');
+    logger = module.get<Mocked<LoggerService>>(LoggerService);
   });
 
   describe('Caminho Feliz', () => {
