@@ -52,7 +52,7 @@ export class RegistrarTreinoUseCase {
       data: dto.data ? new Date(dto.data) : new Date(),
     });
 
-    await this.logger.audit({
+    this.logger.audit({
       usuarioId,
       acao: 'CRIAR_TREINO',
       entidade: 'Treino',

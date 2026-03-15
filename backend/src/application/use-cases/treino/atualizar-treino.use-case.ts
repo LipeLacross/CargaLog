@@ -84,9 +84,12 @@ export class AtualizarTreinoUseCase {
     if (dto.data) dadosAtualizacao.data = new Date(dto.data);
 
     // Atualiza treino
-    const treinoAtualizado = await this.treinoRepository.atualizar(treinoId, dadosAtualizacao);
+    const treinoAtualizado = await this.treinoRepository.atualizar(
+      treinoId,
+      dadosAtualizacao,
+    );
 
-    await this.logger.audit({
+    this.logger.audit({
       usuarioId,
       acao: 'ATUALIZAR_TREINO',
       entidade: 'Treino',

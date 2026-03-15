@@ -13,7 +13,10 @@ export default defineConfig({
       '@domain': path.resolve(__dirname, './src/domain'),
       '@application': path.resolve(__dirname, './src/application'),
       '@frameworks': path.resolve(__dirname, './src/frameworks'),
-      '@interface-adapters': path.resolve(__dirname, './src/interface-adapters'),
+      '@interface-adapters': path.resolve(
+        __dirname,
+        './src/interface-adapters',
+      ),
       '@shared': path.resolve(__dirname, './src/shared'),
     },
   },

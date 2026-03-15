@@ -46,8 +46,12 @@ export class LoggerService implements NestLoggerService {
     this.winston.verbose(message, context);
   }
 
-  async audit(metadata: AuditMetadata): Promise<void> {
-    this.winston.logWithMeta('info', `[AUDIT] ${metadata.acao}`, metadata as unknown as Record<string, unknown>);
+  audit(metadata: AuditMetadata): void {
+    this.winston.logWithMeta(
+      'info',
+      `[AUDIT] ${metadata.acao}`,
+      metadata as unknown as Record<string, unknown>,
+    );
 
     try {
       const log = this.auditRepository.create({

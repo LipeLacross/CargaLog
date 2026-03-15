@@ -10,7 +10,7 @@ import { LoggingInterceptor } from './shared/interceptors/logging.interceptor';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
-  
+
   // Cria aplicação com Fastify
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,

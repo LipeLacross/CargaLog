@@ -48,7 +48,7 @@ export class ResetPasswordUseCase {
     // Envia email
     await this.emailService.sendResetPasswordEmail(usuario.email, resetLink);
 
-    await this.logger.audit({
+    this.logger.audit({
       usuarioId: usuario.id,
       acao: 'SOLICITACAO_RESET_SENHA',
       dadosNovos: { email: usuario.email },
@@ -93,7 +93,7 @@ export class ResetPasswordUseCase {
       // Envia email de confirmação
       await this.emailService.sendPasswordChangedEmail(usuario.email);
 
-      await this.logger.audit({
+      this.logger.audit({
         usuarioId: usuario.id,
         acao: 'TROCA_SENHA',
         dadosNovos: { email: usuario.email },

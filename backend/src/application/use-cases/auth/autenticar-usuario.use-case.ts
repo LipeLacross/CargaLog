@@ -45,7 +45,7 @@ export class AutenticarUsuarioUseCase {
 
     const token = this.jwtService.sign(payload);
 
-    await this.logger.audit({
+    this.logger.audit({
       usuarioId: usuario.id,
       acao: 'LOGIN_SUCESSO',
       dadosNovos: { email: usuario.email },

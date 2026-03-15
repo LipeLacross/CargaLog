@@ -43,7 +43,7 @@ export class RegistrarUsuarioUseCase {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { senha, ...usuarioSemSenha } = usuario;
 
-    await this.logger.audit({
+    this.logger.audit({
       usuarioId: usuario.id,
       acao: 'REGISTRO_USUARIO',
       dadosNovos: { email: usuario.email, nome: usuario.nome },

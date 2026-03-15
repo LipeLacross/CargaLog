@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtService } from '@nestjs/jwt';
 import { UnauthorizedException } from '@nestjs/common';
-import { vi, describe, it, expect, beforeEach, Mock, Mocked } from 'vitest';
+import { vi, describe, it, expect, beforeEach, Mocked } from 'vitest';
 import { AutenticarUsuarioUseCase } from './autenticar-usuario.use-case';
 import { IUsuarioRepository } from '../../../domain/repositories/usuario.repository.interface';
 import { LoginDto } from '../../dto/auth/login.dto';
@@ -60,7 +60,8 @@ describe('AutenticarUsuarioUseCase', () => {
     }).compile();
 
     useCase = module.get<AutenticarUsuarioUseCase>(AutenticarUsuarioUseCase);
-    usuarioRepository = module.get<Mocked<IUsuarioRepository>>('IUsuarioRepository');
+    usuarioRepository =
+      module.get<Mocked<IUsuarioRepository>>('IUsuarioRepository');
     jwtService = module.get<Mocked<JwtService>>(JwtService);
     logger = module.get<Mocked<LoggerService>>(LoggerService);
   });

@@ -34,7 +34,7 @@ export class DeletarTreinoUseCase {
       );
     }
 
-    await this.logger.audit({
+    this.logger.audit({
       usuarioId,
       acao: 'DELETAR_TREINO',
       entidade: 'Treino',

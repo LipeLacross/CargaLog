@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException, ForbiddenException } from '@nestjs/common';
-import { vi, describe, it, expect, beforeEach, Mock, Mocked } from 'vitest';
+import { vi, describe, it, expect, beforeEach, Mocked } from 'vitest';
 import { DeletarTreinoUseCase } from './deletar-treino.use-case';
 import { ITreinoRepository } from '../../../domain/repositories/treino.repository.interface';
 import { Treino } from '../../../domain/entities/treino.entity';
@@ -9,7 +9,6 @@ import { LoggerService } from '../../../shared/services/logger.service';
 describe('DeletarTreinoUseCase', () => {
   let useCase: DeletarTreinoUseCase;
   let repository: Mocked<ITreinoRepository>;
-  let logger: Mocked<LoggerService>;
 
   const mockRepositorio: Mocked<ITreinoRepository> = {
     criar: vi.fn(),
