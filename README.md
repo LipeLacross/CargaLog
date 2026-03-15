@@ -143,8 +143,9 @@ O projeto segue uma arquitetura limpa com camadas bem definidas:
   "orm": "TypeORM",
   "auth": "JWT + Passport",
   "validation": "Class-validator",
-  "logging": "Winston",
-  "testing": "Jest (305 tests, 71% coverage)",
+  "logging": "Winston + Audit Log",
+  "apiDocs": "Swagger/OpenAPI",
+  "testing": "Vitest (305 tests)",
   "containerization": "Docker & Docker Compose"
 }
 ```
@@ -367,7 +368,8 @@ npm run migration:run
 - [x] Autenticação com JWT
 - [x] Validações e tratamento de erro
 - [x] Testes unitários e E2E (305 testes)
-- [x] Documentação API Swagger
+- [x] Documentação API Swagger/OpenAPI
+- [x] Logging com Winston + Audit Log no banco
 - [x] Docker setup completo
 - [x] Clean Architecture implementada
 

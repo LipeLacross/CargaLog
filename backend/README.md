@@ -65,9 +65,10 @@ Fornecer uma API robusta, escalável e bem testada para gerenciar:
 - **Framework**: NestJS 11 com Fastify
 - **Banco de Dados**: PostgreSQL (Supabase)
 - **ORM**: TypeORM com migrations versionadas
-- **Logging**: Winston integrado
+- **Logging**: Winston + Audit Log no banco
 - **Validação**: class-validator e class-transformer
-- **Testes**: Jest com 305 testes unitários (71% cobertura)
+- **Documentação**: Swagger/OpenAPI
+- **Testes**: Vitest (305 testes unitários)
 
 ---
 
@@ -140,9 +141,8 @@ graph TB
 - **CORS** - Proteção de requisições cross-origin
 
 ### ✅ Testing & Quality
-- **Jest** - Framework de testes
-- **ts-jest** - Suporte TypeScript no Jest
-- **Supertest** - Testes HTTP
+- **Vitest** - Framework de testes
+- **@vitest/coverage-v8** - Cobertura de testes
 - **ESLint** - Linting
 - **Prettier** - Formatação de código
 
@@ -449,8 +449,8 @@ npm run start:prod      # Inicia em produção
 npm run test           # Rodar todos os testes
 npm run test:unit      # Apenas unitários
 npm run test:watch     # Watch mode
-npm run test:cov       # Com cobertura
-npm run test:debug     # Com debugger
+npm run test:coverage  # Com cobertura
+npm run test:e2e      # Testes E2E
 
 # Qualidade
 npm run lint           # ESLint

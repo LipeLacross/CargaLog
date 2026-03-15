@@ -139,7 +139,9 @@ The project follows a clean architecture with well-defined layers:
 - Node.js 22 + NestJS 11 (FastifyAdapter)
 - PostgreSQL 15 + TypeORM
 - JWT + Passport authentication
-- Jest (305 tests, 71% coverage)
+- Winston + Audit Log
+- Swagger/OpenAPI
+- Vitest (305 tests)
 - Docker & Docker Compose
 ```
 
