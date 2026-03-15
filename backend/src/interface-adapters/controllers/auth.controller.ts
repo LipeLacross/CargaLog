@@ -8,6 +8,12 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { RegistrarUsuarioUseCase } from '../../application/use-cases/auth/registrar-usuario.use-case';
 import { AutenticarUsuarioUseCase } from '../../application/use-cases/auth/autenticar-usuario.use-case';
 import { ResetPasswordUseCase } from '../../application/use-cases/auth/reset-password.use-case';
@@ -28,6 +34,7 @@ interface AuthenticatedUser {
  * Controller de autenticação
  * Endpoints: registrar, login, perfil, reset-password
  */
+@ApiTags('Autenticação')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -43,6 +50,9 @@ export class AuthController {
    */
   @Post('registrar')
   @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Registrar novo usuário' })
+  @ApiResponse({ status: 201, description: 'Usuário criado com sucesso' })
+  @ApiResponse({ status: 409, description: 'Email já cadastrado' })
   async registrar(@Body() dto: RegistrarUsuarioDto) {
     return this.registrarUsuarioUseCase.execute(dto);
   }
@@ -53,6 +63,9 @@ export class AuthController {
    */
   @Post('login')
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Autenticar usuário' })
+  @ApiResponse({ status: 200, description: 'Login realizado com sucesso' })
+  @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
   async login(@Body() dto: LoginDto) {
     return this.autenticarUsuarioUseCase.execute(dto);
   }
@@ -63,6 +76,10 @@ export class AuthController {
    */
   @Get('perfil')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Obter perfil do usuário' })
+  @ApiResponse({ status: 200, description: 'Dados do perfil' })
+  @ApiResponse({ status: 401, description: 'Não autorizado' })
   perfil(@CurrentUser() usuario: AuthenticatedUser) {
     // Clona e remove senha antes de retornar o perfil
     const usuarioSemSenha = { ...usuario };
@@ -76,7 +93,11 @@ export class AuthController {
    */
   @Patch('perfil')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Atualizar perfil do usuário' })
+  @ApiResponse({ status: 200, description: 'Perfil atualizado' })
+  @ApiResponse({ status: 401, description: 'Não autorizado' })
   async atualizarPerfil(
     @CurrentUser() usuario: AuthenticatedUser,
     @Body() dto: { nome?: string; senhaAtual?: string; novaSenha?: string },

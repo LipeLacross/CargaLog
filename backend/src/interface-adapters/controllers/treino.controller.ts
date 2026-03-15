@@ -12,6 +12,13 @@ import {
   HttpStatus,
   Logger,
 } from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { RegistrarTreinoUseCase } from '../../application/use-cases/treino/registrar-treino.use-case';
 import { ListarTreinosUseCase } from '../../application/use-cases/treino/listar-treinos.use-case';
 import { AtualizarTreinoUseCase } from '../../application/use-cases/treino/atualizar-treino.use-case';
@@ -31,6 +38,8 @@ interface AuthenticatedUser {
  * Controller de treinos
  * Endpoints CRUD de treinos
  */
+@ApiTags('Treinos')
+@ApiBearerAuth()
 @Controller('treinos')
 @UseGuards(JwtAuthGuard)
 export class TreinoController {
@@ -49,6 +58,9 @@ export class TreinoController {
    */
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Criar novo treino' })
+  @ApiResponse({ status: 201, description: 'Treino criado com sucesso' })
+  @ApiResponse({ status: 400, description: 'Dados inválidos' })
   async criar(
     @CurrentUser() usuario: AuthenticatedUser,
     @Body() dto: CreateTreinoDto,
@@ -61,6 +73,11 @@ export class TreinoController {
    * Lista treinos do usuário com filtros opcionais
    */
   @Get()
+  @ApiOperation({ summary: 'Listar treinos do usuário' })
+  @ApiQuery({ name: 'exercicio', required: false })
+  @ApiQuery({ name: 'dataInicio', required: false })
+  @ApiQuery({ name: 'dataFim', required: false })
+  @ApiResponse({ status: 200, description: 'Lista de treinos' })
   async listar(
     @CurrentUser() usuario: AuthenticatedUser,
     @Query('exercicio') exercicio?: string,
@@ -88,6 +105,9 @@ export class TreinoController {
    * Atualiza um treino
    */
   @Patch(':id')
+  @ApiOperation({ summary: 'Atualizar treino' })
+  @ApiResponse({ status: 200, description: 'Treino atualizado' })
+  @ApiResponse({ status: 404, description: 'Treino não encontrado' })
   async atualizar(
     @Param('id') id: string,
     @CurrentUser() usuario: AuthenticatedUser,
@@ -102,6 +122,9 @@ export class TreinoController {
    */
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Deletar treino' })
+  @ApiResponse({ status: 204, description: 'Treino deletado' })
+  @ApiResponse({ status: 404, description: 'Treino não encontrado' })
   async deletar(
     @Param('id') id: string,
     @CurrentUser() usuario: AuthenticatedUser,

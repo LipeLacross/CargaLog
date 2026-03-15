@@ -28,7 +28,10 @@ beforeAll(() => {
     config: vi.fn(),
   }));
 
-  vi.stubEnv('JWT_SECRET', 'test_secret_key_for_testing_purposes_only_32_chars');
+  vi.stubEnv(
+    'JWT_SECRET',
+    'test_secret_key_for_testing_purposes_only_32_chars',
+  );
   vi.stubEnv('DATABASE_URL', 'postgresql://test:test@localhost:5432/test');
   vi.stubEnv('LOG_LEVEL', 'error');
   vi.stubEnv('NODE_ENV', 'test');
