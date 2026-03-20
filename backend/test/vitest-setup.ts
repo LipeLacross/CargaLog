@@ -1,29 +1,7 @@
 import { beforeAll, vi } from 'vitest';
 
 beforeAll(() => {
-  vi.mock('winston', () => ({
-    createLogger: vi.fn().mockReturnValue({
-      info: vi.fn(),
-      error: vi.fn(),
-      warn: vi.fn(),
-      debug: vi.fn(),
-      verbose: vi.fn(),
-      log: vi.fn(),
-    }),
-    format: {
-      combine: vi.fn(),
-      timestamp: vi.fn(),
-      errors: vi.fn(),
-      splat: vi.fn(),
-      json: vi.fn(),
-      colorize: vi.fn(),
-      printf: vi.fn(),
-    },
-    transports: {
-      Console: vi.fn(),
-      File: vi.fn(),
-    },
-  }));
+  // Removed winston mock: using NestJS Logger implementation in tests
 
   vi.mock('dotenv', () => ({
     config: vi.fn(),

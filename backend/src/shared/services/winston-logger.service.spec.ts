@@ -2,7 +2,23 @@ import { WinstonLoggerService } from './winston-logger.service';
 
 describe('WinstonLoggerService', () => {
   let service: WinstonLoggerService;
-
+  beforeAll(() => {
+    // replace internal winston logger with a no-op Nest Logger to avoid side effects
+    // when constructing the service in tests
+    vi.mock('@nestjs/common', async () => {
+      const original: any = await vi.importActual('@nestjs/common');
+      return {
+        ...original,
+        Logger: class {
+          log = vi.fn();
+          error = vi.fn();
+          warn = vi.fn();
+          debug = vi.fn();
+          verbose = vi.fn();
+        },
+      };
+    });
+  });
   beforeEach(() => {
     service = new WinstonLoggerService();
   });

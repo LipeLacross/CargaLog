@@ -7,7 +7,7 @@ import {
 import { Response } from 'express';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { WinstonLoggerService } from '../services/winston-logger.service';
+import { Logger } from '@nestjs/common';
 import { Usuario } from '../../domain/entities/usuario.entity';
 
 interface RequestWithUser {
@@ -23,13 +23,12 @@ interface RequestWithUser {
  */
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
-  private readonly logger = new WinstonLoggerService();
+  private readonly logger = new Logger(LoggingInterceptor.name);
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest<RequestWithUser>();
     const method = request.method;
     const url = request.url;
-    const userId = this.extractUserId(request.user);
     const now = Date.now();
 
     return next.handle().pipe(
@@ -37,12 +36,10 @@ export class LoggingInterceptor implements NestInterceptor {
         const response = context.switchToHttp().getResponse<Response>();
         const duration = Date.now() - now;
 
-        this.logger.logRequest(
-          method,
-          url,
-          response.statusCode,
-          duration,
-          userId,
+        // Log HTTP request using Nest Logger
+        this.logger.log(
+          `${method} ${url} ${response.statusCode} ${duration}ms`,
+          'HttpRequest',
         );
       }),
     );

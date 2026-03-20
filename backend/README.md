@@ -65,7 +65,7 @@ Fornecer uma API robusta, escalável e bem testada para gerenciar:
 - **Framework**: NestJS 11 com Fastify
 - **Banco de Dados**: PostgreSQL (Supabase)
 - **ORM**: TypeORM com migrations versionadas
-- **Logging**: Winston + Audit Log no banco
+- **Logging**: NestJS Logger + Audit Log no banco
 - **Validação**: class-validator e class-transformer
 - **Documentação**: Swagger/OpenAPI
 - **Testes**: Vitest (305 testes unitários)
@@ -147,7 +147,7 @@ graph TB
 - **Prettier** - Formatação de código
 
 ### 📊 Observabilidade
-- **Winston** - Logging estruturado
+- **NestJS Logger** - Logging estruturado
 - **Exception Filters** - Tratamento global de erros
 - **Logging Interceptor** - Logs automáticos
 
@@ -205,7 +205,7 @@ backend/
 ├── .env.example                          # Exemplo de .env
 ├── package.json                          # Dependências
 ├── tsconfig.json                         # Config TypeScript
-├── jest.config.js                        # Config Jest
+├── vitest.config.ts                       # Config Vitest
 └── ormconfig.ts                          # Config TypeORM
 ```
 
@@ -374,7 +374,7 @@ Tests:       305 passed ✅
 
 ### Rodar com Cobertura
 ```bash
-npm run test:cov
+npm run test:coverage
 ```
 
 ### Rodar em Watch Mode
@@ -446,7 +446,7 @@ npm run build           # Build do projeto
 npm run start:prod      # Inicia em produção
 
 # Testes
-npm run test           # Rodar todos os testes
+npm run test           # Rodar todos os testes (Vitest)
 npm run test:unit      # Apenas unitários
 npm run test:watch     # Watch mode
 npm run test:coverage  # Com cobertura

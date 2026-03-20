@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 
 interface EmailOptions {
@@ -11,6 +11,7 @@ interface EmailOptions {
 @Injectable()
 export class EmailService {
   private transporter: nodemailer.Transporter;
+  private readonly logger = new Logger(EmailService.name);
 
   constructor() {
     this.transporter = nodemailer.createTransport({
@@ -35,7 +36,10 @@ export class EmailService {
       });
     } catch (error) {
       const err = error as { message?: string };
-      console.error('Erro ao enviar email:', error);
+      this.logger.error(
+        `Erro ao enviar email: ${err.message || 'desconhecido'}`,
+        error instanceof Error ? error.stack : undefined,
+      );
       throw new Error(`Erro ao enviar email: ${err.message || 'desconhecido'}`);
     }
   }

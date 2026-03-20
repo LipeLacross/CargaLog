@@ -1,7 +1,11 @@
-import { Injectable, LoggerService as NestLoggerService } from '@nestjs/common';
+import {
+  Injectable,
+  LoggerService as NestLoggerService,
+  Logger,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { WinstonLoggerService } from './winston-logger.service';
+// Use NestJS Logger instead of external Winston implementation
 import { AuditLog } from '../../domain/entities/audit-log.entity';
 
 export interface AuditMetadata {
@@ -17,41 +21,39 @@ export interface AuditMetadata {
 
 @Injectable()
 export class LoggerService implements NestLoggerService {
-  private winston: WinstonLoggerService;
+  private logger = new Logger('LoggerService');
 
   constructor(
     @InjectRepository(AuditLog)
     private readonly auditRepository: Repository<AuditLog>,
   ) {
-    this.winston = new WinstonLoggerService();
+    // using NestJS Logger instance
   }
 
   log(message: string, context?: string): void {
-    this.winston.log(message, context);
+    this.logger.log(message, context);
   }
 
-  error(message: string, trace?: string, context?: string): void {
-    this.winston.error(message, trace, context);
+  error(message: string, trace?: string, _context?: string): void {
+    // Nest Logger.error signature is (message, trace?)
+    this.logger.error(message, trace);
   }
 
   warn(message: string, context?: string): void {
-    this.winston.warn(message, context);
+    this.logger.warn(message, context);
   }
 
   debug(message: string, context?: string): void {
-    this.winston.debug(message, context);
+    this.logger.debug(message, context);
   }
 
   verbose(message: string, context?: string): void {
-    this.winston.verbose(message, context);
+    // Nest Logger doesn't have verbose by default; use log to represent verbose
+    this.logger.log(message, context);
   }
 
   audit(metadata: AuditMetadata): void {
-    this.winston.logWithMeta(
-      'info',
-      `[AUDIT] ${metadata.acao}`,
-      metadata as unknown as Record<string, unknown>,
-    );
+    this.logger.log(`[AUDIT] ${metadata.acao} ${JSON.stringify(metadata)}`);
 
     try {
       const log = this.auditRepository.create({
@@ -66,17 +68,15 @@ export class LoggerService implements NestLoggerService {
       });
 
       this.auditRepository.save(log).catch((err) => {
-        this.winston.error(
+        this.logger.error(
           'Falha ao salvar log no banco',
           err instanceof Error ? err.stack : undefined,
-          'AuditLog',
         );
       });
     } catch (err) {
-      this.winston.error(
+      this.logger.error(
         'Erro ao criar log de auditoria',
         err instanceof Error ? err.stack : undefined,
-        'AuditLog',
       );
     }
   }

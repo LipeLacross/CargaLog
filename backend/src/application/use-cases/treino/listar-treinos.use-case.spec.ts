@@ -31,8 +31,7 @@ describe('ListarTreinosUseCase', () => {
     }).compile();
 
     useCase = module.get<ListarTreinosUseCase>(ListarTreinosUseCase);
-    repository =
-      module.get<vi.Mocked<ITreinoRepository>>('ITreinoRepository');
+    repository = module.get<vi.Mocked<ITreinoRepository>>('ITreinoRepository');
   });
 
   describe('Caminho Feliz', () => {
