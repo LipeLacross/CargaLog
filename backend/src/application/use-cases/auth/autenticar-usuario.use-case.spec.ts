@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtService } from '@nestjs/jwt';
 import { UnauthorizedException } from '@nestjs/common';
-import { vi, describe, it, expect, beforeEach, Mocked } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { AutenticarUsuarioUseCase } from './autenticar-usuario.use-case';
 import { IUsuarioRepository } from '../../../domain/repositories/usuario.repository.interface';
 import { LoginDto } from '../../dto/auth/login.dto';
@@ -10,11 +10,11 @@ import { LoggerService } from '../../../shared/services/logger.service';
 
 describe('AutenticarUsuarioUseCase', () => {
   let useCase: AutenticarUsuarioUseCase;
-  let usuarioRepository: Mocked<IUsuarioRepository>;
-  let jwtService: Mocked<JwtService>;
-  let logger: Mocked<LoggerService>;
+  let usuarioRepository: ReturnType<typeof vi.fn>;
+  let jwtService: ReturnType<typeof vi.fn>;
+  let logger: ReturnType<typeof vi.fn>;
 
-  const mockRepositorio: Mocked<IUsuarioRepository> = {
+  const mockRepositorio = {
     criar: vi.fn(),
     buscarPorId: vi.fn(),
     buscarPorEmail: vi.fn(),
@@ -29,7 +29,7 @@ describe('AutenticarUsuarioUseCase', () => {
     verify: vi.fn(),
   };
 
-  const mockLogger: Mocked<LoggerService> = {
+  const mockLogger = {
     log: vi.fn(),
     error: vi.fn(),
     warn: vi.fn(),
@@ -54,16 +54,15 @@ describe('AutenticarUsuarioUseCase', () => {
         },
         {
           provide: LoggerService,
-          useValue: mockLogger,
+          useFactory: () => mockLogger,
         },
       ],
     }).compile();
 
     useCase = module.get<AutenticarUsuarioUseCase>(AutenticarUsuarioUseCase);
-    usuarioRepository =
-      module.get<Mocked<IUsuarioRepository>>('IUsuarioRepository');
-    jwtService = module.get<Mocked<JwtService>>(JwtService);
-    logger = module.get<Mocked<LoggerService>>(LoggerService);
+    usuarioRepository = module.get('IUsuarioRepository');
+    jwtService = module.get(JwtService);
+    logger = module.get(LoggerService);
   });
 
   describe('Caminho Feliz', () => {

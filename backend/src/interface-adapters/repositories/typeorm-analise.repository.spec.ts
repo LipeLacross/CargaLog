@@ -1,26 +1,27 @@
+import { vi, describe, it, expect } from 'vitest';
 import { Repository } from 'typeorm';
 import { TypeOrmAnaliseRepository } from './typeorm-analise.repository';
 import { Treino } from '../../domain/entities/treino.entity';
 
 const buildQueryBuilder = <T>(result: T[]) => {
   const qb = {
-    select: jest.fn().mockReturnThis(),
-    addSelect: jest.fn().mockReturnThis(),
-    where: jest.fn().mockReturnThis(),
-    andWhere: jest.fn().mockReturnThis(),
-    groupBy: jest.fn().mockReturnThis(),
-    orderBy: jest.fn().mockReturnThis(),
-    limit: jest.fn().mockReturnThis(),
-    getRawMany: jest.fn().mockResolvedValue(result),
-    getRawOne: jest.fn().mockResolvedValue(result[0] || null),
-    getMany: jest.fn().mockResolvedValue(result as any),
+    select: vi.fn().mockReturnThis(),
+    addSelect: vi.fn().mockReturnThis(),
+    where: vi.fn().mockReturnThis(),
+    andWhere: vi.fn().mockReturnThis(),
+    groupBy: vi.fn().mockReturnThis(),
+    orderBy: vi.fn().mockReturnThis(),
+    limit: vi.fn().mockReturnThis(),
+    getRawMany: vi.fn().mockResolvedValue(result),
+    getRawOne: vi.fn().mockResolvedValue(result[0] || null),
+    getMany: vi.fn().mockResolvedValue(result as any),
   };
   return qb;
 };
 
 describe('TypeOrmAnaliseRepository', () => {
   let repository: TypeOrmAnaliseRepository;
-  let ormRepository: jest.Mocked<Repository<Treino>>;
+  let ormRepository: vi.Mocked<Repository<Treino>>;
 
   const buildTreino = (overrides: Partial<Treino> = {}): Treino => ({
     id: 'treino-1',
@@ -38,9 +39,9 @@ describe('TypeOrmAnaliseRepository', () => {
 
   beforeEach(() => {
     ormRepository = {
-      count: jest.fn(),
-      createQueryBuilder: jest.fn(),
-    } as unknown as jest.Mocked<Repository<Treino>>;
+      count: vi.fn(),
+      createQueryBuilder: vi.fn(),
+    } as unknown as vi.Mocked<Repository<Treino>>;
 
     repository = new TypeOrmAnaliseRepository(ormRepository);
   });

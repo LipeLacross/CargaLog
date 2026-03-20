@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException, ForbiddenException } from '@nestjs/common';
-import { vi, describe, it, expect, beforeEach, Mocked } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { DeletarTreinoUseCase } from './deletar-treino.use-case';
 import { ITreinoRepository } from '../../../domain/repositories/treino.repository.interface';
 import { Treino } from '../../../domain/entities/treino.entity';
@@ -8,9 +8,9 @@ import { LoggerService } from '../../../shared/services/logger.service';
 
 describe('DeletarTreinoUseCase', () => {
   let useCase: DeletarTreinoUseCase;
-  let repository: Mocked<ITreinoRepository>;
+  let repository: ReturnType<typeof vi.fn>;
 
-  const mockRepositorio: Mocked<ITreinoRepository> = {
+  const mockRepositorio = {
     criar: vi.fn(),
     buscarPorId: vi.fn(),
     listarPorUsuario: vi.fn(),
@@ -19,7 +19,7 @@ describe('DeletarTreinoUseCase', () => {
     obterEstatisticas: vi.fn(),
   };
 
-  const mockLogger: Mocked<LoggerService> = {
+  const mockLogger = {
     log: vi.fn(),
     error: vi.fn(),
     warn: vi.fn(),
@@ -56,14 +56,13 @@ describe('DeletarTreinoUseCase', () => {
         },
         {
           provide: LoggerService,
-          useValue: mockLogger,
+          useFactory: () => mockLogger,
         },
       ],
     }).compile();
 
     useCase = module.get<DeletarTreinoUseCase>(DeletarTreinoUseCase);
-    repository = module.get<Mocked<ITreinoRepository>>('ITreinoRepository');
-    logger = module.get<Mocked<LoggerService>>(LoggerService);
+    repository = module.get('ITreinoRepository');
   });
 
   describe('Caminho Feliz', () => {

@@ -7,6 +7,7 @@ beforeAll(() => {
       error: vi.fn(),
       warn: vi.fn(),
       debug: vi.fn(),
+      verbose: vi.fn(),
       log: vi.fn(),
     }),
     format: {

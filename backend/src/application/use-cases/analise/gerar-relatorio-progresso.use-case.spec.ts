@@ -29,7 +29,7 @@ describe('GerarRelatorioProgressoUseCase', () => {
       GerarRelatorioProgressoUseCase,
     );
     repository =
-      module.get<jest.Mocked<IAnaliseRepository>>('IAnaliseRepository');
+      module.get<vi.Mocked<IAnaliseRepository>>('IAnaliseRepository');
   });
 
   describe('Caminho Feliz', () => {

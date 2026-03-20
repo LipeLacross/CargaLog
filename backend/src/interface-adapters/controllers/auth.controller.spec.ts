@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { vi, describe, it, expect, Mocked } from 'vitest';
 import { AuthController } from './auth.controller';
 import { RegistrarUsuarioUseCase } from '../../application/use-cases/auth/registrar-usuario.use-case';
 import { AutenticarUsuarioUseCase } from '../../application/use-cases/auth/autenticar-usuario.use-case';
@@ -9,8 +10,8 @@ import { LoginDto } from '../../application/dto/auth/login.dto';
 
 describe('AuthController', () => {
   let controller: AuthController;
-  let registrarUseCase: jest.Mocked<RegistrarUsuarioUseCase>;
-  let autenticarUseCase: jest.Mocked<AutenticarUsuarioUseCase>;
+  let registrarUseCase: { execute: ReturnType<typeof vi.fn> };
+  let autenticarUseCase: { execute: ReturnType<typeof vi.fn> };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -19,37 +20,33 @@ describe('AuthController', () => {
         {
           provide: RegistrarUsuarioUseCase,
           useValue: {
-            execute: jest.fn(),
+            execute: vi.fn(),
           },
         },
         {
           provide: AutenticarUsuarioUseCase,
           useValue: {
-            execute: jest.fn(),
+            execute: vi.fn(),
           },
         },
         {
           provide: ResetPasswordUseCase,
           useValue: {
-            execute: jest.fn(),
+            execute: vi.fn(),
           },
         },
         {
           provide: AtualizarPerfilUseCase,
           useValue: {
-            execute: jest.fn(),
+            execute: vi.fn(),
           },
         },
       ],
     }).compile();
 
     controller = module.get<AuthController>(AuthController);
-    registrarUseCase = module.get<jest.Mocked<RegistrarUsuarioUseCase>>(
-      RegistrarUsuarioUseCase,
-    );
-    autenticarUseCase = module.get<jest.Mocked<AutenticarUsuarioUseCase>>(
-      AutenticarUsuarioUseCase,
-    );
+    registrarUseCase = module.get(RegistrarUsuarioUseCase);
+    autenticarUseCase = module.get(AutenticarUsuarioUseCase);
   });
 
   describe('POST /auth/registrar', () => {

@@ -4,12 +4,13 @@ import { RegistrarUsuarioUseCase } from './registrar-usuario.use-case';
 import { IUsuarioRepository } from '../../../domain/repositories/usuario.repository.interface';
 import { RegistrarUsuarioDto } from '../../dto/auth/registrar-usuario.dto';
 import { ConflictException } from '@nestjs/common';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 describe('RegistrarUsuarioUseCase', () => {
   let useCase: RegistrarUsuarioUseCase;
-  let repository: vi.Mocked<IUsuarioRepository>;
+  let repository: ReturnType<typeof vi.fn>;
 
-  const mockRepositorio: vi.Mocked<IUsuarioRepository> = {
+  const mockRepositorio = {
     criar: vi.fn(),
     buscarPorId: vi.fn(),
     buscarPorEmail: vi.fn(),
@@ -17,6 +18,15 @@ describe('RegistrarUsuarioUseCase', () => {
     atualizar: vi.fn(),
     deletar: vi.fn(),
     listar: vi.fn(),
+  };
+
+  const mockLogger = {
+    log: vi.fn(),
+    error: vi.fn(),
+    warn: vi.fn(),
+    debug: vi.fn(),
+    verbose: vi.fn(),
+    audit: vi.fn().mockResolvedValue(undefined),
   };
 
   beforeEach(async () => {
@@ -29,12 +39,15 @@ describe('RegistrarUsuarioUseCase', () => {
           provide: 'IUsuarioRepository',
           useValue: mockRepositorio,
         },
+        {
+          provide: LoggerService,
+          useFactory: () => mockLogger,
+        },
       ],
     }).compile();
 
     useCase = module.get<RegistrarUsuarioUseCase>(RegistrarUsuarioUseCase);
-    repository =
-      module.get<jest.Mocked<IUsuarioRepository>>('IUsuarioRepository');
+    repository = module.get('IUsuarioRepository');
   });
 
   describe('Caminho Feliz', () => {

@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { vi, describe, it, expect, Mocked } from 'vitest';
 import { TreinoController } from './treino.controller';
 import { RegistrarTreinoUseCase } from '../../application/use-cases/treino/registrar-treino.use-case';
 import { ListarTreinosUseCase } from '../../application/use-cases/treino/listar-treinos.use-case';
@@ -10,10 +11,10 @@ import { Treino } from '../../domain/entities/treino.entity';
 
 describe('TreinoController', () => {
   let controller: TreinoController;
-  let registrarUseCase: jest.Mocked<RegistrarTreinoUseCase>;
-  let listarUseCase: jest.Mocked<ListarTreinosUseCase>;
-  let atualizarUseCase: jest.Mocked<AtualizarTreinoUseCase>;
-  let deletarUseCase: jest.Mocked<DeletarTreinoUseCase>;
+  let registrarUseCase: { execute: ReturnType<typeof vi.fn> };
+  let listarUseCase: { execute: ReturnType<typeof vi.fn> };
+  let atualizarUseCase: { execute: ReturnType<typeof vi.fn> };
+  let deletarUseCase: { execute: ReturnType<typeof vi.fn> };
 
   const usuarioMock = {
     id: 'usuario-123',
@@ -42,34 +43,28 @@ describe('TreinoController', () => {
       providers: [
         {
           provide: RegistrarTreinoUseCase,
-          useValue: { execute: jest.fn() },
+          useValue: { execute: vi.fn() },
         },
         {
           provide: ListarTreinosUseCase,
-          useValue: { execute: jest.fn() },
+          useValue: { execute: vi.fn() },
         },
         {
           provide: AtualizarTreinoUseCase,
-          useValue: { execute: jest.fn() },
+          useValue: { execute: vi.fn() },
         },
         {
           provide: DeletarTreinoUseCase,
-          useValue: { execute: jest.fn() },
+          useValue: { execute: vi.fn() },
         },
       ],
     }).compile();
 
     controller = module.get<TreinoController>(TreinoController);
-    registrarUseCase = module.get<jest.Mocked<RegistrarTreinoUseCase>>(
-      RegistrarTreinoUseCase,
-    );
-    listarUseCase =
-      module.get<jest.Mocked<ListarTreinosUseCase>>(ListarTreinosUseCase);
-    atualizarUseCase = module.get<jest.Mocked<AtualizarTreinoUseCase>>(
-      AtualizarTreinoUseCase,
-    );
-    deletarUseCase =
-      module.get<jest.Mocked<DeletarTreinoUseCase>>(DeletarTreinoUseCase);
+    registrarUseCase = module.get(RegistrarTreinoUseCase);
+    listarUseCase = module.get(ListarTreinosUseCase);
+    atualizarUseCase = module.get(AtualizarTreinoUseCase);
+    deletarUseCase = module.get(DeletarTreinoUseCase);
   });
 
   describe('POST /treinos', () => {

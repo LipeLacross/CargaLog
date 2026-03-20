@@ -9,18 +9,28 @@ import { AtualizarTreinoUseCase } from './atualizar-treino.use-case';
 import { ITreinoRepository } from '../../../domain/repositories/treino.repository.interface';
 import { UpdateTreinoDto } from '../../dto/treino/update-treino.dto';
 import { Treino } from '../../../domain/entities/treino.entity';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 describe('AtualizarTreinoUseCase', () => {
   let useCase: AtualizarTreinoUseCase;
-  let repository: vi.Mocked<ITreinoRepository>;
+  let repository: ReturnType<typeof vi.fn>;
 
-  const mockRepositorio: vi.Mocked<ITreinoRepository> = {
+  const mockRepositorio = {
     criar: vi.fn(),
     buscarPorId: vi.fn(),
     listarPorUsuario: vi.fn(),
     atualizar: vi.fn(),
     deletar: vi.fn(),
     obterEstatisticas: vi.fn(),
+  };
+
+  const mockLogger = {
+    log: vi.fn(),
+    error: vi.fn(),
+    warn: vi.fn(),
+    debug: vi.fn(),
+    verbose: vi.fn(),
+    audit: vi.fn().mockResolvedValue(undefined),
   };
 
   const treinoExistente: Treino = {
@@ -49,12 +59,15 @@ describe('AtualizarTreinoUseCase', () => {
           provide: 'ITreinoRepository',
           useValue: mockRepositorio,
         },
+        {
+          provide: LoggerService,
+          useFactory: () => mockLogger,
+        },
       ],
     }).compile();
 
     useCase = module.get<AtualizarTreinoUseCase>(AtualizarTreinoUseCase);
-    repository =
-      module.get<jest.Mocked<ITreinoRepository>>('ITreinoRepository');
+    repository = module.get('ITreinoRepository');
   });
 
   describe('Caminho Feliz', () => {

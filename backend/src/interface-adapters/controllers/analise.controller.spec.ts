@@ -1,12 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { vi, describe, it, expect, Mocked } from 'vitest';
 import { AnaliseController } from './analise.controller';
 import { GerarRelatorioProgressoUseCase } from '../../application/use-cases/analise/gerar-relatorio-progresso.use-case';
 import { ObterEstatisticasUseCase } from '../../application/use-cases/analise/obter-estatisticas.use-case';
 
 describe('AnaliseController', () => {
   let controller: AnaliseController;
-  let gerarRelatorioUseCase: jest.Mocked<GerarRelatorioProgressoUseCase>;
-  let obterEstatisticasUseCase: jest.Mocked<ObterEstatisticasUseCase>;
+  let gerarRelatorioUseCase: { execute: ReturnType<typeof vi.fn> };
+  let obterEstatisticasUseCase: { execute: ReturnType<typeof vi.fn> };
 
   const usuarioMock = {
     id: 'usuario-123',
@@ -45,22 +46,18 @@ describe('AnaliseController', () => {
       providers: [
         {
           provide: GerarRelatorioProgressoUseCase,
-          useValue: { execute: jest.fn() },
+          useValue: { execute: vi.fn() },
         },
         {
           provide: ObterEstatisticasUseCase,
-          useValue: { execute: jest.fn() },
+          useValue: { execute: vi.fn() },
         },
       ],
     }).compile();
 
     controller = module.get<AnaliseController>(AnaliseController);
-    gerarRelatorioUseCase = module.get<
-      jest.Mocked<GerarRelatorioProgressoUseCase>
-    >(GerarRelatorioProgressoUseCase);
-    obterEstatisticasUseCase = module.get<
-      jest.Mocked<ObterEstatisticasUseCase>
-    >(ObterEstatisticasUseCase);
+    gerarRelatorioUseCase = module.get(GerarRelatorioProgressoUseCase);
+    obterEstatisticasUseCase = module.get(ObterEstatisticasUseCase);
   });
 
   describe('GET /analises/estatisticas', () => {

@@ -1,21 +1,22 @@
+import { vi, describe, it, expect } from 'vitest';
 import { Repository } from 'typeorm';
 import { TypeOrmTreinoRepository } from './typeorm-treino.repository';
 import { Treino } from '../../domain/entities/treino.entity';
 
 const buildQueryBuilder = <T>(result: T[]) => {
   const qb = {
-    where: jest.fn().mockReturnThis(),
-    orderBy: jest.fn().mockReturnThis(),
-    addOrderBy: jest.fn().mockReturnThis(),
-    andWhere: jest.fn().mockReturnThis(),
-    getMany: jest.fn().mockResolvedValue(result),
+    where: vi.fn().mockReturnThis(),
+    orderBy: vi.fn().mockReturnThis(),
+    addOrderBy: vi.fn().mockReturnThis(),
+    andWhere: vi.fn().mockReturnThis(),
+    getMany: vi.fn().mockResolvedValue(result),
   };
   return qb;
 };
 
 describe('TypeOrmTreinoRepository', () => {
   let repository: TypeOrmTreinoRepository;
-  let ormRepository: jest.Mocked<Repository<Treino>>;
+  let ormRepository: vi.Mocked<Repository<Treino>>;
 
   const buildTreino = (overrides: Partial<Treino> = {}): Treino => ({
     id: 'treino-1',
@@ -33,15 +34,15 @@ describe('TypeOrmTreinoRepository', () => {
 
   beforeEach(() => {
     ormRepository = {
-      create: jest.fn(),
-      save: jest.fn(),
-      findOne: jest.fn(),
-      find: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-      count: jest.fn(),
-      createQueryBuilder: jest.fn(),
-    } as unknown as jest.Mocked<Repository<Treino>>;
+      create: vi.fn(),
+      save: vi.fn(),
+      findOne: vi.fn(),
+      find: vi.fn(),
+      update: vi.fn(),
+      delete: vi.fn(),
+      count: vi.fn(),
+      createQueryBuilder: vi.fn(),
+    } as unknown as vi.Mocked<Repository<Treino>>;
 
     repository = new TypeOrmTreinoRepository(ormRepository);
   });

@@ -4,18 +4,28 @@ import { BadRequestException } from '@nestjs/common';
 import { RegistrarTreinoUseCase } from './registrar-treino.use-case';
 import { ITreinoRepository } from '../../../domain/repositories/treino.repository.interface';
 import { CreateTreinoDto } from '../../dto/treino/create-treino.dto';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 describe('RegistrarTreinoUseCase', () => {
   let useCase: RegistrarTreinoUseCase;
-  let repository: vi.Mocked<ITreinoRepository>;
+  let repository: ReturnType<typeof vi.fn>;
 
-  const mockRepositorio: vi.Mocked<ITreinoRepository> = {
+  const mockRepositorio = {
     criar: vi.fn(),
     buscarPorId: vi.fn(),
     listarPorUsuario: vi.fn(),
     atualizar: vi.fn(),
     deletar: vi.fn(),
     obterEstatisticas: vi.fn(),
+  };
+
+  const mockLogger = {
+    log: vi.fn(),
+    error: vi.fn(),
+    warn: vi.fn(),
+    debug: vi.fn(),
+    verbose: vi.fn(),
+    audit: vi.fn().mockResolvedValue(undefined),
   };
 
   beforeEach(async () => {
@@ -28,12 +38,15 @@ describe('RegistrarTreinoUseCase', () => {
           provide: 'ITreinoRepository',
           useValue: mockRepositorio,
         },
+        {
+          provide: LoggerService,
+          useFactory: () => mockLogger,
+        },
       ],
     }).compile();
 
     useCase = module.get<RegistrarTreinoUseCase>(RegistrarTreinoUseCase);
-    repository =
-      module.get<jest.Mocked<ITreinoRepository>>('ITreinoRepository');
+    repository = module.get('ITreinoRepository');
   });
 
   describe('Caminho Feliz', () => {

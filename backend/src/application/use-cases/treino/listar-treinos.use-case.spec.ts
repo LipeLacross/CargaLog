@@ -32,7 +32,7 @@ describe('ListarTreinosUseCase', () => {
 
     useCase = module.get<ListarTreinosUseCase>(ListarTreinosUseCase);
     repository =
-      module.get<jest.Mocked<ITreinoRepository>>('ITreinoRepository');
+      module.get<vi.Mocked<ITreinoRepository>>('ITreinoRepository');
   });
 
   describe('Caminho Feliz', () => {

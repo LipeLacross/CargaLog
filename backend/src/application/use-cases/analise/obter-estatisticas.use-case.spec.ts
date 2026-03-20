@@ -27,7 +27,7 @@ describe('ObterEstatisticasUseCase', () => {
 
     useCase = module.get<ObterEstatisticasUseCase>(ObterEstatisticasUseCase);
     repository =
-      module.get<jest.Mocked<IAnaliseRepository>>('IAnaliseRepository');
+      module.get<vi.Mocked<IAnaliseRepository>>('IAnaliseRepository');
   });
 
   describe('Caminho Feliz', () => {

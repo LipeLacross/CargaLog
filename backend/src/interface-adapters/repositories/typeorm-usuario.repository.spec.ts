@@ -1,10 +1,11 @@
+import { vi, describe, it, expect } from 'vitest';
 import { Repository } from 'typeorm';
 import { TypeOrmUsuarioRepository } from './typeorm-usuario.repository';
 import { Usuario } from '../../domain/entities/usuario.entity';
 
 describe('TypeOrmUsuarioRepository', () => {
   let repository: TypeOrmUsuarioRepository;
-  let ormRepository: jest.Mocked<Repository<Usuario>>;
+  let ormRepository: vi.Mocked<Repository<Usuario>>;
 
   const buildUsuario = (overrides: Partial<Usuario> = {}): Usuario => ({
     id: 'user-1',
@@ -19,13 +20,13 @@ describe('TypeOrmUsuarioRepository', () => {
 
   beforeEach(() => {
     ormRepository = {
-      create: jest.fn(),
-      save: jest.fn(),
-      findOne: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-      count: jest.fn(),
-    } as unknown as jest.Mocked<Repository<Usuario>>;
+      create: vi.fn(),
+      save: vi.fn(),
+      findOne: vi.fn(),
+      update: vi.fn(),
+      delete: vi.fn(),
+      count: vi.fn(),
+    } as unknown as vi.Mocked<Repository<Usuario>>;
 
     repository = new TypeOrmUsuarioRepository(ormRepository);
   });

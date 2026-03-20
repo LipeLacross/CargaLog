@@ -1,3 +1,4 @@
+import { vi, describe, it, expect } from 'vitest';
 import { ArgumentsHost, HttpStatus } from '@nestjs/common';
 import { HttpExceptionFilter } from './http-exception.filter';
 import {
@@ -21,8 +22,8 @@ describe('HttpExceptionFilter', () => {
 
     // Mock do response
     mockResponse = {
-      status: jest.fn().mockReturnThis(),
-      send: jest.fn().mockReturnThis(),
+      status: vi.fn().mockReturnThis(),
+      send: vi.fn().mockReturnThis(),
     };
 
     // Mock do request
@@ -33,9 +34,9 @@ describe('HttpExceptionFilter', () => {
 
     // Mock do ArgumentsHost
     mockArgumentsHost = {
-      switchToHttp: jest.fn().mockReturnValue({
-        getResponse: jest.fn().mockReturnValue(mockResponse),
-        getRequest: jest.fn().mockReturnValue(mockRequest),
+      switchToHttp: vi.fn().mockReturnValue({
+        getResponse: vi.fn().mockReturnValue(mockResponse),
+        getRequest: vi.fn().mockReturnValue(mockRequest),
       }),
     } as any;
   });
