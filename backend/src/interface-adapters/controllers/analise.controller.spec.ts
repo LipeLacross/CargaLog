@@ -1,5 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { vi, describe, it, expect, Mocked } from 'vitest';
+import { vi, describe, it, expect } from 'vitest';
 import { AnaliseController } from './analise.controller';
 import { GerarRelatorioProgressoUseCase } from '../../application/use-cases/analise/gerar-relatorio-progresso.use-case';
 import { ObterEstatisticasUseCase } from '../../application/use-cases/analise/obter-estatisticas.use-case';
@@ -40,24 +39,13 @@ describe('AnaliseController', () => {
     },
   };
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [AnaliseController],
-      providers: [
-        {
-          provide: GerarRelatorioProgressoUseCase,
-          useValue: { execute: vi.fn() },
-        },
-        {
-          provide: ObterEstatisticasUseCase,
-          useValue: { execute: vi.fn() },
-        },
-      ],
-    }).compile();
-
-    controller = module.get<AnaliseController>(AnaliseController);
-    gerarRelatorioUseCase = module.get(GerarRelatorioProgressoUseCase);
-    obterEstatisticasUseCase = module.get(ObterEstatisticasUseCase);
+  beforeEach(() => {
+    gerarRelatorioUseCase = { execute: vi.fn() };
+    obterEstatisticasUseCase = { execute: vi.fn() };
+    controller = new AnaliseController(
+      gerarRelatorioUseCase as unknown as GerarRelatorioProgressoUseCase,
+      obterEstatisticasUseCase as unknown as ObterEstatisticasUseCase,
+    );
   });
 
   describe('GET /analises/estatisticas', () => {

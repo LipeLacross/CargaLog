@@ -1,4 +1,3 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { JwtService } from '@nestjs/jwt';
 import { UnauthorizedException } from '@nestjs/common';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
@@ -38,31 +37,16 @@ describe('AutenticarUsuarioUseCase', () => {
     audit: vi.fn().mockResolvedValue(undefined),
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     vi.clearAllMocks();
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AutenticarUsuarioUseCase,
-        {
-          provide: 'IUsuarioRepository',
-          useValue: mockRepositorio,
-        },
-        {
-          provide: JwtService,
-          useValue: mockJwtService,
-        },
-        {
-          provide: LoggerService,
-          useFactory: () => mockLogger,
-        },
-      ],
-    }).compile();
-
-    useCase = module.get<AutenticarUsuarioUseCase>(AutenticarUsuarioUseCase);
-    usuarioRepository = module.get('IUsuarioRepository');
-    jwtService = module.get(JwtService);
-    logger = module.get(LoggerService);
+    usuarioRepository = mockRepositorio;
+    jwtService = mockJwtService;
+    logger = mockLogger;
+    useCase = new AutenticarUsuarioUseCase(
+      mockRepositorio as unknown as IUsuarioRepository,
+      mockJwtService as unknown as JwtService,
+      mockLogger as unknown as LoggerService,
+    );
   });
 
   describe('Caminho Feliz', () => {

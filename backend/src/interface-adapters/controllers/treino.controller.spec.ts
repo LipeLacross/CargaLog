@@ -1,5 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { vi, describe, it, expect, Mocked } from 'vitest';
+import { vi, describe, it, expect } from 'vitest';
 import { TreinoController } from './treino.controller';
 import { RegistrarTreinoUseCase } from '../../application/use-cases/treino/registrar-treino.use-case';
 import { ListarTreinosUseCase } from '../../application/use-cases/treino/listar-treinos.use-case';
@@ -37,34 +36,18 @@ describe('TreinoController', () => {
     },
   };
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [TreinoController],
-      providers: [
-        {
-          provide: RegistrarTreinoUseCase,
-          useValue: { execute: vi.fn() },
-        },
-        {
-          provide: ListarTreinosUseCase,
-          useValue: { execute: vi.fn() },
-        },
-        {
-          provide: AtualizarTreinoUseCase,
-          useValue: { execute: vi.fn() },
-        },
-        {
-          provide: DeletarTreinoUseCase,
-          useValue: { execute: vi.fn() },
-        },
-      ],
-    }).compile();
+  beforeEach(() => {
+    registrarUseCase = { execute: vi.fn() };
+    listarUseCase = { execute: vi.fn() };
+    atualizarUseCase = { execute: vi.fn() };
+    deletarUseCase = { execute: vi.fn() };
 
-    controller = module.get<TreinoController>(TreinoController);
-    registrarUseCase = module.get(RegistrarTreinoUseCase);
-    listarUseCase = module.get(ListarTreinosUseCase);
-    atualizarUseCase = module.get(AtualizarTreinoUseCase);
-    deletarUseCase = module.get(DeletarTreinoUseCase);
+    controller = new TreinoController(
+      registrarUseCase as unknown as RegistrarTreinoUseCase,
+      listarUseCase as unknown as ListarTreinosUseCase,
+      atualizarUseCase as unknown as AtualizarTreinoUseCase,
+      deletarUseCase as unknown as DeletarTreinoUseCase,
+    );
   });
 
   describe('POST /treinos', () => {

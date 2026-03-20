@@ -1,4 +1,3 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import {
   NotFoundException,
@@ -49,25 +48,13 @@ describe('AtualizarTreinoUseCase', () => {
     },
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     vi.clearAllMocks();
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AtualizarTreinoUseCase,
-        {
-          provide: 'ITreinoRepository',
-          useValue: mockRepositorio,
-        },
-        {
-          provide: LoggerService,
-          useFactory: () => mockLogger,
-        },
-      ],
-    }).compile();
-
-    useCase = module.get<AtualizarTreinoUseCase>(AtualizarTreinoUseCase);
-    repository = module.get('ITreinoRepository');
+    repository = mockRepositorio;
+    useCase = new AtualizarTreinoUseCase(
+      mockRepositorio as unknown as ITreinoRepository,
+      mockLogger as unknown as LoggerService,
+    );
   });
 
   describe('Caminho Feliz', () => {

@@ -1,4 +1,3 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { RegistrarUsuarioUseCase } from './registrar-usuario.use-case';
 import { IUsuarioRepository } from '../../../domain/repositories/usuario.repository.interface';
@@ -29,25 +28,13 @@ describe('RegistrarUsuarioUseCase', () => {
     audit: vi.fn().mockResolvedValue(undefined),
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     vi.clearAllMocks();
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        RegistrarUsuarioUseCase,
-        {
-          provide: 'IUsuarioRepository',
-          useValue: mockRepositorio,
-        },
-        {
-          provide: LoggerService,
-          useFactory: () => mockLogger,
-        },
-      ],
-    }).compile();
-
-    useCase = module.get<RegistrarUsuarioUseCase>(RegistrarUsuarioUseCase);
-    repository = module.get('IUsuarioRepository');
+    repository = mockRepositorio;
+    useCase = new RegistrarUsuarioUseCase(
+      mockRepositorio as unknown as IUsuarioRepository,
+      mockLogger as unknown as LoggerService,
+    );
   });
 
   describe('Caminho Feliz', () => {

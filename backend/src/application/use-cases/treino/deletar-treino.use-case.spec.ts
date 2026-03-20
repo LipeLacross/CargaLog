@@ -1,4 +1,3 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException, ForbiddenException } from '@nestjs/common';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { DeletarTreinoUseCase } from './deletar-treino.use-case';
@@ -44,25 +43,13 @@ describe('DeletarTreinoUseCase', () => {
     },
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     vi.clearAllMocks();
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        DeletarTreinoUseCase,
-        {
-          provide: 'ITreinoRepository',
-          useValue: mockRepositorio,
-        },
-        {
-          provide: LoggerService,
-          useFactory: () => mockLogger,
-        },
-      ],
-    }).compile();
-
-    useCase = module.get<DeletarTreinoUseCase>(DeletarTreinoUseCase);
-    repository = module.get('ITreinoRepository');
+    repository = mockRepositorio;
+    useCase = new DeletarTreinoUseCase(
+      mockRepositorio as unknown as ITreinoRepository,
+      mockLogger as unknown as LoggerService,
+    );
   });
 
   describe('Caminho Feliz', () => {

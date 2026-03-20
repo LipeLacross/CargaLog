@@ -1,5 +1,4 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { vi, describe, it, expect, Mocked } from 'vitest';
+import { vi, describe, it, expect } from 'vitest';
 import { AuthController } from './auth.controller';
 import { RegistrarUsuarioUseCase } from '../../application/use-cases/auth/registrar-usuario.use-case';
 import { AutenticarUsuarioUseCase } from '../../application/use-cases/auth/autenticar-usuario.use-case';
@@ -12,41 +11,21 @@ describe('AuthController', () => {
   let controller: AuthController;
   let registrarUseCase: { execute: ReturnType<typeof vi.fn> };
   let autenticarUseCase: { execute: ReturnType<typeof vi.fn> };
+  let resetPasswordUseCase: { execute: ReturnType<typeof vi.fn> };
+  let atualizarPerfilUseCase: { execute: ReturnType<typeof vi.fn> };
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [AuthController],
-      providers: [
-        {
-          provide: RegistrarUsuarioUseCase,
-          useValue: {
-            execute: vi.fn(),
-          },
-        },
-        {
-          provide: AutenticarUsuarioUseCase,
-          useValue: {
-            execute: vi.fn(),
-          },
-        },
-        {
-          provide: ResetPasswordUseCase,
-          useValue: {
-            execute: vi.fn(),
-          },
-        },
-        {
-          provide: AtualizarPerfilUseCase,
-          useValue: {
-            execute: vi.fn(),
-          },
-        },
-      ],
-    }).compile();
+  beforeEach(() => {
+    registrarUseCase = { execute: vi.fn() };
+    autenticarUseCase = { execute: vi.fn() };
+    resetPasswordUseCase = { execute: vi.fn() };
+    atualizarPerfilUseCase = { execute: vi.fn() };
 
-    controller = module.get<AuthController>(AuthController);
-    registrarUseCase = module.get(RegistrarUsuarioUseCase);
-    autenticarUseCase = module.get(AutenticarUsuarioUseCase);
+    controller = new AuthController(
+      registrarUseCase as unknown as RegistrarUsuarioUseCase,
+      autenticarUseCase as unknown as AutenticarUsuarioUseCase,
+      resetPasswordUseCase as unknown as ResetPasswordUseCase,
+      atualizarPerfilUseCase as unknown as AtualizarPerfilUseCase,
+    );
   });
 
   describe('POST /auth/registrar', () => {
