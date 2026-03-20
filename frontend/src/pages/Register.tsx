@@ -41,7 +41,9 @@ export function Register() {
         </div>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Nome</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Nome
+            </label>
             <input
               type="text"
               placeholder="Seu nome"
@@ -52,7 +54,9 @@ export function Register() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email
+            </label>
             <input
               type="email"
               placeholder="seu@email.com"
@@ -63,7 +67,9 @@ export function Register() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Senha</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Senha
+            </label>
             <input
               type="password"
               placeholder="••••••••"
@@ -74,7 +80,9 @@ export function Register() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Confirmar Senha</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Confirmar Senha
+            </label>
             <input
               type="password"
               placeholder="••••••••"
@@ -100,7 +108,10 @@ export function Register() {
         <div className="mt-6 text-center">
           <p className="text-gray-600 text-sm">
             Ja tem conta?{' '}
-            <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium">
+            <Link
+              to="/login"
+              className="text-blue-600 hover:text-blue-700 font-medium"
+            >
               Entrar
             </Link>
           </p>

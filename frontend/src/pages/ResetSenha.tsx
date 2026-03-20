@@ -38,7 +38,10 @@ export function ResetSenha() {
       await authApi.confirmarResetSenha({ token, novaSenha });
       setSucesso(true);
     } catch (err) {
-      const error = err as { response?: { data?: { message?: string } }; message?: string };
+      const error = err as {
+        response?: { data?: { message?: string } };
+        message?: string;
+      };
       setErro(error.response?.data?.message || 'Erro ao resetar');
     } finally {
       setLoading(false);
@@ -67,8 +70,13 @@ export function ResetSenha() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center px-4">
         <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full text-center">
           <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Link Inválido</h2>
-          <Link to="/esqueci-senha" className="w-full block bg-blue-600 text-white py-2 rounded-lg">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            Link Inválido
+          </h2>
+          <Link
+            to="/esqueci-senha"
+            className="w-full block bg-blue-600 text-white py-2 rounded-lg"
+          >
             Novo Link
           </Link>
         </div>
@@ -105,7 +113,11 @@ export function ResetSenha() {
             required
           />
 
-          {erro && <div className="p-4 bg-red-50 text-red-700 rounded-lg text-sm">{erro}</div>}
+          {erro && (
+            <div className="p-4 bg-red-50 text-red-700 rounded-lg text-sm">
+              {erro}
+            </div>
+          )}
 
           <button
             type="submit"

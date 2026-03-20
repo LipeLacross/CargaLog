@@ -9,7 +9,7 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-api.interceptors.request.use(async (config) => {
+api.interceptors.request.use(async config => {
   const token = await AsyncStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -18,8 +18,8 @@ api.interceptors.request.use(async (config) => {
 });
 
 api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
+  response => response,
+  async error => {
     if (error.response?.status === 204) {
       return Promise.resolve({ status: 204, data: null });
     }
@@ -29,8 +29,7 @@ api.interceptors.response.use(
       await AsyncStorage.removeItem('usuario');
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;
-

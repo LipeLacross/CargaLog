@@ -16,5 +16,5 @@ const config = {
 
 module.exports = withNativeWind(
   mergeConfig(getDefaultConfig(__dirname), config),
-  { input: './input.css' }
+  { input: './input.css' },
 );

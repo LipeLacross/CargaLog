@@ -1,0 +1,45 @@
+name: Mobile CI
+
+on:
+  pull_request:
+    branches: ["main", "develop"]
+    paths:
+      - "mobile/**"
+      - ".github/workflows/mobile-ci.yml"
+  push:
+    branches: ["main", "develop"]
+    paths:
+      - "mobile/**"
+      - ".github/workflows/mobile-ci.yml"
+  workflow_dispatch:
+
+jobs:
+  lint-and-test:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (check only)
+        run: npm run lint:check
+
+      - name: Format check
+        run: npx prettier --check "src/**/*.{ts,tsx}" "__tests__/**/*.{ts,tsx}"
+
+      - name: Unit tests
+        run: npm test

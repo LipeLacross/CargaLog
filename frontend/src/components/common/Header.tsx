@@ -29,19 +29,30 @@ export function Header() {
 
         {/* Menu Desktop */}
         <nav className="hidden md:flex gap-8 items-center">
-          <Link to="/dashboard" className="text-white hover:text-blue-100 transition-colors font-medium">
+          <Link
+            to="/dashboard"
+            className="text-white hover:text-blue-100 transition-colors font-medium"
+          >
             Dashboard
           </Link>
-          <Link to="/treinos" className="text-white hover:text-blue-100 transition-colors font-medium">
+          <Link
+            to="/treinos"
+            className="text-white hover:text-blue-100 transition-colors font-medium"
+          >
             Treinos
           </Link>
-          <Link to="/analises" className="text-white hover:text-blue-100 transition-colors font-medium">
+          <Link
+            to="/analises"
+            className="text-white hover:text-blue-100 transition-colors font-medium"
+          >
             Análises
           </Link>
 
           {/* User Info e Logout */}
           <div className="flex items-center gap-4 pl-8 border-l border-blue-400">
-            <span className="text-white text-sm font-medium">{usuario?.nome || 'Usuário'}</span>
+            <span className="text-white text-sm font-medium">
+              {usuario?.nome || 'Usuário'}
+            </span>
             <Link
               to="/perfil"
               className="text-white hover:text-blue-100 transition-colors font-medium px-3 py-2 rounded hover:bg-blue-500/30"
@@ -59,7 +70,10 @@ export function Header() {
         </nav>
 
         {/* Menu Mobile Button */}
-        <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-white">
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden text-white"
+        >
           {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>

@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
 import { authApi } from '../api/auth.api';
 
 export function ResetSenhaScreen({ navigation, route }: any) {
@@ -29,7 +37,7 @@ export function ResetSenhaScreen({ navigation, route }: any) {
     try {
       await authApi.confirmarResetSenha({ token, novaSenha });
       Alert.alert('Sucesso', 'Senha redefinida!', [
-        { text: 'OK', onPress: () => navigation.navigate('Login') }
+        { text: 'OK', onPress: () => navigation.navigate('Login') },
       ]);
     } catch (err: any) {
       Alert.alert('Erro', err.response?.data?.message || 'Erro ao resetar');
@@ -43,7 +51,10 @@ export function ResetSenhaScreen({ navigation, route }: any) {
       <View className="flex-1 justify-center items-center bg-white px-6">
         <Text className="text-4xl mb-4">❌</Text>
         <Text className="text-2xl font-bold mb-2">Link Inválido</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('EsqueciSenha')} className="mt-4 bg-blue-600 px-6 py-2 rounded">
+        <TouchableOpacity
+          onPress={() => navigation.navigate('EsqueciSenha')}
+          className="mt-4 bg-blue-600 px-6 py-2 rounded"
+        >
           <Text className="text-white font-semibold">Novo Link</Text>
         </TouchableOpacity>
       </View>
@@ -54,11 +65,15 @@ export function ResetSenhaScreen({ navigation, route }: any) {
     <ScrollView className="flex-1 bg-gradient-to-br from-blue-50 to-purple-50">
       <View className="flex-1 justify-center px-6 py-12">
         <View className="mb-8">
-          <Text className="text-3xl font-bold text-blue-600">🔑 Nova Senha</Text>
+          <Text className="text-3xl font-bold text-blue-600">
+            🔑 Nova Senha
+          </Text>
         </View>
 
         <View className="mb-4">
-          <Text className="text-sm font-medium text-gray-700 mb-2">Nova Senha</Text>
+          <Text className="text-sm font-medium text-gray-700 mb-2">
+            Nova Senha
+          </Text>
           <TextInput
             className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 bg-white"
             placeholder="Mínimo 8 caracteres"
@@ -71,7 +86,9 @@ export function ResetSenhaScreen({ navigation, route }: any) {
         </View>
 
         <View className="mb-6">
-          <Text className="text-sm font-medium text-gray-700 mb-2">Confirmar</Text>
+          <Text className="text-sm font-medium text-gray-700 mb-2">
+            Confirmar
+          </Text>
           <TextInput
             className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 bg-white"
             placeholder="Repita a senha"
@@ -98,5 +115,3 @@ export function ResetSenhaScreen({ navigation, route }: any) {
     </ScrollView>
   );
 }
-
-

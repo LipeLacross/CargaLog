@@ -68,8 +68,13 @@ export function Perfil() {
       // Recarregar perfil após 2 segundos
       setTimeout(() => setSucesso(''), 2000);
     } catch (err) {
-      const error = err as { response?: { data?: { message?: string } }; message?: string };
-      setErro(error.response?.data?.message || error.message || 'Erro ao atualizar');
+      const error = err as {
+        response?: { data?: { message?: string } };
+        message?: string;
+      };
+      setErro(
+        error.response?.data?.message || error.message || 'Erro ao atualizar',
+      );
     } finally {
       setLoading(false);
     }
@@ -100,7 +105,9 @@ export function Perfil() {
                 <div className="p-4 bg-gray-100 rounded-lg text-gray-700">
                   {usuario.email}
                 </div>
-                <p className="text-xs text-gray-500 mt-1">Email não pode ser alterado</p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Email não pode ser alterado
+                </p>
               </div>
 
               {/* Nome */}

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import { useAuth } from '../hooks/useAuth';
 import { analisesApi } from '../api/analise.api';
 import { treinoApi } from '../api/treino.api';
@@ -39,8 +45,19 @@ export function DashboardScreen({ navigation }: any) {
         }
       });
 
-      setRecords(Array.from(recordMap.values()).sort((a, b) => b.carga - a.carga).slice(0, 5));
-      setUltimosTreinos(treinos.sort((a: any, b: any) => new Date(b.data).getTime() - new Date(a.data).getTime()).slice(0, 5));
+      setRecords(
+        Array.from(recordMap.values())
+          .sort((a, b) => b.carga - a.carga)
+          .slice(0, 5),
+      );
+      setUltimosTreinos(
+        treinos
+          .sort(
+            (a: any, b: any) =>
+              new Date(b.data).getTime() - new Date(a.data).getTime(),
+          )
+          .slice(0, 5),
+      );
     } catch (err) {
       console.error('Erro ao carregar dashboard:', err);
     } finally {
@@ -79,13 +96,21 @@ export function DashboardScreen({ navigation }: any) {
         {stats && (
           <>
             <View className="bg-white rounded-lg p-4 mb-3 shadow-sm">
-              <Text className="text-gray-600 text-sm font-medium">Total Treinos</Text>
-              <Text className="text-3xl font-bold text-blue-600 mt-2">{stats.totalTreinos}</Text>
+              <Text className="text-gray-600 text-sm font-medium">
+                Total Treinos
+              </Text>
+              <Text className="text-3xl font-bold text-blue-600 mt-2">
+                {stats.totalTreinos}
+              </Text>
             </View>
 
             <View className="bg-white rounded-lg p-4 mb-6 shadow-sm">
-              <Text className="text-gray-600 text-sm font-medium">Exercícios Únicos</Text>
-              <Text className="text-3xl font-bold text-green-600 mt-2">{stats.exercicios?.length || 0}</Text>
+              <Text className="text-gray-600 text-sm font-medium">
+                Exercícios Únicos
+              </Text>
+              <Text className="text-3xl font-bold text-green-600 mt-2">
+                {stats.exercicios?.length || 0}
+              </Text>
             </View>
           </>
         )}
@@ -93,14 +118,25 @@ export function DashboardScreen({ navigation }: any) {
         {/* Recordes Pessoais */}
         {records.length > 0 && (
           <>
-            <Text className="text-xl font-bold text-gray-900 mb-3">🏆 Top Recordes</Text>
-            {records.map((record) => (
-              <View key={record.id} className="bg-white rounded-lg p-4 mb-2 flex-row justify-between items-center shadow-sm">
+            <Text className="text-xl font-bold text-gray-900 mb-3">
+              🏆 Top Recordes
+            </Text>
+            {records.map(record => (
+              <View
+                key={record.id}
+                className="bg-white rounded-lg p-4 mb-2 flex-row justify-between items-center shadow-sm"
+              >
                 <View>
-                  <Text className="font-semibold text-gray-900">{record.exercicioNome}</Text>
-                  <Text className="text-xs text-gray-500 mt-1">{formatarData(record.data)}</Text>
+                  <Text className="font-semibold text-gray-900">
+                    {record.exercicioNome}
+                  </Text>
+                  <Text className="text-xs text-gray-500 mt-1">
+                    {formatarData(record.data)}
+                  </Text>
                 </View>
-                <Text className="text-2xl font-bold text-blue-600">{formatarCarga(record.carga)}kg</Text>
+                <Text className="text-2xl font-bold text-blue-600">
+                  {formatarCarga(record.carga)}kg
+                </Text>
               </View>
             ))}
           </>
@@ -109,16 +145,25 @@ export function DashboardScreen({ navigation }: any) {
         {/* Últimos Treinos */}
         {ultimosTreinos.length > 0 && (
           <>
-            <Text className="text-xl font-bold text-gray-900 mb-3 mt-6">📅 Últimos Treinos</Text>
-            {ultimosTreinos.map((treino) => (
-              <View key={treino.id} className="bg-white rounded-lg p-4 mb-2 border-l-4 border-purple-600 shadow-sm">
+            <Text className="text-xl font-bold text-gray-900 mb-3 mt-6">
+              📅 Últimos Treinos
+            </Text>
+            {ultimosTreinos.map(treino => (
+              <View
+                key={treino.id}
+                className="bg-white rounded-lg p-4 mb-2 border-l-4 border-purple-600 shadow-sm"
+              >
                 <View className="flex-row justify-between items-start">
                   <View className="flex-1">
-                    <Text className="font-semibold text-gray-900">{treino.exercicioNome}</Text>
+                    <Text className="font-semibold text-gray-900">
+                      {treino.exercicioNome}
+                    </Text>
                     <Text className="text-sm text-gray-600 mt-1">
                       {formatarCarga(treino.carga)}kg × {treino.repeticoes} reps
                     </Text>
-                    <Text className="text-xs text-gray-500 mt-1">{formatarData(treino.data)}</Text>
+                    <Text className="text-xs text-gray-500 mt-1">
+                      {formatarData(treino.data)}
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -129,4 +174,3 @@ export function DashboardScreen({ navigation }: any) {
     </ScrollView>
   );
 }
-

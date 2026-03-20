@@ -32,7 +32,9 @@ export function AnalisesScreen() {
         }
       });
 
-      setRecords(Array.from(recordMap.values()).sort((a, b) => b.carga - a.carga));
+      setRecords(
+        Array.from(recordMap.values()).sort((a, b) => b.carga - a.carga),
+      );
     } catch (err: any) {
       console.error('Erro ao carregar análises:', err);
       setError('Erro ao carregar análises');
@@ -68,42 +70,69 @@ export function AnalisesScreen() {
           <>
             {/* Card Total Treinos */}
             <View className="bg-white rounded-lg p-4 mb-3 shadow-sm">
-              <Text className="text-gray-600 text-sm font-medium">Total Treinos</Text>
-              <Text className="text-4xl font-bold text-blue-600 mt-2">{stats.totalTreinos}</Text>
+              <Text className="text-gray-600 text-sm font-medium">
+                Total Treinos
+              </Text>
+              <Text className="text-4xl font-bold text-blue-600 mt-2">
+                {stats.totalTreinos}
+              </Text>
             </View>
 
             {/* Card Exercícios */}
             <View className="bg-white rounded-lg p-4 mb-3 shadow-sm">
-              <Text className="text-gray-600 text-sm font-medium">Exercícios Únicos</Text>
-              <Text className="text-4xl font-bold text-green-600 mt-2">{stats.exercicios?.length || 0}</Text>
+              <Text className="text-gray-600 text-sm font-medium">
+                Exercícios Únicos
+              </Text>
+              <Text className="text-4xl font-bold text-green-600 mt-2">
+                {stats.exercicios?.length || 0}
+              </Text>
             </View>
 
             {/* Card Mais Treinado */}
             {stats.exercicioMaisTreinado && (
               <View className="bg-white rounded-lg p-4 mb-6 shadow-sm border-l-4 border-purple-600">
-                <Text className="text-gray-600 text-sm font-medium">Exercício Mais Treinado</Text>
-                <Text className="text-2xl font-bold text-purple-600 mt-2">{stats.exercicioMaisTreinado.nome}</Text>
-                <Text className="text-sm text-gray-500 mt-1">{stats.exercicioMaisTreinado.quantidade}x</Text>
+                <Text className="text-gray-600 text-sm font-medium">
+                  Exercício Mais Treinado
+                </Text>
+                <Text className="text-2xl font-bold text-purple-600 mt-2">
+                  {stats.exercicioMaisTreinado.nome}
+                </Text>
+                <Text className="text-sm text-gray-500 mt-1">
+                  {stats.exercicioMaisTreinado.quantidade}x
+                </Text>
               </View>
             )}
           </>
         )}
 
         {/* Recordes */}
-        <Text className="text-xl font-bold text-gray-900 mb-3">🏆 Recordes Pessoais</Text>
+        <Text className="text-xl font-bold text-gray-900 mb-3">
+          🏆 Recordes Pessoais
+        </Text>
         {records.length === 0 ? (
           <View className="bg-white rounded-lg p-4">
-            <Text className="text-gray-500 text-center">Nenhum recorde registrado ainda</Text>
+            <Text className="text-gray-500 text-center">
+              Nenhum recorde registrado ainda
+            </Text>
           </View>
         ) : (
-          records.map((record) => (
-            <View key={record.id} className="bg-white rounded-lg p-4 mb-2 shadow-sm">
+          records.map(record => (
+            <View
+              key={record.id}
+              className="bg-white rounded-lg p-4 mb-2 shadow-sm"
+            >
               <View className="flex-row justify-between items-center">
                 <View className="flex-1">
-                  <Text className="font-semibold text-gray-900">{record.exercicioNome}</Text>
-                  <Text className="text-xs text-gray-500 mt-1">{formatarData(record.data)}</Text>
+                  <Text className="font-semibold text-gray-900">
+                    {record.exercicioNome}
+                  </Text>
+                  <Text className="text-xs text-gray-500 mt-1">
+                    {formatarData(record.data)}
+                  </Text>
                 </View>
-                <Text className="text-2xl font-bold text-blue-600">{formatarCarga(record.carga)}kg</Text>
+                <Text className="text-2xl font-bold text-blue-600">
+                  {formatarCarga(record.carga)}kg
+                </Text>
               </View>
             </View>
           ))
@@ -112,5 +141,3 @@ export function AnalisesScreen() {
     </ScrollView>
   );
 }
-
-

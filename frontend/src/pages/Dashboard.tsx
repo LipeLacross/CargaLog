@@ -76,11 +76,17 @@ export function Dashboard() {
             });
           }
         });
-        setExercicioRecord(Array.from(recordMap.values()).sort((a, b) => b.maiorCarga - a.maiorCarga));
+        setExercicioRecord(
+          Array.from(recordMap.values()).sort(
+            (a, b) => b.maiorCarga - a.maiorCarga,
+          ),
+        );
 
         setUltimosTreinos(
           treinosData
-            .sort((a, b) => new Date(b.data).getTime() - new Date(a.data).getTime())
+            .sort(
+              (a, b) => new Date(b.data).getTime() - new Date(a.data).getTime(),
+            )
             .slice(0, 5),
         );
       } catch (err) {
@@ -111,7 +117,9 @@ export function Dashboard() {
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
               Bem-vindo! 💪
             </h1>
-            <p className="text-gray-600 text-lg">Acompanhe seu progresso de levantamento</p>
+            <p className="text-gray-600 text-lg">
+              Acompanhe seu progresso de levantamento
+            </p>
           </div>
 
           {/* Cards principais */}
@@ -144,7 +152,9 @@ export function Dashboard() {
             <div className="bg-white rounded-xl shadow-lg p-8 mb-8 animate-in border-t-4 border-blue-600">
               <div className="flex items-center gap-3 mb-6">
                 <Zap className="w-6 h-6 text-blue-600" />
-                <h2 className="text-2xl font-bold text-gray-900">Recordes por Exercício</h2>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  Recordes por Exercício
+                </h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {exercicioRecord.slice(0, 6).map((record) => (
@@ -154,10 +164,14 @@ export function Dashboard() {
                   >
                     <p className="text-gray-700 text-sm mb-2">{record.nome}</p>
                     <div className="flex items-end justify-between">
-                      <p className="text-3xl font-bold text-blue-600">{formatarCarga(record.maiorCarga)}</p>
+                      <p className="text-3xl font-bold text-blue-600">
+                        {formatarCarga(record.maiorCarga)}
+                      </p>
                       <p className="text-xs text-gray-500">kg</p>
                     </div>
-                    <p className="text-xs text-gray-500 mt-2">{formatarData(record.data)}</p>
+                    <p className="text-xs text-gray-500 mt-2">
+                      {formatarData(record.data)}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -169,7 +183,9 @@ export function Dashboard() {
             <div className="bg-white rounded-xl shadow-lg p-8 animate-in border-t-4 border-green-600">
               <div className="flex items-center gap-3 mb-6">
                 <Activity className="w-6 h-6 text-green-600" />
-                <h2 className="text-2xl font-bold text-gray-900">Últimos Treinos</h2>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  Últimos Treinos
+                </h2>
               </div>
               <div className="space-y-3">
                 {ultimosTreinos.map((treino, idx) => (
@@ -182,13 +198,18 @@ export function Dashboard() {
                         {idx + 1}
                       </div>
                       <div className="flex-1">
-                        <p className="font-semibold text-gray-900">{treino.exercicioNome}</p>
+                        <p className="font-semibold text-gray-900">
+                          {treino.exercicioNome}
+                        </p>
                         <p className="text-sm text-gray-600">
-                          {formatarCarga(treino.carga)}kg × {treino.repeticoes} reps
+                          {formatarCarga(treino.carga)}kg × {treino.repeticoes}{' '}
+                          reps
                         </p>
                       </div>
                     </div>
-                    <p className="text-sm text-gray-500">{formatarData(treino.data)}</p>
+                    <p className="text-sm text-gray-500">
+                      {formatarData(treino.data)}
+                    </p>
                   </div>
                 ))}
               </div>

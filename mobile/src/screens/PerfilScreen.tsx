@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
 import { useAuth } from '../hooks/useAuth';
 import { authApi } from '../api/auth.api';
 
@@ -61,14 +69,15 @@ export function PerfilScreen({ navigation }: any) {
       </View>
 
       <View className="px-6 py-8">
-
         {/* Email */}
         <View className="mb-6">
           <Text className="text-sm font-medium text-gray-700 mb-2">Email</Text>
           <View className="bg-gray-100 px-4 py-3 rounded-lg">
             <Text className="text-gray-700">{usuario?.email}</Text>
           </View>
-          <Text className="text-xs text-gray-500 mt-1">Email não pode ser alterado</Text>
+          <Text className="text-xs text-gray-500 mt-1">
+            Email não pode ser alterado
+          </Text>
         </View>
 
         {/* Nome */}
@@ -89,9 +98,13 @@ export function PerfilScreen({ navigation }: any) {
 
         {/* Alterar Senha */}
         <View className="mb-6">
-          <Text className="text-lg font-bold text-gray-900 mb-4">🔐 Alterar Senha (Opcional)</Text>
+          <Text className="text-lg font-bold text-gray-900 mb-4">
+            🔐 Alterar Senha (Opcional)
+          </Text>
 
-          <Text className="text-sm font-medium text-gray-700 mb-2">Senha Atual</Text>
+          <Text className="text-sm font-medium text-gray-700 mb-2">
+            Senha Atual
+          </Text>
           <TextInput
             className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 bg-white mb-4"
             placeholder="Digite sua senha atual"
@@ -102,7 +115,9 @@ export function PerfilScreen({ navigation }: any) {
             placeholderTextColor="#999"
           />
 
-          <Text className="text-sm font-medium text-gray-700 mb-2">Nova Senha</Text>
+          <Text className="text-sm font-medium text-gray-700 mb-2">
+            Nova Senha
+          </Text>
           <TextInput
             className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 bg-white mb-4"
             placeholder="Mínimo 8 caracteres"
@@ -113,7 +128,9 @@ export function PerfilScreen({ navigation }: any) {
             placeholderTextColor="#999"
           />
 
-          <Text className="text-sm font-medium text-gray-700 mb-2">Confirmar Nova Senha</Text>
+          <Text className="text-sm font-medium text-gray-700 mb-2">
+            Confirmar Nova Senha
+          </Text>
           <TextInput
             className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 bg-white"
             placeholder="Repita a nova senha"
@@ -132,7 +149,9 @@ export function PerfilScreen({ navigation }: any) {
             disabled={loading}
             className="flex-1 border border-gray-300 py-3 rounded-lg"
           >
-            <Text className="text-gray-700 font-semibold text-center">Voltar</Text>
+            <Text className="text-gray-700 font-semibold text-center">
+              Voltar
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -143,7 +162,9 @@ export function PerfilScreen({ navigation }: any) {
             {loading ? (
               <ActivityIndicator color="white" />
             ) : (
-              <Text className="text-white font-semibold text-center">Salvar</Text>
+              <Text className="text-white font-semibold text-center">
+                Salvar
+              </Text>
             )}
           </TouchableOpacity>
         </View>
@@ -151,4 +172,3 @@ export function PerfilScreen({ navigation }: any) {
     </ScrollView>
   );
 }
-

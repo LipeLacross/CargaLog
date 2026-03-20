@@ -6,8 +6,11 @@ export const authApi = {
   login: (email: string, senha: string) =>
     api.post('/auth/login', { email, senha }),
   perfil: () => api.get('/auth/perfil'),
-  atualizarPerfil: (data: { nome?: string; senhaAtual?: string; novaSenha?: string }) =>
-    api.patch('/auth/perfil', data),
+  atualizarPerfil: (data: {
+    nome?: string;
+    senhaAtual?: string;
+    novaSenha?: string;
+  }) => api.patch('/auth/perfil', data),
   esqueciSenha: (data: { email: string }) =>
     api.post('/auth/esqueci-senha', data),
   confirmarResetSenha: (data: { token: string; novaSenha: string }) =>

@@ -16,7 +16,9 @@ interface AuthContextType {
   registrar: (nome: string, email: string, senha: string) => Promise<void>;
 }
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined,
+);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
@@ -73,7 +75,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ usuario, loading, login, logout, registrar }}>
+    <AuthContext.Provider
+      value={{ usuario, loading, login, logout, registrar }}
+    >
       {children}
     </AuthContext.Provider>
   );

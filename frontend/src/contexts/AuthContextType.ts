@@ -6,13 +6,15 @@ interface Usuario {
   email: string;
 }
 
-interface AuthContextType {
+export interface AuthContextType {
   usuario: Usuario | null;
   loading: boolean;
-  login: (email: string, senha: string) => Promise<{ token: string; usuario: Usuario }>;
+  login: (
+    email: string,
+    senha: string,
+  ) => Promise<{ token: string; usuario: Usuario }>;
   logout: () => void;
   registrar: (nome: string, email: string, senha: string) => Promise<Usuario>;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
-

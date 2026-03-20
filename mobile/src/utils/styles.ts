@@ -72,4 +72,3 @@ export const commonStyles = StyleSheet.create({
     borderRadius: 16,
   },
 });
-

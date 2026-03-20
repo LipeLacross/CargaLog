@@ -75,7 +75,8 @@ export function Treinos() {
         response?: { status?: number; data?: { message?: string } };
         message?: string;
       };
-      const errorMsg = error.response?.data?.message || error.message || 'Erro desconhecido';
+      const errorMsg =
+        error.response?.data?.message || error.message || 'Erro desconhecido';
 
       setModal({
         isOpen: true,
@@ -117,8 +118,12 @@ export function Treinos() {
           ) : treinos.length === 0 ? (
             <div className="text-center py-16 bg-white rounded-xl shadow-lg">
               <Copy className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-500 text-lg font-semibold mb-4">Nenhum treino registrado</p>
-              <p className="text-gray-400 mb-6">Comece registrando seu primeiro treino!</p>
+              <p className="text-gray-500 text-lg font-semibold mb-4">
+                Nenhum treino registrado
+              </p>
+              <p className="text-gray-400 mb-6">
+                Comece registrando seu primeiro treino!
+              </p>
               <button
                 onClick={() => navigate('/treinos/novo')}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
@@ -141,7 +146,9 @@ export function Treinos() {
                         {idx + 1}
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold text-gray-900">{treino.exercicioNome}</h3>
+                        <h3 className="text-xl font-bold text-gray-900">
+                          {treino.exercicioNome}
+                        </h3>
                         <div className="flex items-center gap-4 mt-2 text-gray-600">
                           <span className="flex items-center gap-1">
                             <Zap className="w-4 h-4 text-yellow-500" />
@@ -169,7 +176,9 @@ export function Treinos() {
                         Editar
                       </button>
                       <button
-                        onClick={() => handleDeleteClick(treino.id, treino.exercicioNome)}
+                        onClick={() =>
+                          handleDeleteClick(treino.id, treino.exercicioNome)
+                        }
                         className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all hover:shadow-lg"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -190,7 +199,9 @@ export function Treinos() {
         type={modal.type}
         title={modal.title}
         message={modal.message}
-        onClose={() => setModal({ isOpen: false, type: 'info', title: '', message: '' })}
+        onClose={() =>
+          setModal({ isOpen: false, type: 'info', title: '', message: '' })
+        }
         onConfirm={modal.type === 'warning' ? handleConfirmDelete : undefined}
         confirmText={modal.type === 'warning' ? 'Deletar' : undefined}
         cancelText={modal.type === 'warning' ? 'Cancelar' : 'Fechar'}

@@ -111,7 +111,9 @@ export function CreateTreino() {
           />
 
           <div>
-            <label className="block text-sm font-medium mb-2">Data do Treino</label>
+            <label className="block text-sm font-medium mb-2">
+              Data do Treino
+            </label>
             <input
               type="date"
               name="data"

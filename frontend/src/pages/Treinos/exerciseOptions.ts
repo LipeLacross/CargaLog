@@ -15,4 +15,3 @@ export const STRENGTH_EXERCISE_OPTIONS = [
   'Remada Baixa',
   'Levantamento Terra Romeno',
 ] as const;
-

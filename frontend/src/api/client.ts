@@ -19,7 +19,11 @@ api.interceptors.response.use(
   (error) => {
     // 204 No Content é sucesso, não erro
     if (error.response?.status === 204) {
-      return Promise.resolve({ status: 204, data: null, statusText: 'No Content' });
+      return Promise.resolve({
+        status: 204,
+        data: null,
+        statusText: 'No Content',
+      });
     }
 
     if (error.response?.status === 401) {
@@ -29,6 +33,6 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 export default api;

@@ -15,4 +15,3 @@ export const formatarDataBR = (data: string): string => {
   const date = new Date(data);
   return date.toLocaleDateString('pt-BR');
 };
-

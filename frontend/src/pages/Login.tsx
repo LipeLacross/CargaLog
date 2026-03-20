@@ -27,11 +27,15 @@ export function Login() {
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6 md:p-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-blue-600">CargaLog</h1>
-          <p className="text-gray-600 text-sm mt-2">Rastreie sua progressao de carga</p>
+          <p className="text-gray-600 text-sm mt-2">
+            Rastreie sua progressao de carga
+          </p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email
+            </label>
             <input
               type="email"
               placeholder="seu@email.com"
@@ -42,7 +46,9 @@ export function Login() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Senha</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Senha
+            </label>
             <input
               type="password"
               placeholder="••••••••"
@@ -74,7 +80,10 @@ export function Login() {
         <div className="mt-6 text-center">
           <p className="text-gray-600 text-sm">
             Nao tem conta?{' '}
-            <Link to="/registrar" className="text-blue-600 hover:text-blue-700 font-medium">
+            <Link
+              to="/registrar"
+              className="text-blue-600 hover:text-blue-700 font-medium"
+            >
               Registre-se
             </Link>
           </p>

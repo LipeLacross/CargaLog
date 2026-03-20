@@ -19,8 +19,15 @@ export function EsqueciSenha() {
       await authApi.esqueciSenha({ email });
       setSucesso(true);
     } catch (err) {
-      const error = err as { response?: { data?: { message?: string } }; message?: string };
-      setErro(error.response?.data?.message || error.message || 'Erro ao enviar email');
+      const error = err as {
+        response?: { data?: { message?: string } };
+        message?: string;
+      };
+      setErro(
+        error.response?.data?.message ||
+          error.message ||
+          'Erro ao enviar email',
+      );
     } finally {
       setLoading(false);
     }
@@ -33,7 +40,9 @@ export function EsqueciSenha() {
           <div className="flex justify-center mb-4">
             <CheckCircle className="w-16 h-16 text-green-500 animate-bounce" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Email Enviado! ✅</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Email Enviado! ✅
+          </h2>
           <p className="text-gray-600 mb-6">
             Verifique seu email {email} para o link de redefinição de senha.
           </p>
@@ -107,4 +116,3 @@ export function EsqueciSenha() {
     </div>
   );
 }
-

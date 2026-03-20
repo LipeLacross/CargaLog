@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, FlatList, Alert, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  FlatList,
+  Alert,
+} from 'react-native';
 import { treinoApi } from '../api/treino.api';
 import { formatarCarga, formatarData } from '../utils/formatters';
 
 export function TreinosScreen({ navigation }: any) {
   const [treinos, setTreinos] = useState<any[]>([]);
+  const listContentStyle = { paddingBottom: 20 };
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -50,7 +58,7 @@ export function TreinosScreen({ navigation }: any) {
           },
           style: 'destructive',
         },
-      ]
+      ],
     );
   };
 
@@ -71,15 +79,21 @@ export function TreinosScreen({ navigation }: any) {
           onPress={() => navigation.navigate('NovoTreino')}
           className="bg-green-500 mt-4 py-3 rounded-lg"
         >
-          <Text className="text-white font-semibold text-center">+ Novo Treino</Text>
+          <Text className="text-white font-semibold text-center">
+            + Novo Treino
+          </Text>
         </TouchableOpacity>
       </View>
 
       {/* Lista de Treinos */}
       {treinos.length === 0 ? (
         <View className="flex-1 justify-center items-center">
-          <Text className="text-gray-500 text-lg">Nenhum treino registrado</Text>
-          <Text className="text-gray-400 text-sm mt-2">Comece adicionando seu primeiro treino</Text>
+          <Text className="text-gray-500 text-lg">
+            Nenhum treino registrado
+          </Text>
+          <Text className="text-gray-400 text-sm mt-2">
+            Comece adicionando seu primeiro treino
+          </Text>
         </View>
       ) : (
         <FlatList
@@ -88,7 +102,9 @@ export function TreinosScreen({ navigation }: any) {
             <View className="mx-4 mt-4 bg-white rounded-lg p-4 border-l-4 border-blue-600">
               <View className="flex-row justify-between items-start mb-3">
                 <View className="flex-1">
-                  <Text className="text-lg font-bold text-gray-900">{item.exercicioNome}</Text>
+                  <Text className="text-lg font-bold text-gray-900">
+                    {item.exercicioNome}
+                  </Text>
                   <Text className="text-sm text-gray-600 mt-1">
                     {formatarCarga(item.carga)}kg × {item.repeticoes} reps
                   </Text>
@@ -101,31 +117,32 @@ export function TreinosScreen({ navigation }: any) {
               {/* Botões de ação */}
               <View className="flex-row gap-2">
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('EditarTreino', { id: item.id })}
+                  onPress={() =>
+                    navigation.navigate('EditarTreino', { id: item.id })
+                  }
                   className="flex-1 bg-blue-600 py-2 rounded"
                 >
-                  <Text className="text-white font-semibold text-center text-sm">✏️ Editar</Text>
+                  <Text className="text-white font-semibold text-center text-sm">
+                    ✏️ Editar
+                  </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => handleDelete(item.id, item.exercicioNome)}
                   className="flex-1 bg-red-600 py-2 rounded"
                 >
-                  <Text className="text-white font-semibold text-center text-sm">🗑️ Deletar</Text>
+                  <Text className="text-white font-semibold text-center text-sm">
+                    🗑️ Deletar
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
           )}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={{ paddingBottom: 20 }}
+          keyExtractor={item => item.id}
+          contentContainerStyle={listContentStyle}
           scrollEnabled={true}
         />
       )}
     </View>
   );
 }
-
-
-
-
-

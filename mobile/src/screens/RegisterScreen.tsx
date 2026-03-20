@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
 import { useAuth } from '../hooks/useAuth';
 
 export function RegisterScreen({ navigation }: any) {
@@ -59,7 +66,9 @@ export function RegisterScreen({ navigation }: any) {
 
         {/* Email Input */}
         <View className="mb-6">
-          <Text className="text-sm font-semibold text-gray-700 mb-2">Email</Text>
+          <Text className="text-sm font-semibold text-gray-700 mb-2">
+            Email
+          </Text>
           <TextInput
             className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-base text-gray-900"
             placeholder="seu@email.com"
@@ -74,7 +83,9 @@ export function RegisterScreen({ navigation }: any) {
 
         {/* Senha Input */}
         <View className="mb-4">
-          <Text className="text-sm font-semibold text-gray-700 mb-2">Senha</Text>
+          <Text className="text-sm font-semibold text-gray-700 mb-2">
+            Senha
+          </Text>
           <TextInput
             className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-base text-gray-900"
             placeholder="Mínimo 8 caracteres"
@@ -84,7 +95,9 @@ export function RegisterScreen({ navigation }: any) {
             secureTextEntry
             editable={!loading}
           />
-          <Text className="text-xs text-gray-500 mt-1">Deve conter letras e números</Text>
+          <Text className="text-xs text-gray-500 mt-1">
+            Deve conter letras e números
+          </Text>
         </View>
 
         {/* Erro Message */}
@@ -104,7 +117,9 @@ export function RegisterScreen({ navigation }: any) {
           {loading ? (
             <ActivityIndicator color="white" size="small" />
           ) : (
-            <Text className="text-base font-semibold text-white text-center">Registrar</Text>
+            <Text className="text-base font-semibold text-white text-center">
+              Registrar
+            </Text>
           )}
         </TouchableOpacity>
 
@@ -112,11 +127,12 @@ export function RegisterScreen({ navigation }: any) {
         <View className="mt-8 flex-row justify-center">
           <Text className="text-sm text-gray-700">Já tem conta? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-            <Text className="text-sm font-semibold text-blue-600">Faça login</Text>
+            <Text className="text-sm font-semibold text-blue-600">
+              Faça login
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
   );
 }
-

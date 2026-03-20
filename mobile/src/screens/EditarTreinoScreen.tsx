@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
 import { treinoApi } from '../api/treino.api';
 
 export function EditarTreinoScreen({ navigation, route }: any) {
@@ -50,7 +58,7 @@ export function EditarTreinoScreen({ navigation, route }: any) {
       });
 
       Alert.alert('Sucesso', 'Treino atualizado!', [
-        { text: 'OK', onPress: () => navigation.goBack() }
+        { text: 'OK', onPress: () => navigation.goBack() },
       ]);
     } catch (err: any) {
       Alert.alert('Erro', err.response?.data?.message || 'Erro ao atualizar');
@@ -70,10 +78,14 @@ export function EditarTreinoScreen({ navigation, route }: any) {
   return (
     <ScrollView className="flex-1 bg-gradient-to-br from-blue-50 to-purple-50">
       <View className="px-6 py-8">
-        <Text className="text-3xl font-bold text-gray-900 mb-8">✏️ Editar Treino</Text>
+        <Text className="text-3xl font-bold text-gray-900 mb-8">
+          ✏️ Editar Treino
+        </Text>
 
         <View className="mb-4">
-          <Text className="text-sm font-medium text-gray-700 mb-2">Exercício</Text>
+          <Text className="text-sm font-medium text-gray-700 mb-2">
+            Exercício
+          </Text>
           <TextInput
             className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 bg-white"
             value={exercicio}
@@ -84,7 +96,9 @@ export function EditarTreinoScreen({ navigation, route }: any) {
         </View>
 
         <View className="mb-4">
-          <Text className="text-sm font-medium text-gray-700 mb-2">Carga (kg)</Text>
+          <Text className="text-sm font-medium text-gray-700 mb-2">
+            Carga (kg)
+          </Text>
           <TextInput
             className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 bg-white"
             value={carga}
@@ -96,7 +110,9 @@ export function EditarTreinoScreen({ navigation, route }: any) {
         </View>
 
         <View className="mb-4">
-          <Text className="text-sm font-medium text-gray-700 mb-2">Repetições</Text>
+          <Text className="text-sm font-medium text-gray-700 mb-2">
+            Repetições
+          </Text>
           <TextInput
             className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 bg-white"
             value={repeticoes}
@@ -124,7 +140,9 @@ export function EditarTreinoScreen({ navigation, route }: any) {
             disabled={salvando}
             className="flex-1 border border-gray-300 py-3 rounded-lg"
           >
-            <Text className="text-gray-700 font-semibold text-center">Cancelar</Text>
+            <Text className="text-gray-700 font-semibold text-center">
+              Cancelar
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -143,8 +161,3 @@ export function EditarTreinoScreen({ navigation, route }: any) {
     </ScrollView>
   );
 }
-
-
-
-
-

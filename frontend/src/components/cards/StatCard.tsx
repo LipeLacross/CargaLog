@@ -6,7 +6,13 @@
   icon?: React.ReactNode;
 }
 
-export function StatCard({ titulo, valor, subtitulo, cor = 'blue', icon }: StatCardProps) {
+export function StatCard({
+  titulo,
+  valor,
+  subtitulo,
+  cor = 'blue',
+  icon,
+}: StatCardProps) {
   const cores = {
     blue: 'bg-blue-50 border-blue-200 text-blue-600',
     green: 'bg-green-50 border-green-200 text-green-600',
@@ -15,7 +21,9 @@ export function StatCard({ titulo, valor, subtitulo, cor = 'blue', icon }: StatC
   };
 
   return (
-    <div className={`${cores[cor]} border-2 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all hover:scale-105 animate-in`}>
+    <div
+      className={`${cores[cor]} border-2 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all hover:scale-105 animate-in`}
+    >
       <div className="flex items-start justify-between mb-4">
         <h3 className="text-gray-700 font-semibold text-sm">{titulo}</h3>
         {icon && <div className={`${cor}`}>{icon}</div>}
