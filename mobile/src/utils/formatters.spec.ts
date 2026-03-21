@@ -1,8 +1,4 @@
-import {
-  formatarCarga,
-  formatarData,
-  formatarDataBR,
-} from '../utils/formatters';
+import { formatarCarga, formatarData, formatarDataBR } from './formatters';
 
 describe('formatarCarga', () => {
   it('deve remover decimais quando valor é inteiro', () => {

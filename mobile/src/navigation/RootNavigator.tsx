@@ -30,6 +30,11 @@ const TabIcon = ({ name, label }: { name: string; label: string }) => (
   </View>
 );
 
+const HomeIcon = () => <TabIcon name="🏠" label="Home" />;
+const TreinosIcon = () => <TabIcon name="💪" label="Treinos" />;
+const AnalisesIcon = () => <TabIcon name="📊" label="Análises" />;
+const PerfilIcon = () => <TabIcon name="👤" label="Perfil" />;
+
 // Stack de Auth
 function AuthStack() {
   return (
@@ -73,28 +78,28 @@ function MainTabs() {
         name="DashboardTab"
         component={DashboardScreen}
         options={{
-          tabBarIcon: () => <TabIcon name="🏠" label="Home" />,
+          tabBarIcon: HomeIcon,
         }}
       />
       <Tab.Screen
         name="TreinosTab"
         component={TreinosStack}
         options={{
-          tabBarIcon: () => <TabIcon name="💪" label="Treinos" />,
+          tabBarIcon: TreinosIcon,
         }}
       />
       <Tab.Screen
         name="AnalisesTab"
         component={AnalisesScreen}
         options={{
-          tabBarIcon: () => <TabIcon name="📊" label="Análises" />,
+          tabBarIcon: AnalisesIcon,
         }}
       />
       <Tab.Screen
         name="PerfilTab"
         component={PerfilScreen}
         options={{
-          tabBarIcon: () => <TabIcon name="👤" label="Perfil" />,
+          tabBarIcon: PerfilIcon,
         }}
       />
     </Tab.Navigator>

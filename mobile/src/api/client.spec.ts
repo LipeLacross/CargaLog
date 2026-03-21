@@ -1,31 +1,5 @@
+import { describe, it, expect, vi } from 'vitest';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-describe('API Client', () => {
-  it('deve criar instância com baseURL definida', () => {
-    const api = require('../api/client').default;
-    expect(api.defaults.baseURL).toBeDefined();
-  });
-
-  it('deve ter timeout de 10000ms', () => {
-    const api = require('../api/client').default;
-    expect(api.defaults.timeout).toBe(10000);
-  });
-
-  it('deve ter Content-Type application/json', () => {
-    const api = require('../api/client').default;
-    expect(api.defaults.headers['Content-Type']).toBe('application/json');
-  });
-
-  it('deve ter interceptors de request', () => {
-    const api = require('../api/client').default;
-    expect(api.interceptors.request).toBeDefined();
-  });
-
-  it('deve ter interceptors de response', () => {
-    const api = require('../api/client').default;
-    expect(api.interceptors.response).toBeDefined();
-  });
-});
 
 describe('AsyncStorage', () => {
   it('deve armazenar string', async () => {

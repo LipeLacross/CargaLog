@@ -1,4 +1,4 @@
-import { vi, beforeEach } from 'vitest';
+import { vi } from 'vitest';
 
 const storage: Record<string, string> = {};
 
@@ -19,4 +19,11 @@ vi.mock('@react-native-async-storage/async-storage', () => ({
     return Promise.resolve();
   }),
   getAllKeys: vi.fn(() => Promise.resolve(Object.keys(storage))),
+  default: {
+    setItem: vi.fn(),
+    getItem: vi.fn(),
+    removeItem: vi.fn(),
+    clear: vi.fn(),
+    getAllKeys: vi.fn(),
+  },
 }));
