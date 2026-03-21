@@ -20,13 +20,15 @@
 
 The **CargaLog Web** is a responsive dashboard built with **React 19** and **TypeScript**.
 
-## ✅ Updated Status (2026-03-06)
+## ✅ Updated Status (2026-03-20)
 
 - UI runtime: `react@19.2.0` and `react-dom@19.2.0`
 - Build tool: `vite@8.0.0-beta.13`
 - Styling: `tailwindcss@4.2.1` + `@tailwindcss/postcss@4.2.1`
-- Real scripts: `npm run dev`, `npm run build`, `npm run preview`, `npm run lint`
+- Tests: `vitest@4.1.0` with `@testing-library/react` (6 files, 31 tests)
+- Scripts: `dev`, `build`, `lint`, `lint:check`, `format`, `test`, `test:watch`
 - API clients: `auth.api.ts`, `treino.api.ts`, `analise.api.ts`
+- CI: `.github/workflows/frontend-ci.yml` (lint + format check)
 
 ---
 
@@ -246,10 +248,14 @@ frontend/
 ## 📚 Available Scripts
 
 ```bash
-npm run dev      # Start Vite dev server
-npm run build    # Production build (tsc + vite build)
-npm run preview  # Preview build
-npm run lint     # ESLint
+npm run dev        # Start Vite dev server
+npm run build      # Production build (tsc + vite build)
+npm run preview    # Preview build
+npm run lint       # ESLint with --fix
+npm run lint:check # ESLint (check only)
+npm run format     # Prettier (format)
+npm run test       # Vitest (unit tests)
+npm run test:watch # Vitest watch mode
 ```
 
 ---
@@ -311,10 +317,13 @@ npm run build
 
 | Metric | Status |
 |--------|--------|
+| Unit Tests | 31 (6 files) |
+| Test Framework | Vitest |
+| Testing Library | ✅ |
+| ESLint + Prettier | ✅ |
 | Performance (Lighthouse) | 90+ |
 | Responsiveness | ✅ |
 | Accessibility | 95+ |
-| Type Coverage | 100% |
 | Bundle Size | < 300KB |
 
 ---

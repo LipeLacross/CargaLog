@@ -9,7 +9,8 @@
     "lint:check": "eslint .",
     "format": "prettier --write \"src/**/*.{ts,tsx}\" \"__tests__/**/*.{ts,tsx}\"",
     "start": "react-native start",
-    "test": "jest"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^3.0.1",
@@ -35,16 +36,20 @@
     "@react-native/eslint-config": "0.84.1",
     "@react-native/metro-config": "0.84.1",
     "@react-native/typescript-config": "0.84.1",
+    "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-native": "^13.3.3",
     "@types/jest": "^29.5.13",
     "@types/react": "^19.2.0",
     "@types/react-test-renderer": "^19.1.0",
+    "@vitest/coverage-v8": "^4.1.0",
     "eslint": "^8.19.0",
     "eslint-plugin-prettier": "^5.2.2",
     "jest": "^29.6.3",
     "prettier": "^3.4.2",
     "react-test-renderer": "19.2.3",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^4.1.0"
   },
   "engines": {
     "node": ">= 22.11.0"

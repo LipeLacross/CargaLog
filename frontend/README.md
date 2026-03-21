@@ -11,6 +11,8 @@
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=axios&logoColor=white)
+![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=flat-square&logo=vitest&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white)
 
 </div>
 
@@ -20,13 +22,15 @@
 
 O **CargaLog Web** é um dashboard responsivo desenvolvido com **React 19** e **TypeScript**. Oferece uma interface intuitiva para que os usuários visualizem, gerenciem e analisem sua progressão de treinos de forma eficiente.
 
-## ✅ Status Atualizado (2026-03-06)
+## ✅ Status Atualizado (2026-03-20)
 
 - Runtime UI: `react@19.2.0` e `react-dom@19.2.0`
 - Build: `vite@8.0.0-beta.13`
 - Estilização: `tailwindcss@4.2.1` + `@tailwindcss/postcss@4.2.1`
-- Scripts reais: `npm run dev`, `npm run build`, `npm run preview`, `npm run lint`
-- APIs consumidas: `auth.api.ts`, `treino.api.ts`, `analise.api.ts`
+- Testes: `vitest@4.1.0` com `@testing-library/react` (6 arquivos, 31 testes)
+- Scripts: `dev`, `build`, `lint`, `lint:check`, `format`, `test`, `test:watch`
+- APIs: `auth.api.ts`, `treino.api.ts`, `analise.api.ts`
+- CI: `.github/workflows/frontend-ci.yml` (lint + format check)
 
 ---
 
@@ -179,6 +183,8 @@ frontend/
 │   │   └── Treinos/
 │   ├── utils/
 │   │   └── formatters.ts
+│   ├── test/
+│   │   └── setup.ts
 │   ├── App.tsx
 │   ├── App.css
 │   ├── index.css
@@ -246,10 +252,14 @@ frontend/
 ## 📚 Scripts Disponíveis
 
 ```bash
-npm run dev      # Inicia Vite em desenvolvimento
-npm run build    # Build de produção (tsc + vite build)
-npm run preview  # Preview do build
-npm run lint     # ESLint
+npm run dev        # Inicia Vite em desenvolvimento
+npm run build      # Build de produção (tsc + vite build)
+npm run preview    # Preview do build
+npm run lint       # ESLint com --fix
+npm run lint:check # ESLint (verificação)
+npm run format     # Prettier (formatação)
+npm run test       # Vitest (testes unitários)
+npm run test:watch # Vitest em watch mode
 ```
 
 ---
@@ -311,6 +321,10 @@ npm run build
 
 | Métrica | Status |
 |---------|--------|
+| Testes Unitários | 31 (6 arquivos) |
+| Framework de Teste | Vitest |
+| Testing Library | ✅ |
+| ESLint + Prettier | ✅ |
 | Performance (Lighthouse) | 90+ |
 | Responsividade | ✅ |
 | Acessibilidade | 95+ |

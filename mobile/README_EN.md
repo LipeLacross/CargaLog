@@ -20,13 +20,14 @@
 
 The **CargaLog Mobile** is a native app for **iOS** and **Android** built with **React Native CLI** and **NativeWind**.
 
-## ✅ Updated Status (2026-03-06)
+## ✅ Updated Status (2026-03-20)
 
 - Main runtime: `react-native@0.84.1`
 - Styling: `nativewind@4.2.2` + `tailwindcss@3.4.1`
 - Navigation: `@react-navigation/native` + `native-stack` + `bottom-tabs`
-- Available scripts: `npm run start`, `npm run android`, `npm run ios`, `npm test`
-- NativeWind is configured in `babel.config.js`, `metro.config.js`, `tailwind.config.js`, and `input.css`
+- Tests: `jest@29.6.3` with `@testing-library/react-native` (3 files, 19 tests)
+- Scripts: `start`, `android`, `ios`, `lint`, `lint:check`, `format`, `test`
+- CI: `.github/workflows/mobile-ci.yml` (lint + format check + test)
 
 ---
 
@@ -224,11 +225,13 @@ npx react-native start --reset-cache
 ## 📚 Available Scripts
 
 ```bash
-npm run start     # Start Metro bundler
-npm run android   # Build + run Android
-npm run ios       # Build + run iOS (macOS)
-npm run test      # Jest
-npm run lint      # ESLint
+npm run start        # Start Metro bundler
+npm run android      # Build + run Android
+npm run ios          # Build + run iOS (macOS)
+npm run lint         # ESLint with --fix
+npm run lint:check  # ESLint (check only)
+npm run format       # Prettier (format)
+npm run test         # Jest (unit tests)
 ```
 
 ---
@@ -267,11 +270,13 @@ xcodebuild -workspace mobile.xcworkspace -scheme mobile -configuration Release
 
 | Metric | Status |
 |--------|--------|
+| Unit Tests | 19 (3 files) |
+| Test Framework | Jest |
+| ESLint + Prettier | ✅ |
 | iOS Compatibility | 14+ |
 | Android Compatibility | 10+ |
 | App Size | < 50MB |
 | Performance | 60 FPS |
-| Test Coverage | 70%+ |
 
 ---
 

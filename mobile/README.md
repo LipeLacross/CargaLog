@@ -20,13 +20,14 @@
 
 O **CargaLog Mobile** é um aplicativo nativo para **iOS** e **Android** desenvolvido com **React Native CLI** e **NativeWind**. Permite que os usuários registrem, gerenciem e acompanhem sua progressão de treinos de forma portátil e conveniente.
 
-## ✅ Status Atualizado (2026-03-06)
+## ✅ Status Atualizado (2026-03-20)
 
 - Runtime principal: `react-native@0.84.1`
 - Estilização: `nativewind@4.2.2` + `tailwindcss@3.4.1`
 - Navegação: `@react-navigation/native` + `native-stack` + `bottom-tabs`
-- Scripts reais disponíveis: `npm run start`, `npm run android`, `npm run ios`, `npm test`
-- Configuração NativeWind ativa em `babel.config.js`, `metro.config.js`, `tailwind.config.js` e `input.css`
+- Testes: `jest@29.6.3` com `@testing-library/react-native` (3 arquivos, 19 testes)
+- Scripts: `start`, `android`, `ios`, `lint`, `lint:check`, `format`, `test`
+- CI: `.github/workflows/mobile-ci.yml` (lint + format check + test)
 
 ---
 
@@ -224,11 +225,13 @@ npx react-native start --reset-cache
 ## 📚 Scripts Disponíveis
 
 ```bash
-npm run start     # Inicia Metro bundler
-npm run android   # Build + run Android
-npm run ios       # Build + run iOS (macOS)
-npm run test      # Jest
-npm run lint      # ESLint
+npm run start       # Inicia Metro bundler
+npm run android     # Build + run Android
+npm run ios         # Build + run iOS (macOS)
+npm run lint        # ESLint com --fix
+npm run lint:check  # ESLint (verificação)
+npm run format      # Prettier (formatação)
+npm run test        # Jest (testes unitários)
 ```
 
 ---
@@ -267,11 +270,13 @@ xcodebuild -workspace mobile.xcworkspace -scheme mobile -configuration Release
 
 | Métrica | Status |
 |---------|--------|
+| Testes Unitários | 19 (3 arquivos) |
+| Framework de Teste | Jest |
+| ESLint + Prettier | ✅ |
 | Compatibilidade iOS | 14+ |
 | Compatibilidade Android | 10+ |
 | Tamanho da App | < 50MB |
 | Performance | 60 FPS |
-| Teste Coverage | 70%+ |
 
 ---
 
