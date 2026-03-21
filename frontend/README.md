@@ -22,7 +22,7 @@
 
 O **CargaLog Web** é um dashboard responsivo desenvolvido com **React 19** e **TypeScript**. Oferece uma interface intuitiva para que os usuários visualizem, gerenciem e analisem sua progressão de treinos de forma eficiente.
 
-## ✅ Status Atualizado (2026-03-20)
+## ✅ Status Atualizado (2026-03-21)
 
 - Runtime UI: `react@19.2.0` e `react-dom@19.2.0`
 - Build: `vite@8.0.0-beta.13`

@@ -176,6 +176,7 @@ O projeto segue uma arquitetura limpa com camadas bem definidas:
   "storage": "AsyncStorage",
   "httpClient": "Axios",
   "stateManagement": "Context API",
+  "testing": "Vitest (13 tests)",
   "packager": "npm"
 }
 ```
@@ -367,7 +368,7 @@ npm run migration:run
 - [x] Backend API completa com CRUD
 - [x] Autenticação com JWT
 - [x] Validações e tratamento de erro
-- [x] Testes unitários e E2E (305 testes)
+- [x] Testes unitários e E2E (Backend: 305, Frontend: 31, Mobile: 13)
 - [x] Documentação API Swagger/OpenAPI
 - [x] Logging com Winston + Audit Log no banco
 - [x] Docker setup completo
